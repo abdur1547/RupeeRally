@@ -4,9 +4,10 @@ services:
       context: ..
       dockerfile: .devcontainer/Dockerfile
     environment:
-      - DB_HOST=db
-      - DB_USERNAME=vscode
-      - DB_PASSWORD=password
+      DB_HOST: db
+      DB_USERNAME: vscode
+      DB_PASSWORD: password
+      REDIS_URL: redis://redis:6379/1
     volumes:
       - ../..:/workspaces:cached
       - $HOME/.ssh/:/home/vscode/.ssh/
