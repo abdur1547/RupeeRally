@@ -7,11 +7,11 @@ module Api::V0::IndividualTransactions
     class Contract < ApplicationContract
       params do
         required(:id).filled(:integer)
-        required(:description).filled(:string)
-        required(:transaction_type).filled(:string, included_in?: UserTransaction.transaction_types.keys)
-        required(:amount_cents).filled(:integer)
-        required(:account_id).filled(:integer)
-        required(:category_id).filled(:integer)
+        optional(:description).maybe(:string)
+        optional(:direction).maybe(:string, included_in?: Transaction.directions.keys)
+        optional(:amount_cents).maybe(:integer)
+        optional(:account_id).maybe(:integer)
+        optional(:category_id).filled(:integer)
       end
     end
 
@@ -31,8 +31,7 @@ module Api::V0::IndividualTransactions
     attr_reader :params, :current_user, :account, :category, :parent_transaction
 
     def fetch_parent_transaction
-      @parent_transaction = current_user.transactions.includes(:user_transactions).where('transactions.id = ? ',
-                                                                                         params[:id]).first
+      @parent_transaction = current_user.transactions.find_by(id: params[:id])
 
       return Success(parent_transaction) if parent_transaction
 
@@ -40,16 +39,18 @@ module Api::V0::IndividualTransactions
     end
 
     def validate_account_id
-      account_id = params[:account_id]
-      @account = current_user.accounts.find_by(id: account_id)
-      return Success() if account_id && @account
+      return Success(nil) if params[:account_id].blank?
+
+      @account = current_user.accounts.find_by(id: params[:account_id])
+      return Success(@account) if account
 
       Failure(:account_not_found)
     end
 
     def validate_category_id
-      category_id = params[:category_id]
-      @category = current_user.categories.find_by(id: category_id)
+      return Success(nil) if params[:category_id].blank?
+
+      @category = current_user.categories.find_by(id: params[:category_id])
       return Success() if category_id && category
 
       Failure(:category_not_found)
@@ -67,7 +68,7 @@ module Api::V0::IndividualTransactions
         account:,
         category:,
         description: params[:description],
-        transaction_type: params[:transaction_type],
+        direction: params[:direction],
         amount_cents: params[:amount_cents],
         parent_transaction:
       }

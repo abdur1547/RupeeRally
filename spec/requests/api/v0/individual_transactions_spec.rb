@@ -13,7 +13,7 @@ RSpec.describe '/api/v0/individual_transactions', type: :request do
     end
 
     let(:description) { Faker::Lorem.sentence }
-    let(:transaction_type) { 'income' }
+    let(:direction) { 'income' }
     let(:amount_cents) { Faker::Number.number(digits: 5) }
     let(:accounts) { create_list(:account, 10, user:) }
     let(:selected_account) { accounts.sample }
@@ -21,16 +21,20 @@ RSpec.describe '/api/v0/individual_transactions', type: :request do
     let!(:previous_balance) { selected_account.balance_cents }
     let!(:previous_total_income) { selected_account.total_income_cents }
     let!(:previous_total_expense) { selected_account.total_expense_cents }
-    let(:categories) { create_list(:category, 10, user:) }
+    let(:categories) { create_list(:category, 10, user:, category_type: direction) }
     let(:selected_category) { categories.sample }
     let(:category_id) { selected_category.id }
+    let(:date) { 'date' }
+    let(:time) { 'time' }
     let(:params) do
       {
         description:,
-        transaction_type:,
+        direction:,
         amount_cents:,
         account_id:,
-        category_id:
+        category_id:,
+        date:,
+        time:
       }
     end
 
@@ -43,10 +47,8 @@ RSpec.describe '/api/v0/individual_transactions', type: :request do
           expect(response.parsed_body['data']['transactions'].count).to eq(1)
           expect(response.parsed_body['data']['transactions'].first['description']).to eq(description)
 
-          user_transactions = response.parsed_body['data']['transactions'].first['user_transactions'].first
-          expect(user_transactions['account_id']).to eq(account_id)
-          expect(user_transactions['category_id']).to eq(category_id)
-          expect(user_transactions['amount_cents']).to eq(amount_cents)
+          child_transactions = response.parsed_body['data']['transactions'].first['child_transactions']
+          expect(child_transactions.count).to eq(0)
 
           selected_account.reload
           expect(selected_account.balance_cents).to eql(previous_balance + amount_cents)
@@ -57,7 +59,7 @@ RSpec.describe '/api/v0/individual_transactions', type: :request do
       end
 
       context 'with income transaction type' do
-        let(:transaction_type) { 'expense' }
+        let(:direction) { 'expense' }
 
         it 'creates and return new transaction increase account balance' do
           expect(response).to be_created

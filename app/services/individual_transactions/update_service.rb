@@ -4,12 +4,14 @@ module IndividualTransactions
   class UpdateService < ::BaseService
     def call(params)
       process_params(params)
+      set_previous_data
 
       ActiveRecord::Base.transaction do
         revert_previous_account_change
+        revert_previous_category_change
         add_updated_amount_to_account
+        add_updated_amount_to_category
         update_parent_transaction
-        update_user_transaction
       end
 
       parent_transaction
@@ -20,35 +22,32 @@ module IndividualTransactions
     attr_reader :params,
                 :description,
                 :amount_cents,
-                :transaction_type,
+                :direction,
                 :account,
                 :category,
-                :parent_transaction
+                :parent_transaction,
+                :previous_amount,
+                :previous_account,
+                :previous_category
 
     def process_params(params)
       @params = params
+      @parent_transaction = params[:parent_transaction]
       @description = params[:description]
       @amount_cents = params[:amount_cents]
-      @transaction_type = params[:transaction_type]
+      @direction = params[:direction]
       @account = params[:account]
       @category = params[:category]
-      @parent_transaction = params[:parent_transaction]
     end
 
-    def user_transaction
-      @user_transaction ||= parent_transaction.user_transactions.first
-    end
-
-    def previous_amount
-      @previous_amount ||= parent_transaction.amount_cents
-    end
-
-    def previous_account
-      @previous_account ||= user_transaction.account
+    def set_previous_data
+      @previous_amount = parent_transaction.amount_cents
+      @previous_account = parent_transaction.account
+      @previous_category = parent_transaction.category
     end
 
     def revert_previous_account_change
-      if user_transaction.expense?
+      if parent_transaction.expense?
         previous_account.record_expense(-previous_amount)
       else
         previous_account.record_income(-previous_amount)
@@ -56,8 +55,13 @@ module IndividualTransactions
       previous_account.save!
     end
 
+    def revert_previous_category_change
+      previous_category.update_balance(-previous_amount)
+      previous_category.save!
+    end
+
     def add_updated_amount_to_account
-      if transaction_type == 'expense'
+      if direction == 'expense'
         account.reload.record_expense(amount_cents)
       else
         account.reload.record_income(amount_cents)
@@ -65,17 +69,17 @@ module IndividualTransactions
       account.save!
     end
 
-    def update_parent_transaction
-      parent_transaction.update!(description:, amount_cents:)
+    def add_updated_amount_to_category
+      category.reload.update_balance(amount_cents)
+      category.save!
     end
 
-    def update_user_transaction
-      user_transaction.update!(description:,
-                               transaction_type:,
-                               user_share: 100,
-                               amount_cents:,
-                               account:,
-                               category:)
+    def update_parent_transaction
+      parent_transaction.update!(description:,
+                                 direction:,
+                                 amount_cents:,
+                                 category:,
+                                 account:)
     end
   end
 end
