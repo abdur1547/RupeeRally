@@ -17,15 +17,6 @@
         },
         "ghcr.io/devcontainers/features/node:1": {
             "version": 20
-        },
-        "ghcr.io/devcontainers/features/common-utils:1": {
-            "username": "vscode",
-            "uid": 1000,
-            "gid": 1000,
-            "installZsh": true,
-            "installOhMyZsh": true,
-            "configureZshAsDefaultShell": true,
-            "upgradePackages": true
         }
     },
     "customizations": {
@@ -34,8 +25,12 @@
                 "emmet.includeLanguages": {
                     "erb": "html"
                 },
-                "ruby.format": "castwide.solargraph",
-                "editor.formatOnSave": true
+                "ruby.format": "Shopify.ruby-lsp",
+                "editor.formatOnSave": true,
+                "rubyLsp.formatter": "rubocop",
+                "rubyLsp.rubyVersionManager": {
+                    "identifier": "rvm"
+                }
             },
             "extensions": [
                 "streetsidesoftware.code-spell-checker",
@@ -43,11 +38,10 @@
                 "mhutchie.git-graph",
                 "shyykoserhiy.git-autoconfig",
                 "eamodio.gitlens",
+                "Shopify.ruby-lsp",
                 "christian-kohler.path-intellisense",
-                "castwide.solargraph",
                 "PKief.material-icon-theme",
-                "vayan.haml",
-                "LoranKloeze.ruby-rubocop-revived"
+                "vayan.haml"
             ]
         }
     },
@@ -58,7 +52,7 @@
         5432
     ],
     // Use 'onCreateCommand' to run commands while the container is creating.
-    "onCreateCommand": "gem install solargraph",
+    // "onCreateCommand": "",
     // Use 'postCreateCommand' to run commands after the container is created.
     "postCreateCommand": "chmod +x .devcontainer/setup.sh && chmod +x .devcontainer/setup.sh"
 }
