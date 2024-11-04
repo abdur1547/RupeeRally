@@ -177,7 +177,6 @@ GEM
     irb (1.14.1)
       rdoc (>= 4.0.0)
       reline (>= 0.4.2)
-    jaro_winkler (1.6.0)
     json (2.7.4)
     json_matchers (0.11.1)
       json_schema
@@ -361,7 +360,7 @@ GEM
     shrine (3.6.0)
       content_disposition (~> 1.0)
       down (~> 5.1)
-    sidekiq (7.3.4)
+    sidekiq (7.3.5)
       connection_pool (>= 2.3.0)
       logger
       rack (>= 2.2.4)
