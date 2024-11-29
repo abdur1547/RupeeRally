@@ -10,7 +10,8 @@ FactoryBot.define do
     selected_date { Date.today.strftime(Constants::API_DATE_FROMAT) }
     selected_time { Time.now.strftime(Constants::API_TIME_FROMAT) }
     user { create(:user) }
-    paid_by { create(:user) }
+    paid_by { user }
     parent_transaction_id { nil }
+    child_transactions {[]}
   end
 end
