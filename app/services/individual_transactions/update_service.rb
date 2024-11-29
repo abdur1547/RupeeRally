@@ -36,8 +36,8 @@ module IndividualTransactions
       @description = params[:description]
       @amount_cents = params[:amount_cents]
       @direction = params[:direction]
-      @account = params[:account]
-      @category = params[:category]
+      @account = params[:account] || parent_transaction.account
+      @category = params[:category] || parent_transaction.category
     end
 
     def set_previous_data
@@ -80,6 +80,10 @@ module IndividualTransactions
                                  amount_cents:,
                                  category:,
                                  account:)
+    end
+
+    def update_params
+      {}
     end
   end
 end
