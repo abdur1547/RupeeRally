@@ -41,12 +41,16 @@ module Api::V0::Accounts
     end
 
     def update_account
-      initial_balance_cents = params[:initial_balance_cents] || account.initial_balance_cents
-      name = params[:name]
-
-      return Success(account.reload) if account.update(name:, initial_balance_cents:)
+      return Success(account.reload) if account.update(update_params)
 
       Failure(account.errors.full_messages)
+    end
+
+    def update_params
+      {
+        name: params[:name],
+        initial_balance_cents: params[:initial_balance_cents]
+      }.compact_blank
     end
 
     def json_serialize
