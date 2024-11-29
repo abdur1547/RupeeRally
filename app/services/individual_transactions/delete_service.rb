@@ -3,25 +3,38 @@
 module IndividualTransactions
   class DeleteService < ::BaseService
     def call(parent_transaction)
-      @parent_transaction = parent_transaction
-      @user_transaction = parent_transaction.user_transactions.first
-      @account = user_transaction.account
-      @transaction_type = user_transaction.transaction_type
-      @amount_cents = parent_transaction.amount_cents
+      process_params(parent_transaction)
 
       ActiveRecord::Base.transaction do
-        update_account
+        revert_previous_account_change
+        revert_previous_category_change
         parent_transaction.destroy!
       end
     end
 
     private
 
-    attr_reader :parent_transaction, :user_transaction, :account, :transaction_type, :amount_cents
+    attr_reader :parent_transaction, :account, :amount
 
-    def update_account
-      user_transaction.expense? ? account.record_expense(-amount_cents) : account.record_income(-amount_cents)
+    def process_params(parent_transaction)
+      @parent_transaction = parent_transaction
+      @account = parent_transaction.account
+      @amount = parent_transaction.amount_cents
+      @category = parent_transaction.category
+    end
+
+    def revert_previous_account_change
+      if parent_transaction.expense?
+        account.record_expense(-amount)
+      else
+        account.record_income(-amount)
+      end
       account.save!
+    end
+
+    def revert_previous_category_change
+      previous_category.update_balance(-amount)
+      previous_category.save!
     end
   end
 end
