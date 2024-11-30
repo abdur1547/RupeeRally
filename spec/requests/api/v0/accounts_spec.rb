@@ -251,6 +251,15 @@ RSpec.describe '/api/v0/accounts', type: :request do
           expect(response.parsed_body['errors'][0][0]).to eq('Name has already been taken')
         end
       end
+
+      context 'when account name is not provided' do
+        let(:params) { {} }
+        
+        it 'returns not_found' do
+          expect(response).to be_unprocessable
+          expect(response.parsed_body['errors'].count > 0).to be_truthy
+        end
+      end
     end
   end
 
