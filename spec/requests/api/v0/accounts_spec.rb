@@ -55,10 +55,10 @@ RSpec.describe '/api/v0/accounts', type: :request do
             create(:account, user:, name: 'orange', balance_cents: 200)
           ]
         end
-        
+
         context 'equal to 1' do
           let(:page) { 1 }
-          
+
           it 'should return 1st page' do
             expect(response).to be_ok
             expect(response.parsed_body['data']['accounts'].count).to eq(1)
@@ -66,10 +66,10 @@ RSpec.describe '/api/v0/accounts', type: :request do
             expect(response).to match_json_schema('v0/accounts/index')
           end
         end
-        
+
         context 'equal to 2' do
           let(:page) { 2 }
-          
+
           it 'should return 1st page' do
             expect(response).to be_ok
             expect(response.parsed_body['data']['accounts'].count).to eq(1)
