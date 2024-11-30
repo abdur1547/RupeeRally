@@ -36,13 +36,72 @@ RSpec.describe '/api/v0/accounts', type: :request do
         end
       end
 
-      context 'without per_page' do
+      context 'with per_page' do
         let(:per_page) { 5 }
 
         it 'should returns according to per_page value' do
           expect(response).to be_ok
           expect(response.parsed_body['data']['accounts'].count).to eq(per_page)
           expect(response).to match_json_schema('v0/accounts/index')
+        end
+      end
+
+      context 'with sort by' do
+        let!(:accounts) do
+          [
+            create(:account, user:, name: 'apple', balance_cents: 10),
+            create(:account, user:, name: 'mango', balance_cents: 100),
+            create(:account, user:, name: 'orange', balance_cents: 200)
+          ]
+        end
+
+        context 'balance' do
+          let(:sort_by) { 'balance_cents' }
+
+          it 'should returns accounts sorted by balance' do
+            expect(response).to be_ok
+            expect(response).to match_json_schema('v0/accounts/index')
+            balances = response.parsed_body['data']['accounts'].pluck(sort_by)
+
+            expect(balances).to eq([10, 100, 200])
+          end
+        end
+
+        context 'name' do
+          let(:sort_by) { 'name' }
+
+          it 'should returns accounts sorted by name' do
+            expect(response).to be_ok
+            expect(response).to match_json_schema('v0/accounts/index')
+            names = response.parsed_body['data']['accounts'].pluck(sort_by)
+
+            expect(names).to eq(%w[apple mango orange])
+          end
+        end
+
+        context 'name in DESC' do
+          let(:sort_by) { 'name' }
+          let(:sort_direction) { 'desc' }
+
+          it 'should returns accounts sorted by name in DESC' do
+            expect(response).to be_ok
+            expect(response).to match_json_schema('v0/accounts/index')
+            names = response.parsed_body['data']['accounts'].pluck(sort_by)
+
+            expect(names).to eq(%w[orange mango apple])
+          end
+        end
+
+        context 'is invalid' do
+          let(:sort_by) { 'something_else' }
+
+          it 'should returns accounts sorted by name' do
+            expect(response).to be_ok
+            expect(response).to match_json_schema('v0/accounts/index')
+            names = response.parsed_body['data']['accounts'].pluck('name')
+
+            expect(names).to eq(%w[apple mango orange])
+          end
         end
       end
     end
