@@ -1,0 +1,474 @@
+{
+	"info": {
+		"_postman_id": "4e87b378-ec29-4d4a-8cd9-139ff86175fc",
+		"name": "RupeeRally",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "28960420"
+	},
+	"item": [
+		{
+			"name": "API::V0",
+			"item": [
+				{
+					"name": "Auth",
+					"item": [
+						{
+							"name": "Signup",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const uuid = require('uuid');\r",
+											"\r",
+											"const user_email = `test.user.${uuid.v4()}@testmail.com`;\r",
+											"const user_password = pm.variables.replaceIn('{{$randomPassword}}');\r",
+											"\r",
+											"pm.collectionVariables.set(\"user_email\", user_email);\r",
+											"pm.collectionVariables.set(\"user_password\", user_password);\r",
+											"\r",
+											"console.log(user_email);\r",
+											"console.log(user_password);"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"email\": \"{{user_email}}\",\r\n//   \"email\": \"test.user.2e78336a-ab98-40ce-9952-5dba10ae0e5ctestmail.com\",\r\n  \"name\": \"{{$randomFullName}}\",\r\n  \"password\": \"{{user_password}}\"\r\n//   \"password_confirmation\": \"{{user_password}}\",\r\n//   \"confirm_success_url\": \"http://rails_server.com\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{api_v0_url}}/auth/signup",
+									"host": [
+										"{{api_v0_url}}"
+									],
+									"path": [
+										"auth",
+										"signup"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Signin",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status Code Validation\", function () {\r",
+											"    pm.response.to.have.status(201);\r",
+											"});\r",
+											"\r",
+											"const jsonData = pm.response.json();\r",
+											"const access_token = jsonData[\"data\"][\"access_token\"];\r",
+											"const refresh_token = jsonData[\"data\"][\"refresh_token\"];\r",
+											"pm.collectionVariables.set(\"access_token\", access_token);\r",
+											"pm.collectionVariables.set(\"refresh_token\", refresh_token);\r",
+											"\r",
+											"console.log(\"Asses Token\", access_token);\r",
+											"console.log(\"Refresh Token\", refresh_token);\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"email\": \"{{user_email}}\",\r\n  \"password\": \"{{user_password}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{api_v0_url}}/auth/signin",
+									"host": [
+										"{{api_v0_url}}"
+									],
+									"path": [
+										"auth",
+										"signin"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Refresh",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status Code Validation\", function () {\r",
+											"    pm.response.to.have.status(201);\r",
+											"});\r",
+											"\r",
+											"const jsonData = pm.response.json();\r",
+											"const access_token = jsonData[\"data\"][\"access_token\"];\r",
+											"// const refresh_token = jsonData[\"data\"][\"refresh_token\"];\r",
+											"// pm.collectionVariables.set(\"access_token\", access_token);\r",
+											"// pm.collectionVariables.set(\"refresh_token\", refresh_token);\r",
+											"\r",
+											"console.log(\"Asses Token\", access_token);\r",
+											"// console.log(\"Refresh Token\", refresh_token);\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{access_token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"access_token\": \"{{access_token}}\",\r\n  \"refresh_token\": \"{{refresh_token}}\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{api_v0_url}}/auth/refresh",
+									"host": [
+										"{{api_v0_url}}"
+									],
+									"path": [
+										"auth",
+										"refresh"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "SignOut",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{api_v0_url}}/auth/sign_out",
+									"host": [
+										"{{api_v0_url}}"
+									],
+									"path": [
+										"auth",
+										"sign_out"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Account",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "uid",
+										"value": "{{uuid}}"
+									},
+									{
+										"key": "access-token",
+										"value": "{{token}}"
+									},
+									{
+										"key": "client",
+										"value": "{{client}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{api_v0_url}}/auth",
+									"host": [
+										"{{api_v0_url}}"
+									],
+									"path": [
+										"auth"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "with Google",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"client_id\": \"eyJhbGciOiJSUzI1NiIsImtpZCI6IjI4YTQyMWNhZmJlM2RkODg5MjcxZGY5MDBmNGJiZjE2ZGI1YzI0ZDQiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL2FjY291bnRzLmdvb2dsZS5jb20iLCJhenAiOiIxMTQzODgyNjk5MTktYm84YzRyNDdzbzc3ZnFwNGFsbDhrMGJiYms3NTZpaGouYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJhdWQiOiIxMTQzODgyNjk5MTktYm84YzRyNDdzbzc3ZnFwNGFsbDhrMGJiYms3NTZpaGouYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJzdWIiOiIxMTAyODU5MjY5NjMyODIyMjQzMDYiLCJlbWFpbCI6ImtoYWxpbC5haG1hZDE1NDdAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsIm5iZiI6MTcyNzk2MzAzMCwibmFtZSI6IkFiZHVyIFJhaG1hbiIsInBpY3R1cmUiOiJodHRwczovL2xoMy5nb29nbGV1c2VyY29udGVudC5jb20vYS9BQ2c4b2NMMm5rSnJqYnFMZmstalJ1NmZnby1CX3ktVW5uS1hRbGR3V1BDM254akotOWoxTjBBPXM5Ni1jIiwiZ2l2ZW5fbmFtZSI6IkFiZHVyIiwiZmFtaWx5X25hbWUiOiJSYWhtYW4iLCJpYXQiOjE3Mjc5NjMzMzAsImV4cCI6MTcyNzk2NjkzMCwianRpIjoiMGQ1YjRkYzk4MmU1ODE2YTllODJjYjg3NWRjNjE1MTNjYzEwMGI0OCJ9.tYa6h1NA2qYGZjWg8Tdn1eJDWYWG5_DhrY87CnxwA6frIfx1SxFgb1hoBeLtp6qnYnpprplcBXoV6vFXKvhU5ELwigtsYf5V8aGYIzrt5TJYnYDHIDacSkB5juX4BTGVxXFJM1woFTLlFLu6n5ILUkVVpA8-pWxjgEj8JWDqf8PSMYOU4sARLmxAi0HxpB2-vMGxiIs5MMI5CwiYyhEEORpGa39SEUcbeohs1xGWXMJsPe2oihuwyJ8huM3MKMl1rOQRahEGkB4Hm1odRjYgmroTOutTriNc-vrXU_U-CMHav1T0QAvBIsq9C6WrvXWMWqViJI3YFxqzi-k0k0wt_g\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{api_v0_url}}/auth/google_oauth2",
+									"host": [
+										"{{api_v0_url}}"
+									],
+									"path": [
+										"auth",
+										"google_oauth2"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Accounts",
+					"item": [
+						{
+							"name": "Index",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{access_token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"page\": 1,\r\n    \"per_page\": 25,\r\n    \"sort_by\": \"\",\r\n    \"sort_direction\": \"\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{api_v0_url}}/accounts",
+									"host": [
+										"{{api_v0_url}}"
+									],
+									"path": [
+										"accounts"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{access_token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Cash\",\r\n    \"initial_balance_cents\": 500000\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{api_v0_url}}/accounts",
+									"host": [
+										"{{api_v0_url}}"
+									],
+									"path": [
+										"accounts"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update",
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{access_token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    // \"name\": \"Cash\",\r\n    // \"initial_balance_cents\": 600000\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{api_v0_url}}/accounts/1",
+									"host": [
+										"{{api_v0_url}}"
+									],
+									"path": [
+										"accounts",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{access_token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{api_v0_url}}/accounts/1",
+									"host": [
+										"{{api_v0_url}}"
+									],
+									"path": [
+										"accounts",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://127.0.0.1:3000",
+			"type": "string"
+		},
+		{
+			"key": "api_v0_url",
+			"value": "http://127.0.0.1:3000/api/v0",
+			"type": "string"
+		},
+		{
+			"key": "user_email",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "user_password",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "access_token",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "refresh_token",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
