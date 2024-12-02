@@ -24,9 +24,12 @@ module Api::V0::Accounts
     attr_reader :params, :current_user, :account
 
     def create_account
-      initial_balance_cents = params[:initial_balance_cents] || 0
-      @account = Account.new(name: params[:name], balance_cents: initial_balance_cents, initial_balance_cents:,
-                             user: current_user)
+      initial_balance_cents = params[:initial_balance_cents].presence || 0
+      @account = current_user.accounts.new(
+        name: params[:name],
+        balance_cents: initial_balance_cents,
+        initial_balance_cents:
+      )
 
       return Success(account) if account.save
 
