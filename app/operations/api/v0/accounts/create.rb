@@ -31,9 +31,9 @@ module Api::V0::Accounts
         initial_balance_cents:
       )
 
-      return Success(@account) if @account.save
+      return Success(account) if account.save
 
-      Failure(@account.errors.full_messages)
+      Failure(account.errors.full_messages)
     end
 
     def json_serialize
