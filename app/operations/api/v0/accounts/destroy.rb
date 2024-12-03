@@ -14,8 +14,8 @@ module Api::V0::Accounts
       @params = params
       @current_user = current_user
 
-      @account = yield fetch_account
-      @account = yield destroy_account
+      yield fetch_account
+      yield destroy_account
       Success()
     end
 
