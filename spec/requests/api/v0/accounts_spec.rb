@@ -308,27 +308,58 @@ RSpec.describe '/api/v0/accounts', type: :request do
         Authorization: access_token
       }
     end
-    let(:accounts) { create_list(:account, 100, user:) }
-    let(:selected_account) { accounts.sample }
-    let(:updated_name) { 'other_account' }
-    let(:updated_initial_balance) { 100 }
+    let(:i_balance_cents) { 2000 }
+    let(:i_initial_balance_cents) { 3000 }
+    let!(:account) { create(:account, user:, initial_balance_cents: i_initial_balance_cents, balance_cents: i_balance_cents) }
+    let(:u_initial_balance_cents) { 1000 }
+    let(:updated_name) { 'name_01' }
     let(:params) do
       {
         name: updated_name,
-        initial_balance_cents: updated_initial_balance
+        initial_balance_cents: u_initial_balance_cents
       }
     end
 
-    before { patch "/api/v0/accounts/#{selected_account.id}", params:, headers: }
+    before { patch "/api/v0/accounts/#{account.id}", params:, headers: }
 
     describe 'success' do
       context 'when account id is valid' do
         it 'updates account' do
           expect(response).to be_ok
           expect(response).to match_json_schema('v0/accounts/update')
-          account = Account.find_by(id: selected_account.id)
-          expect(account.name).to eql(updated_name)
-          expect(account.initial_balance_cents).to eql(updated_initial_balance)
+          acc = Account.find_by(id: account.id)
+          expect(acc.name).to eql(updated_name)
+          expect(acc.initial_balance_cents).to eql(u_initial_balance_cents)
+        end
+      end
+
+      context 'when initial balance is increased' do
+        let(:u_initial_balance_cents) { 4000 }
+        
+        it 'should increase account balance' do
+          expect(response).to be_ok
+          updated_balance = account.balance_cents + 1000
+          expect(response.parsed_body['data']['accounts'][0]['balance_cents']).to eql(updated_balance)
+          expect(response.parsed_body['data']['accounts'][0]['initial_balance_cents']).to eql(u_initial_balance_cents)
+          expect(response).to match_json_schema('v0/accounts/update')
+          acc = Account.find_by(id: account.id)
+          expect(acc.initial_balance_cents).to eql(u_initial_balance_cents)
+          expect(acc.balance_cents).to eql(updated_balance)
+        end
+      end
+      
+      context 'when initial balance is decreased' do
+        let(:u_initial_balance_cents) { 2000 }
+        
+        it 'should decreased account balance' do
+          expect(response).to be_ok
+          updated_balance = account.balance_cents - 1000
+          expect(response.parsed_body['data']['accounts'][0]['balance_cents']).to eql(updated_balance)
+          expect(response.parsed_body['data']['accounts'][0]['initial_balance_cents']).to eql(u_initial_balance_cents)
+          expect(response).to match_json_schema('v0/accounts/update')
+          acc = Account.find_by(id: account.id)
+          expect(acc.initial_balance_cents).to eql(u_initial_balance_cents)
+          expect(acc.balance_cents).to eql(updated_balance)
         end
       end
     end
@@ -338,7 +369,7 @@ RSpec.describe '/api/v0/accounts', type: :request do
       include_context 'unauthorized'
 
       context 'when account id is not valid' do
-        let(:selected_account) { create(:account) }
+        let(:account) { create(:account) }
 
         it 'returns not_found' do
           expect(response).to be_not_found

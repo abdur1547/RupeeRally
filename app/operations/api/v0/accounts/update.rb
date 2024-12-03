@@ -16,21 +16,14 @@ module Api::V0::Accounts
       @params = params
       @current_user = current_user
 
-      yield require_update?
-      @account = yield fetch_account
-      @account = yield update_account
+      yield fetch_account
+      yield update_account
       Success(json_serialize)
     end
 
     private
 
     attr_reader :params, :current_user, :account
-
-    def require_update?
-      return Success() if params.any? { |key, value| key != :id && value.present? }
-
-      Failure('nothing to update')
-    end
 
     def fetch_account
       @account = current_user.accounts.find_by(id: params[:id])
@@ -49,8 +42,15 @@ module Api::V0::Accounts
     def update_params
       {
         name: params[:name],
-        initial_balance_cents: params[:initial_balance_cents]
+        initial_balance_cents: params[:initial_balance_cents],
+        balance_cents: account.balance_cents + calculate_difference
       }.compact_blank
+    end
+
+    def calculate_difference
+      final_value = params[:initial_balance_cents].presence || account.initial_balance_cents
+      initial_value = account.initial_balance_cents
+      final_value - initial_value
     end
 
     def json_serialize
