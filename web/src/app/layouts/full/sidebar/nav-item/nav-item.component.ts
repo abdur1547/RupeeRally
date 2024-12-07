@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { NavItem } from './nav-item';
 import { Router } from '@angular/router';
-import { NavService } from '../../../../services/nav.service';
+import { NavService } from '../../nav.service';
 import { MaterialModule } from 'src/app/material.module';
 import { CommonModule } from '@angular/common';
 import { TablerIconComponent, TablerIconsModule } from 'angular-tabler-icons';
@@ -34,7 +34,7 @@ export class AppNavItemComponent implements OnChanges {
   }
 
   ngOnChanges() {
-    this.navService.currentUrl.subscribe((url: string) => { });
+    this.navService.currentUrl.subscribe((url: string) => {});
   }
 
   onItemSelected(item: NavItem) {
@@ -48,7 +48,5 @@ export class AppNavItemComponent implements OnChanges {
     });
   }
 
-  onSubItemSelected(item: NavItem) {
-
-  }
+  onSubItemSelected(item: NavItem) {}
 }

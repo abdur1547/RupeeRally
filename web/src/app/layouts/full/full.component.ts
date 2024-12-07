@@ -4,7 +4,7 @@ import { Subscription } from 'rxjs';
 import { MatSidenav, MatSidenavContent } from '@angular/material/sidenav';
 import { NavigationEnd, Router } from '@angular/router';
 import { navItems } from './sidebar/sidebar-data';
-import { NavService } from '../../services/nav.service';
+import { NavService } from './nav.service';
 import { AppNavItemComponent } from './sidebar/nav-item/nav-item.component';
 import { RouterModule } from '@angular/router';
 import { MaterialModule } from 'src/app/material.module';
@@ -18,7 +18,6 @@ const MOBILE_VIEW = 'screen and (max-width: 768px)';
 const TABLET_VIEW = 'screen and (min-width: 769px) and (max-width: 1024px)';
 const MONITOR_VIEW = 'screen and (min-width: 1024px)';
 const BELOWMONITOR = 'screen and (max-width: 1023px)';
-
 
 @Component({
   selector: 'app-full',
@@ -37,9 +36,7 @@ const BELOWMONITOR = 'screen and (max-width: 1023px)';
   styleUrls: [],
   encapsulation: ViewEncapsulation.None,
 })
-
 export class FullComponent implements OnInit {
-
   navItems = navItems;
 
   @ViewChild('leftsidenav')
@@ -56,8 +53,10 @@ export class FullComponent implements OnInit {
     return this.isMobileScreen;
   }
 
-  constructor(private breakpointObserver: BreakpointObserver, private navService: NavService) {
-    
+  constructor(
+    private breakpointObserver: BreakpointObserver,
+    private navService: NavService
+  ) {
     this.htmlElement = document.querySelector('html')!;
     this.htmlElement.classList.add('light-theme');
     this.layoutChangesSubscription = this.breakpointObserver
