@@ -9,8 +9,8 @@ import { MaterialModule } from 'src/app/material.module';
 import { SidebarComponent } from 'src/app/layouts/full/sidebar/sidebar.component';
 import { NgScrollbarModule } from 'ngx-scrollbar';
 import { TablerIconsModule } from 'angular-tabler-icons';
-import { HeaderComponent } from 'src/app/layouts/full/header/header.component';
 import { MOBILE_VIEW, MONITOR_VIEW, TABLET_VIEW } from './constants';
+import { ToolbarComponent } from '../toolbar';
 
 @Component({
   selector: 'sidenav',
@@ -22,7 +22,7 @@ import { MOBILE_VIEW, MONITOR_VIEW, TABLET_VIEW } from './constants';
     SidebarComponent,
     NgScrollbarModule,
     TablerIconsModule,
-    HeaderComponent,
+    ToolbarComponent,
   ],
   templateUrl: './sidenav.component.html',
   styleUrl: './sidenav.component.scss',
