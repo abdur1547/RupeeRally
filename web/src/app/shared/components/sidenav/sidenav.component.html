@@ -15,17 +15,7 @@
   </mat-sidenav>
 
   <mat-sidenav-content class="contentWrapper" #content>
-
-    <app-header [showToggle]="!isOver" (toggleCollapsed)="toggleCollapsed()"
-      (toggleMobileNav)="sidenav.toggle()"></app-header>
-
-
-    <main class="pageWrapper maxWidth">
-      <!-- ============================================================== -->
-      <!-- Outlet -->
-      <!-- ============================================================== -->
-      <!-- <router-outlet></router-outlet> -->
-    </main>
+    <ng-content />
   </mat-sidenav-content>
 
 </mat-sidenav-container>
