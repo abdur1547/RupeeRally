@@ -31,9 +31,7 @@ const blankLayoutRoutes: Routes = [
   {
     path: 'authentication',
     loadChildren: () =>
-      import('./pages/auth/authentication.routes').then(
-        (m) => m.AuthenticationRoutes
-      ),
+      import('./pages/auth/auth.routes').then((m) => m.AuthRoutes),
   },
 ];
 
