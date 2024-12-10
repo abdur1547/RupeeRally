@@ -10,12 +10,12 @@ import { Router, RouterModule } from '@angular/router';
 import { MaterialModule } from '../../../material.module';
 
 @Component({
-  selector: 'app-side-register',
+  selector: 'register',
   standalone: true,
   imports: [RouterModule, MaterialModule, FormsModule, ReactiveFormsModule],
-  templateUrl: './side-register.component.html',
+  templateUrl: './register.component.html',
 })
-export class AppSideRegisterComponent {
+export class RegisterComponent {
   constructor(private router: Router) {}
 
   form = new FormGroup({
