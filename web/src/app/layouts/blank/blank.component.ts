@@ -11,6 +11,6 @@ import { MaterialModule } from 'src/app/material.module';
   standalone: true,
   imports: [RouterOutlet, MaterialModule, CommonModule],
 })
-export class BlankComponent {
+export class BlankLayout {
   constructor() {}
 }

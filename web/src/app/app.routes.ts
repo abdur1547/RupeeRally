@@ -1,11 +1,11 @@
 import { Routes } from '@angular/router';
-import { BlankComponent } from './layouts/blank/blank.component';
-import { FullComponent } from './layouts/full/full.component';
+import { BlankLayout } from './layouts/blank/blank.component';
+import { DefaultLayout } from './layouts/default/full.component';
 
 export const routes: Routes = [
   {
     path: '',
-    component: FullComponent,
+    component: DefaultLayout,
     children: [
       {
         path: '',
@@ -33,7 +33,7 @@ export const routes: Routes = [
   },
   {
     path: '',
-    component: BlankComponent,
+    component: BlankLayout,
     children: [
       {
         path: 'authentication',
