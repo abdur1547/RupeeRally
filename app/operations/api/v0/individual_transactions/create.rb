@@ -11,8 +11,8 @@ module Api::V0::IndividualTransactions
         required(:amount_cents).filled(:integer)
         required(:account_id).filled(:integer)
         required(:category_id).filled(:integer)
-        required(:date).filled(:string)
-        required(:time).filled(:string)
+        optional(:date).filled(:string)
+        optional(:time).filled(:string)
       end
     end
 
@@ -22,32 +22,30 @@ module Api::V0::IndividualTransactions
 
       yield validate_account_id
       yield validate_category_id
-      transaction = yield create_transaction
-      Success(json_serialize(transaction))
+      yield create_transaction
+      Success(json_serialize)
     end
 
     private
 
-    attr_reader :params, :current_user, :account, :category
+    attr_reader :params, :current_user, :account, :category, :transaction
 
     def validate_account_id
-      account_id = params[:account_id]
-      @account = current_user.accounts.find_by(id: account_id)
-      return Success() if account_id && @account
+      @account = current_user.accounts.find_by(id: params[:account_id])
+      return Success() if @account
 
       Failure(:account_not_found)
     end
 
     def validate_category_id
-      category_id = params[:category_id]
-      @category = current_user.categories.find_by(id: category_id)
-      return Success() if category_id && category
+      @category = current_user.categories.find_by(id: params[:category_id])
+      return Success() if category
 
       Failure(:category_not_found)
     end
 
     def create_transaction
-      transaction = ::IndividualTransactions::CreateService.call(create_params)
+      @transaction = ::IndividualTransactions::CreateService.call(create_params)
       Success(transaction)
     rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotSaved, ActiveRecord::StatementInvalid => e
       Failure(e.message)
@@ -64,8 +62,8 @@ module Api::V0::IndividualTransactions
       }
     end
 
-    def json_serialize(records)
-      Api::V0::TransactionsSerializer.render_as_hash([records], root: :transactions)
+    def json_serialize
+      Api::V0::TransactionsSerializer.render_as_hash([transaction], root: :transactions)
     end
   end
 end
