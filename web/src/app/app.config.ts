@@ -2,12 +2,9 @@ import {
   ApplicationConfig,
   provideZoneChangeDetection,
   importProvidersFrom,
+  ErrorHandler,
 } from '@angular/core';
-import {
-  HttpClient,
-  provideHttpClient,
-  withInterceptorsFromDi,
-} from '@angular/common/http';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { routes } from './app.routes';
 import {
   provideRouter,
@@ -29,6 +26,11 @@ import { NgScrollbarModule } from 'ngx-scrollbar';
 //Import all material modules
 import { MaterialModule } from './material.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  authInterceptor,
+  GlobalErrorHandlingService,
+  httpErrorInterceptor,
+} from './core';
 
 // export function HttpLoaderFactory(http: HttpClient): any {
 //   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -45,7 +47,10 @@ export const appConfig: ApplicationConfig = {
       }),
       withComponentInputBinding()
     ),
-    provideHttpClient(withInterceptorsFromDi()),
+    { provide: ErrorHandler, useClass: GlobalErrorHandlingService },
+    provideHttpClient(
+      withInterceptors([authInterceptor, httpErrorInterceptor])
+    ),
     provideClientHydration(),
     provideAnimationsAsync(),
     importProvidersFrom(
@@ -53,13 +58,13 @@ export const appConfig: ApplicationConfig = {
       ReactiveFormsModule,
       MaterialModule,
       TablerIconsModule.pick(TablerIcons),
-      NgScrollbarModule,
+      NgScrollbarModule
       // TranslateModule.forRoot({
       //   loader: {
       //     provide: TranslateLoader,
       //     useFactory: HttpLoaderFactory,
       //     deps: [HttpClient],
-      //   }, 
+      //   },
       // })
     ),
   ],

@@ -36,7 +36,7 @@ const BELOWMONITOR = 'screen and (max-width: 1023px)';
   styleUrls: [],
   encapsulation: ViewEncapsulation.None,
 })
-export class FullComponent implements OnInit {
+export class DefaultLayout implements OnInit {
   navItems = navItems;
 
   @ViewChild('leftsidenav')
