@@ -26,16 +26,21 @@ export class LoginComponent {
   constructor(private router: Router) {}
 
   form = new FormGroup({
-    uname: new FormControl('', [Validators.required, Validators.minLength(6)]),
+    email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', [Validators.required]),
   });
 
-  get f() {
+  get formControle() {
     return this.form.controls;
   }
 
+  get emailFormControle() {
+    return this.form.controls.email;
+  }
+
   submit() {
-    // console.log(this.form.value);
-    this.router.navigate(['/']);
+    this.form.controls.email.errors;
+    console.log(this.form.value, this.form.controls.email.errors);
+    // this.router.navigate(['/']);
   }
 }
