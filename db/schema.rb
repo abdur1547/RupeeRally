@@ -70,8 +70,8 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_13_113208) do
     t.text "description", default: "", null: false
     t.integer "amount_cents", default: 0, null: false
     t.integer "divided_by", default: 0, null: false
-    t.string "selected_date", default: "", null: false
-    t.string "selected_time", default: "", null: false
+    t.date "selected_date", default: -> { "CURRENT_DATE" }, null: false
+    t.time "selected_time"
     t.integer "transaction_type", default: 0, null: false
     t.integer "direction", default: 0, null: false
     t.integer "user_share", default: 0, null: false
