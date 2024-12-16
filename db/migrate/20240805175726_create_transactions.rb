@@ -4,8 +4,8 @@ class CreateTransactions < ActiveRecord::Migration[7.1]
       t.text :description, null: false, default: ''
       t.integer :amount_cents, null: false, default: 0
       t.integer :divided_by, null: false, default: 0
-      t.string :selected_date, null: false, default: ''
-      t.string :selected_time, null: false, default: ''
+      t.date :selected_date, null: false, default: -> { 'CURRENT_DATE' }
+      t.time :selected_time, null: true
       t.integer :transaction_type, null: false, default: 0
       t.integer :direction, null: false, default: 0
       t.integer :user_share, null: false, default: 0
