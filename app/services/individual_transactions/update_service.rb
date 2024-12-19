@@ -34,8 +34,8 @@ module IndividualTransactions
       @params = params
       @parent_transaction = params[:parent_transaction]
       @description = params[:description]
-      @amount_cents = params[:amount_cents]
-      @direction = params[:direction]
+      @amount_cents = params[:amount_cents] || parent_transaction.amount_cents
+      @direction = params[:direction] || parent_transaction.direction
       @account = params[:account] || parent_transaction.account
       @category = params[:category] || parent_transaction.category
     end
@@ -75,15 +75,17 @@ module IndividualTransactions
     end
 
     def update_parent_transaction
-      parent_transaction.update!(description:,
-                                 direction:,
-                                 amount_cents:,
-                                 category:,
-                                 account:)
+      parent_transaction.update!(update_params)
     end
 
     def update_params
-      {}
+      {
+        description:,
+        direction:,
+        amount_cents:,
+        category:,
+        account:
+      }.compact_blank
     end
   end
 end
