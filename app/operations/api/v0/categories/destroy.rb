@@ -14,8 +14,8 @@ module Api::V0::Categories
       @params = params
       @current_user = current_user
 
-      @category = yield fetch_category
-      @category = yield destroy_category
+      yield fetch_category
+      yield destroy_category
       Success()
     end
 
