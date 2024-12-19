@@ -2,14 +2,15 @@
 
 module IndividualTransactions
   class CreateService < ::BaseService
+    include Helpers::TransactionHelpers
+
     def call(params)
       process_params(params)
+      validate_category
 
       ActiveRecord::Base.transaction do
-        validate_category
         create_parent_transaction
-        update_account
-        update_category
+        apply_amount_changes(amount_cents, account, category, direction)
       end
 
       parent_transaction
@@ -41,26 +42,22 @@ module IndividualTransactions
     end
 
     def create_parent_transaction
-      @parent_transaction = Transaction.create!(user: current_user,
-                                                description:,
-                                                direction:,
-                                                amount_cents:,
-                                                divided_by: :by_none,
-                                                user_share: 100,
-                                                transaction_type: :individual,
-                                                category:,
-                                                paid_by: current_user,
-                                                account:)
+      @parent_transaction = Transaction.create!(create_params)
     end
 
-    def update_account
-      parent_transaction.expense? ? account.record_expense(amount_cents) : account.record_income(amount_cents)
-      account.save!
-    end
-
-    def update_category
-      category.update_balance(amount_cents)
-      category.save!
+    def create_params # rubocop:disable Metrics/MethodLength
+      {
+        user: current_user,
+        description:,
+        direction:,
+        amount_cents:,
+        divided_by: :by_none,
+        user_share: 100,
+        transaction_type: :individual,
+        category:,
+        paid_by: current_user,
+        account:
+      }
     end
   end
 end
