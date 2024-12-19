@@ -38,8 +38,8 @@ module IndividualTransactions
       raise ArgumentError, 'Parent transaction is required' unless parent_transaction
     end
 
-    def process_params
-      @description = params[:description] || parent_transaction.description
+    def process_params # rubocop:disable Metrics/AbcSize
+      @description = params[:description]
       @amount_cents = params[:amount_cents] || parent_transaction.amount_cents
       @direction = params[:direction] || parent_transaction.direction
       @account = params[:account] || parent_transaction.account
