@@ -51,7 +51,7 @@ module Api::V0::IndividualTransactions
       return Success(nil) if params[:category_id].blank?
 
       @category = current_user.categories.find_by(id: params[:category_id])
-      return Success() if category_id && category
+      return Success() if category
 
       Failure(:category_not_found)
     end
