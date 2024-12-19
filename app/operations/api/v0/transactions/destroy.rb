@@ -29,8 +29,8 @@ module Api::V0::Transactions
                 :amount_cents
 
     def fetch_transaction
-      @transaction = current_user.transactions.includes(:user_transactions).where('transactions.id = ? ',
-                                                                                  params[:id]).first
+      @transaction = current_user.transactions.includes(:child_transactions).where('transactions.id = ? ',
+                                                                                   params[:id]).first
 
       return Success(transaction) if transaction
 
