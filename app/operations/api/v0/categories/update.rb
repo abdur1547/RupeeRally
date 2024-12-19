@@ -16,9 +16,8 @@ module Api::V0::Categories
       @params = params
       @current_user = current_user
 
-      yield require_update?
-      @category = yield fetch_category
-      @category = yield update_category
+      yield fetch_category
+      yield update_category
       Success(json_serialize)
     end
 
@@ -41,12 +40,16 @@ module Api::V0::Categories
     end
 
     def update_category
-      name = params[:name]
-      category_type = params[:category_type]
-
-      return Success(category.reload) if category.update(name:, category_type:)
+      return Success(category) if category.update(update_params)
 
       Failure(category.errors.full_messages)
+    end
+
+    def update_params
+      {
+        name: params[:name],
+        category_type: params[:category_type]
+      }.compact_blank
     end
 
     def json_serialize
