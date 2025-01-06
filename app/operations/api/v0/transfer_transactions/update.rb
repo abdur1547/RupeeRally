@@ -18,7 +18,6 @@ module Api::V0::TransferTransactions
       @params = params
       @current_user = current_user
 
-      yield require_update?
       yield fetch_parent_transaction
       @from_account = yield validate_from_account_id
       @to_account = yield validate_to_account_id
@@ -30,16 +29,10 @@ module Api::V0::TransferTransactions
 
     attr_reader :current_user, :parent_transaction, :params, :from_account, :to_account
 
-    def require_update?
-      return Success() if params.any? { |key, value| key != :id && value.present? }
-
-      Failure('nothing to update')
-    end
-
     def fetch_parent_transaction
       @parent_transaction = current_user
                             .transactions
-                            .includes(:user_transactions)
+                            .includes(:child_transactions)
                             .transfer
                             .where('transactions.id = ? ', params[:id])
                             .first
