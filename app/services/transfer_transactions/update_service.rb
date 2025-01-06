@@ -2,9 +2,11 @@
 
 module TransferTransactions
   class UpdateService < ::BaseService
+    include Helpers::TransactionHelpers
+
     def call(params)
       process_params(params)
-      set_user_transactions
+      set_child_transactions
       set_previous_accounts
       set_current_accounts
       validate_not_same_account
@@ -29,14 +31,14 @@ module TransferTransactions
     def process_params(params)
       @params = params
       @parent_transaction = params[:parent_transaction]
-      @description = params[:description]
-      @amount_cents = params[:amount_cents]
+      @description = params[:description] || parent_transaction.description
+      @amount_cents = params[:amount_cents] || parent_transaction.amount_cents
       @previous_amount = parent_transaction.amount_cents
     end
 
-    def set_user_transactions
-      @expense_transaction = parent_transaction.user_transactions.expense.first
-      @income_transaction = parent_transaction.user_transactions.income.first
+    def set_child_transactions
+      @expense_transaction = parent_transaction.child_transactions.expense.first
+      @income_transaction = parent_transaction.child_transactions.income.first
     end
 
     def set_previous_accounts
@@ -45,8 +47,8 @@ module TransferTransactions
     end
 
     def set_current_accounts
-      @from_account = params[:from_account].presence || previous_from_acc
-      @to_account = params[:to_account].presence || previous_to_acc
+      @from_account = params[:from_account] || previous_from_acc
+      @to_account = params[:to_account] || previous_to_acc
     end
 
     def validate_not_same_account
@@ -63,38 +65,26 @@ module TransferTransactions
 
     def update_transfer
       ActiveRecord::Base.transaction do
-        revert_previous_from_acc_change
-        revert_previous_to_acc_change
-        record_from_account_change
-        record_update_to_account_change
-        update_parent_transaction
-        update_from_account_transaction
-        update_to_account_transaction
+        revert_previous_balances
+        apply_new_balances
+        update_transactions
       end
     end
 
-    def revert_previous_from_acc_change
-      @previous_from_acc = previous_from_acc
-      previous_from_acc.record_expense(-previous_amount)
-      previous_from_acc.save!
+    def revert_previous_balances
+      adjust_account_balance(previous_from_acc, -previous_amount, :expense)
+      adjust_account_balance(previous_to_acc, -previous_amount, :income)
     end
 
-    def revert_previous_to_acc_change
-      @previous_to_acc = previous_to_acc
-      previous_to_acc.record_income(-previous_amount)
-      previous_to_acc.save!
+    def apply_new_balances
+      adjust_account_balance(from_account.reload, amount_cents, :expense)
+      adjust_account_balance(to_account.reload, amount_cents, :income)
     end
 
-    def record_from_account_change
-      @from_account = from_account.reload
-      from_account.record_expense(amount_cents)
-      from_account.save!
-    end
-
-    def record_update_to_account_change
-      @to_account = to_account.reload
-      to_account.reload.record_income(amount_cents)
-      to_account.save!
+    def update_transactions
+      update_parent_transaction
+      update_from_account_transaction
+      update_to_account_transaction
     end
 
     def update_parent_transaction
@@ -103,14 +93,14 @@ module TransferTransactions
     end
 
     def update_from_account_transaction
-      from_acc_desc = "Transfered to #{to_account.name} account for '#{description}'"
+      from_acc_desc = "Transferred to #{to_account.name} account for '#{description}'"
       expense_transaction.update!(description: from_acc_desc,
                                   amount_cents:,
                                   account: from_account)
     end
 
     def update_to_account_transaction
-      to_acc_desc = "Transfered from #{from_account.name} account for '#{description}'"
+      to_acc_desc = "Transferred from #{from_account.name} account for '#{description}'"
       income_transaction.update!(description: to_acc_desc,
                                  amount_cents:,
                                  account: to_account)
