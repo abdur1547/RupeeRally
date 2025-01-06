@@ -194,7 +194,7 @@ GEM
     json_matchers (0.11.1)
       json_schema
     json_schema (0.21.0)
-    jwt (2.9.3)
+    jwt (2.10.1)
       base64
     kramdown (2.4.0)
       rexml
@@ -480,7 +480,7 @@ DEPENDENCIES
   html2haml
   importmap-rails
   json_matchers (~> 0.11.1)
-  jwt (~> 2.9)
+  jwt (~> 2.10)
   oj
   omniauth (~> 2.1, >= 2.1.2)
   omniauth-google-oauth2 (~> 1.2)
