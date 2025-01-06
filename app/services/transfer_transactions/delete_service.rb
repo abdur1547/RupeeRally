@@ -2,31 +2,38 @@
 
 module TransferTransactions
   class DeleteService < ::BaseService
+    include Helpers::TransactionHelpers
+
     def call(parent_transaction)
       @parent_transaction = parent_transaction
-      @from_account = parent_transaction.user_transactions.expense.account
-      @to_account = parent_transaction.user_transactions.income.account
-      @previous_amount = parent_transaction.amount_cents
+      set_child_transactions
+      set_previous_accounts
+      @amount_cents = parent_transaction.amount_cents
 
       ActiveRecord::Base.transaction do
-        update_from_account
-        update_to_account
+        adjust_account_balance(from_account, -amount_cents, :expense)
+        adjust_account_balance(to_account, -amount_cents, :income)
         parent_transaction.destroy!
       end
     end
 
     private
 
-    attr_reader :parent_transaction, :from_account, :to_account, :previous_amount
+    attr_reader :parent_transaction,
+                :expense_transaction,
+                :income_transaction,
+                :from_account,
+                :to_account,
+                :amount_cents
 
-    def update_from_account
-      from_account.record_expense(-previous_amount)
-      from_account.save!
+    def set_child_transactions
+      @expense_transaction = parent_transaction.child_transactions.expense.first
+      @income_transaction = parent_transaction.child_transactions.income.first
     end
 
-    def update_to_account
-      to_account.record_income(-previous_amount)
-      to_account.save!
+    def set_previous_accounts
+      @from_account = expense_transaction.account
+      @to_account = income_transaction.account
     end
   end
 end
