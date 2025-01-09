@@ -3,7 +3,7 @@ export interface LoginCredentials {
   password: string;
 }
 
-export interface LoginResponce {
+export interface LoginResponse {
   success: boolean;
   data: {
     access_token: string;
