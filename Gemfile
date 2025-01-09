@@ -70,6 +70,6 @@ group :development do
   gem 'html2haml'
   gem 'rubocop', require: false
   gem 'rubocop-rails', require: false
-  gem 'solargraph', require: false
+  gem 'annotate'
   gem 'web-console'
 end
