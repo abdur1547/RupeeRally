@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {
   FormGroup,
   FormControl,
@@ -9,6 +9,8 @@ import {
 import { Router, RouterModule } from '@angular/router';
 import { MaterialModule } from '../../../material.module';
 import { MatButtonModule } from '@angular/material/button';
+import { LoginService } from './login.service';
+import { LoginCredentials } from './types';
 
 @Component({
   selector: 'login',
@@ -23,7 +25,7 @@ import { MatButtonModule } from '@angular/material/button';
   templateUrl: './login.component.html',
 })
 export class LoginComponent {
-  constructor(private router: Router) { }
+  private readonly loginService: LoginService = inject(LoginService);
 
   form = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
@@ -42,9 +44,18 @@ export class LoginComponent {
     return this.form.controls.email;
   }
 
+  formData():LoginCredentials {
+    return {
+      email: this.form.value.email ?? "",
+      password: this.form.value.password ?? "",
+    };
+  }
+
   submit() {
-    this.email.errors;
     console.log(this.form.value, this.form.controls.email.errors);
+    this.loginService.login(this.formData()).subscribe((response) => {
+      console.log("in function", response);
+    });
     // this.router.navigate(['/']);
   }
 }
