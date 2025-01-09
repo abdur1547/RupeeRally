@@ -23,23 +23,27 @@ import { MatButtonModule } from '@angular/material/button';
   templateUrl: './login.component.html',
 })
 export class LoginComponent {
-  constructor(private router: Router) {}
+  constructor(private router: Router) { }
 
   form = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', [Validators.required]),
   });
 
-  get formControle() {
+  get formControl() {
     return this.form.controls;
   }
 
-  get emailFormControle() {
+  get email() {
+    return this.form.controls.email;
+  }
+  
+  get password() {
     return this.form.controls.email;
   }
 
   submit() {
-    this.form.controls.email.errors;
+    this.email.errors;
     console.log(this.form.value, this.form.controls.email.errors);
     // this.router.navigate(['/']);
   }
