@@ -46,7 +46,7 @@ export class HttpErrorHandlingService {
       }
     }
 
-    this.toastService.add(this.formatServerErrors(error.error));
+    this.toastService.add(errorMessage, 'error');
     return throwError(() => new Error(errorMessage));
   };
 
