@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { SnackBarComponent } from './shared';
+import { TokenService } from './core';
 
 @Component({
   selector: 'app-root',
@@ -8,6 +9,15 @@ import { SnackBarComponent } from './shared';
   imports: [RouterOutlet, SnackBarComponent],
   templateUrl: './app.component.html',
 })
-export class AppComponent {
-  title = 'Modernize Angular Admin Template';
+export class AppComponent implements OnInit, OnDestroy {
+  private readonly tokenService: TokenService = inject(TokenService);
+  title = 'RupeeRally';
+
+  ngOnInit() {
+    this.tokenService.autoRefreshAccessToken();
+  }
+
+  ngOnDestroy() {
+    this.tokenService.clearTimer();
+  }
 }
