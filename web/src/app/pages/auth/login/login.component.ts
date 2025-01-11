@@ -11,6 +11,7 @@ import { MaterialModule } from '../../../material.module';
 import { MatButtonModule } from '@angular/material/button';
 import { LoginService } from './login.service';
 import { LoginCredentials } from './types';
+import { TokenService } from 'src/app/core';
 
 @Component({
   selector: 'login',
@@ -25,7 +26,9 @@ import { LoginCredentials } from './types';
   templateUrl: './login.component.html',
 })
 export class LoginComponent {
+  private readonly router: Router = inject(Router);
   private readonly loginService: LoginService = inject(LoginService);
+  private readonly tokenService: TokenService = inject(TokenService);
 
   form = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
@@ -39,23 +42,25 @@ export class LoginComponent {
   get email() {
     return this.form.controls.email;
   }
-  
+
   get password() {
     return this.form.controls.email;
   }
 
-  formData():LoginCredentials {
+  formData(): LoginCredentials {
     return {
-      email: this.form.value.email ?? "",
-      password: this.form.value.password ?? "",
+      email: this.form.value.email ?? '',
+      password: this.form.value.password ?? '',
     };
   }
 
   submit() {
-    console.log(this.form.value, this.form.controls.email.errors);
-    this.loginService.login(this.formData()).subscribe((response) => {
-      console.log("in function", response);
-    });
-    // this.router.navigate(['/']);
+    if (this.form.valid) {
+      this.loginService.login(this.formData()).subscribe((response) => {
+        this.tokenService.saveRefreshTokens(response.data.refresh_token);
+        this.tokenService.saveAccessTokens(response.data.access_token);
+        this.router.navigate(['/']);
+      });
+    }
   }
 }
