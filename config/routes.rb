@@ -4,7 +4,11 @@ require 'sidekiq/web'
 
 Rails.application.routes.draw do
   mount ActionCable.server => '/cable'
-  mount Sidekiq::Web => '/sidekiq'
+  
+  authenticate :user, ->(user) { user.admin? } do
+    mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
+    mount Sidekiq::Web => '/sidekiq'
+  end
 
   devise_for :users, controllers: {
     sessions: 'users/sessions',

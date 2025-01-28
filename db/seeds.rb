@@ -4,6 +4,7 @@ user_01_password = ENV['TES_USER_01_PASSWORD'] || '123456789'
 
 user_01 = User.create(name: "Full Name",
                       email: "test.user.01@rupeerally.com",
+                      user_role: :admin,
                       password: user_01_password,
                       password_confirmation: user_01_password
                       );

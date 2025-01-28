@@ -55,6 +55,11 @@ gem 'bootsnap', require: false
 
 # gem "image_processing", "~> 1.2"
 
+# admin
+gem 'rails_admin', '~> 3.3'
+gem "cssbundling-rails"
+gem "sassc-rails"
+
 group :development, :test do
   gem 'debug', platforms: %i[mri windows]
   gem 'factory_bot_rails', '~> 6.4'
