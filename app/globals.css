@@ -3,8 +3,15 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #FFFFFF;
+  --foreground: #212121;
+  --primary: #F5F5F5;
+  --secondary: #8B8B8B;
+  --accent: #0F322E;
+  --accent-light: #C4F01F;
+  --income: #28A745;
+  --expense: #DC3545;
+  --border: #C7C7C7;
 }
 
 /* @media (prefers-color-scheme: dark) {
@@ -18,4 +25,10 @@ body {
   color: var(--foreground);
   background: var(--background);
   font-family: var(--font-figtree);
+}
+
+.container {
+  max-width: 90rem;
+  padding: 0 clamp(1.25rem, -1.8928571429rem + 6.5476190476vw, 4rem);
+  margin: 0 auto;
 }
