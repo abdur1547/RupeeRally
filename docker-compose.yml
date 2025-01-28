@@ -15,10 +15,10 @@ services:
     links:
       - redis
       - db
-    depends_on:  
+    depends_on:
       - db
       - redis
-    ports: 
+    ports:
       - 3000:3000
 
   db:
@@ -30,7 +30,7 @@ services:
       - POSTGRES_DB=postgres
     volumes:
       - db_data:/var/lib/postgresql/data
-  
+
   sidekiq:
     build:
       context: .
@@ -46,19 +46,12 @@ services:
     links:
       - redis
       - db
-    depends_on:  
+    depends_on:
       - db
       - redis
 
   redis:
     image: redis:latest
-  
-  web:
-    build:
-      context: ./web
-      dockerfile: Dockerfile
-    ports: 
-      - 80:80
 
 volumes:
   gem_cache:
