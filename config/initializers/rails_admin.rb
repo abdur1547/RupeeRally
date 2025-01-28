@@ -6,7 +6,7 @@ RailsAdmin.config do |config|
   ## == Devise ==
   config.authenticate_with do
     warden.authenticate! scope: :user
-    # redirect_to main_app.root_path, alert: 'You are not authorized to access this page!' unless current_user.admin?
+    redirect_to main_app.root_path, alert: 'You are not authorized to access this page!' unless current_user.admin?
   end
   config.current_user_method(&:current_user)
 
