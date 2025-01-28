@@ -10,9 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_09_13_113208) do
+ActiveRecord::Schema[8.0].define(version: 2025_01_28_142910) do
   # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
+  enable_extension "pg_catalog.plpgsql"
 
   create_table "accounts", force: :cascade do |t|
     t.string "name", default: "", null: false
@@ -111,6 +111,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_13_113208) do
     t.string "uid"
     t.string "avatar_url"
     t.string "provider"
+    t.integer "user_role", default: 0, null: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
