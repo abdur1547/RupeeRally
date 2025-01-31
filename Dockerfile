@@ -1,4 +1,4 @@
-ARG RUBY_VERSION=3.2.4
+ARG RUBY_VERSION=3.4.1
 
 FROM ruby:$RUBY_VERSION-slim AS base
 
@@ -10,9 +10,7 @@ ENV PORT=3000 \
     BUNDLE_PATH="/usr/local/bundle" \
     BUNDLE_WITHOUT="development:test" \
     RAILS_SERVE_STATIC_FILES="true" \
-    RAILS_MASTER_KEY="6d7eb61bd8aab5749f56deea8bb4f64b" \
-    SECRET_KEY_BASE="6d7eb61bd8aab5749f56deea8bb4f64b" \
-    NODE_VERSION=18
+    NODE_VERSION=22
 
 
 FROM base AS build
