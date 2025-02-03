@@ -1,16 +1,17 @@
 ARG RUBY_VERSION=3.4.1
+ARG SECRET_KEY_BASE="SECRET_KEY_BASE"
 
 FROM ruby:$RUBY_VERSION-slim AS base
 
 WORKDIR /rails
 
-ENV PORT=3000 \
-    RAILS_ENV="production" \
+ENV RAILS_ENV="production" \
     BUNDLE_DEPLOYMENT="1" \
     BUNDLE_PATH="/usr/local/bundle" \
     BUNDLE_WITHOUT="development:test" \
     RAILS_SERVE_STATIC_FILES="true" \
-    NODE_VERSION=22
+    NODE_VERSION=22 \
+    SECRET_KEY_BASE=${SECRET_KEY_BASE}
 
 
 FROM base AS build
@@ -37,8 +38,6 @@ RUN bundle install && \
 
 COPY . .
 
-RUN bundle exec rails app:update:bin
-
 RUN bundle exec rails assets:precompile 2>&1 | tee /rails/assets_precompile.log
 
 FROM base
@@ -54,8 +53,6 @@ RUN useradd rails --create-home --shell /bin/bash && \
     chown -R rails:rails db log storage tmp
 USER rails:rails
 
-EXPOSE ${PORT}
-
 ENTRYPOINT ["/rails/bin/docker-entrypoint"]
 
-CMD ["./bin/rails", "server", "--port", "${PORT}"]
+CMD ["./bin/rails", "server", "-b", "0.0.0.0"]
