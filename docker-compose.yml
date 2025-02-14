@@ -7,13 +7,6 @@ services:
       context: .
       dockerfile: Dockerfile
     env_file: .env
-    environment:
-      - DB_NAME=postgres
-      - DB_USERNAME=postgres
-      - DB_PASSWORD=postgres
-      - DB_HOST=db
-      - DB_PORT=5432
-      - REDIS_URL=redis://redis:6379/1
     links:
       - redis
       - db
