@@ -6,7 +6,7 @@ module SharedTransactions
 
     def validate_user_shares_shares; end
 
-    def calculate_user_shares
+    def calculate_user_shares # rubocop:disable Metrics/MethodLength
       total_shares = user_shares.count
       per_share_value = total_amount_cents / total_shares
       difference = total_amount_cents % total_shares

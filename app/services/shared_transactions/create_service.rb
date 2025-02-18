@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module SharedTransactions
-  class CreateService < ::BaseService
+  class CreateService < ::BaseService # rubocop:disable Metrics/ClassLength
     include Helpers::TransactionHelpers
 
     def call(params)
