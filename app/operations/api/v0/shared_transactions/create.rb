@@ -66,8 +66,15 @@ module Api::V0::SharedTransactions
       Failure(:category_not_found)
     end
 
+    def create_service
+      case params[:divided_by]
+      when 'equally'
+        SharedTransactions::CreateEquallySharedService
+      end
+    end
+
     def create_transaction
-      @transaction = ::IndividualTransactions::CreateService.call(create_params)
+      @transaction = create_service.call(create_params)
       Success(transaction)
     rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotSaved, ActiveRecord::StatementInvalid => e
       Failure(e.message)
