@@ -12,7 +12,7 @@ module SharedTransactions
       difference = total_amount_cents % total_shares
       @user_shares = user_shares.map do |user_share|
         {
-          user: User.find_by(user_share[:user_id]),
+          user: User.find_by(id: user_share[:user_id]),
           share_amount_cents: per_share_value
         }
       end

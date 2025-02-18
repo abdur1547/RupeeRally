@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module SharedTransactions
-  class CreateService < ::BaseService # rubocop:disable Metrics/ClassLength
+  class CreateService < ::BaseService
     include Helpers::TransactionHelpers
 
     def call(params)
@@ -12,7 +12,6 @@ module SharedTransactions
 
       ActiveRecord::Base.transaction do
         create_parent_transaction
-        create_paid_user_transactions
         create_shared_user_transactions
       end
 
@@ -72,17 +71,16 @@ module SharedTransactions
                                                               })
     end
 
-    def create_paid_user_transactions
-      create_child_transaction(paid_by,
-                               account,
-                               category,
-                               user_share[:share_amount_cents],
-                               :expense)
-    end
-
     def create_shared_user_transactions # rubocop:disable Metrics/AbcSize,Metrics/MethodLength
       user_shares.each do |user_share|
-        next if paid_by.id == user_share[:user]
+        if paid_by.id == user_share[:user].id
+          create_child_transaction(paid_by,
+                                   account,
+                                   category,
+                                   user_share[:share_amount_cents],
+                                   :expense)
+          next
+        end
 
         create_child_transaction(paid_by,
                                  account,
