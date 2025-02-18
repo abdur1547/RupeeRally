@@ -40,3 +40,6 @@ config/application.yml
 
 # npm
 node_modules/
+
+# sqlite3 files
+db/*.sqlite3
