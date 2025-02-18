@@ -27,13 +27,15 @@ module Api::V0::SharedTransactions
 
       yield validate_account_id
       yield validate_category_id
+      validate_paid_by_id
+      yield validate_user_share_ids
       yield create_transaction
       Success(json_serialize)
     end
 
     private
 
-    attr_reader :params, :current_user, :account, :category, :transaction
+    attr_reader :params, :current_user, :account, :category, :paid_by, :transaction
 
     def validate_account_id
       @account = current_user.accounts.find_by(id: params[:account_id])
@@ -45,6 +47,21 @@ module Api::V0::SharedTransactions
     def validate_category_id
       @category = current_user.categories.find_by(id: params[:category_id])
       return Success() if category
+
+      Failure(:category_not_found)
+    end
+
+    def validate_paid_by_id
+      @paid_by = User.find_by(id: params[:paid_by])
+      return Success() if category
+
+      Failure(:category_not_found)
+    end
+
+    def validate_user_share_ids
+      user_ids = params[:user_shares].pluck(:user_id)
+      users = User.where(id: user_ids)
+      return Success() if user_ids.count == users.count
 
       Failure(:category_not_found)
     end
@@ -62,8 +79,10 @@ module Api::V0::SharedTransactions
         account:,
         category:,
         description: params[:description],
-        direction: params[:direction],
-        amount_cents: params[:amount_cents]
+        total_amount_cents: params[:total_amount_cents],
+        paid_by: paid_by,
+        user_shares: params[:user_shares],
+        divided_by: params[:divided_by]
       }
     end
 
