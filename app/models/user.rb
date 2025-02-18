@@ -29,4 +29,16 @@ class User < ApplicationRecord
       user.avatar_url = data.image
     end
   end
+
+  def debt_account
+    accounts.where(name: Constants::DEBT_ACCOUNT_NAME).first
+  end
+
+  def income_debt_category
+    categories.where(name: Constants::DEBT_CATEGORY_NAME).income.first
+  end
+
+  def expense_debt_category
+    categories.where(name: Constants::DEBT_CATEGORY_NAME).expense.first
+  end
 end
