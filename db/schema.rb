@@ -11,9 +11,6 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema[8.0].define(version: 2025_01_28_142910) do
-  # These are extensions that must be enabled in order to support this database
-  enable_extension "pg_catalog.plpgsql"
-
   create_table "accounts", force: :cascade do |t|
     t.string "name", default: "", null: false
     t.integer "balance_cents", default: 0, null: false
@@ -22,14 +19,14 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_28_142910) do
     t.integer "initial_balance_cents", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "user_id"
+    t.integer "user_id"
     t.index ["user_id", "name"], name: "index_accounts_on_user_id_and_name", unique: true
     t.index ["user_id"], name: "index_accounts_on_user_id"
   end
 
   create_table "blacklisted_tokens", force: :cascade do |t|
     t.string "jti"
-    t.bigint "user_id", null: false
+    t.integer "user_id", null: false
     t.datetime "exp", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -43,7 +40,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_28_142910) do
     t.integer "category_type", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "user_id"
+    t.integer "user_id"
     t.index ["user_id", "name", "category_type"], name: "index_categories_on_user_id_and_name_and_category_type", unique: true
     t.index ["user_id"], name: "index_categories_on_user_id"
   end
@@ -52,13 +49,13 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_28_142910) do
     t.string "name", default: "", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "created_by_id"
+    t.integer "created_by_id"
     t.index ["name", "created_by_id"], name: "index_groups_on_name_and_created_by_id", unique: true
   end
 
   create_table "refresh_tokens", force: :cascade do |t|
     t.string "crypted_token"
-    t.bigint "user_id", null: false
+    t.integer "user_id", null: false
     t.datetime "exp", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -79,20 +76,20 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_28_142910) do
     t.integer "parent_transaction_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "user_id"
-    t.bigint "account_id"
-    t.bigint "category_id"
-    t.bigint "paid_by_id"
-    t.index ["account_id"], name: "index_transactions_on_account_id", where: "(account_id IS NOT NULL)"
-    t.index ["category_id"], name: "index_transactions_on_category_id", where: "(category_id IS NOT NULL)"
+    t.integer "user_id"
+    t.integer "account_id"
+    t.integer "category_id"
+    t.integer "paid_by_id"
+    t.index ["account_id"], name: "index_transactions_on_account_id", where: "account_id IS NOT NULL"
+    t.index ["category_id"], name: "index_transactions_on_category_id", where: "category_id IS NOT NULL"
     t.index ["paid_by_id"], name: "index_transactions_on_paid_by_id"
-    t.index ["parent_transaction_id"], name: "index_transactions_on_parent_transaction_id", where: "(parent_transaction_id IS NOT NULL)"
+    t.index ["parent_transaction_id"], name: "index_transactions_on_parent_transaction_id", where: "parent_transaction_id IS NOT NULL"
     t.index ["user_id"], name: "index_transactions_on_user_id"
   end
 
   create_table "user_groups", force: :cascade do |t|
-    t.bigint "user_id", null: false
-    t.bigint "group_id", null: false
+    t.integer "user_id", null: false
+    t.integer "group_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["group_id"], name: "index_user_groups_on_group_id"
