@@ -1,0 +1,149 @@
+@use "sass:math";
+@use "sass:list";
+@use "sass:map";
+@use "sass:meta";
+
+$rem-base: 16;
+$rem-units-active: true;
+
+/*
+* Converts an pixel value into a rem value.
+*
+* @param string  $values    the pixel value(s) as a number. Can convert multiple values if values separated by a space.
+*
+* @return string   a space-separated string of rem values.
+*/
+@function rem($values) {
+	$max: list.length($values);
+	$rem-values: ();
+
+	@if $max == 1 {
+		@return convert-to-rem(list.nth($values, 1));
+	}
+
+	@for $i from 1 through $max {
+		$rem-values: list.append($rem-values, convert-to-rem(list.nth($values, $i)));
+	}
+
+	@return $rem-values;
+}
+
+@function convert-to-rem($value) {
+	@if $rem-units-active == false {
+		$value: strip-unit($value) * rem(1);
+
+		@if $value == rem(1) {
+			$value: 0;
+		}
+
+		@return $value;
+	}
+
+	$value: math.div(strip-units($value), strip-units($rem-base)) * 1rem;
+
+	@if $value == 0 {
+		$value: 0; // Turn 0rem into 0
+	}
+
+	@return $value;
+}
+
+@function strip-units( $number ) {
+	@return math.div($number,  $number * 0 + 1 );
+}
+
+/*
+* Creates a CSS clamp value that sizes between breakpoints.
+*
+* @param integer $min                    the minimum pixel value.
+* @param integer $max                    the maximum pixel value.
+* @param string  $smallest-breakpoint    the name of the smallest breakpoint from the $breakpoints variable.
+* @param string  $largest-breakpoint     the name of the largest breakpoint from the $breakpoints variable.
+* @param string  $screen                 whether to use a horizontal (width) breakpoint or a vertical (height) breakpoint.
+*
+* @return string   a CSS clamp property value.
+*/
+@function responsive-values($min, $max, $smallest-breakpoint: "sm", $largest-breakpoint: "xxl", $screen: "width") {
+	$min-unit: math.unit($min);
+	$max-unit: math.unit($max);
+	$viewport-unit: 100vw;
+
+	@if $min-unit != "" {
+		$min: strip-units($min) * $rem-base;
+	}
+
+	@if $max-unit != "" {
+		$max: strip-units($max) * $rem-base;
+	}
+
+	@if $min == $max {
+		@return rem($min);
+	}
+
+	@if $screen == "height" {
+		$viewport-unit: 100vh;
+	}
+
+	$min-width: $smallest-breakpoint;
+	$max-width: $largest-breakpoint;
+
+	@if meta.type-of($smallest-breakpoint) == "string" {
+		$min-width: strip-units(map.get($breakpoints, $smallest-breakpoint)) * 16;
+	}
+
+	@if meta.type-of($largest-breakpoint) == "string" {
+		$max-width: strip-units(map.get($breakpoints, $largest-breakpoint)) * 16;
+	}
+
+	@if $min-width == $max-width {
+		$min-width: $min-width - 1;
+	}
+
+	$slope: math.div($max - $min, $max-width - $min-width);
+	$y-axis-intersection: -$min-width * $slope + $min;
+	$preferred-size: #{rem($y-axis-intersection)} #{"+"} #{$slope * $viewport-unit};
+
+	@if $y-axis-intersection == 0 {
+		$preferred-size: #{$slope #{"*"} $viewport-unit};
+	}
+
+	@if $min > $max {
+		$min-old: $min;
+		$max-old: $max;
+		$min: $max-old;
+		$max: $min-old;
+	}
+
+	$min: rem($min);
+	$max: rem($max);
+
+	@if $min == 0 {
+		$min: 0;
+	}
+
+	@if $max == 0 {
+		$max: 0;
+	}
+
+	@return clamp(#{$min}, #{$preferred-size}, #{$max});
+}
+
+// Breakpoints
+$breakpoints: (
+	xs: rem(375),
+	sm: rem(576),
+	md: rem(768),
+	lg: rem(992),
+	xl: rem(1200),
+	xxl: rem(1440)
+);
+
+// The map defined in the `$breakpoints` global variable is used as the `$breakpoints` argument by default.
+// Minimum breakpoint width. Null for the smallest (first) breakpoint.
+//    >> breakpoint(sm, (xs: 0, sm: 576px, md: 768px, lg: 992px, xl: 1200px))
+//    576px
+@function breakpoint($name) {
+	$min: map.get($breakpoints, $name);
+
+	@return if($min != 0, $min, null);
+}
