@@ -1,0 +1,5 @@
+@use "includes" as *;
+
+h1 {
+  font-size: responsive-values(32, 64);
+}

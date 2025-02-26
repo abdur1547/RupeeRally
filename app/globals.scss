@@ -1,6 +1,7 @@
 @use "tailwindcss";
+@use "../styles/base.scss";
 
-@plugin 'tailwindcss-animate';
+@plugin "tailwindcss-animate";
 
 @custom-variant dark (&:is(.dark *));
 
