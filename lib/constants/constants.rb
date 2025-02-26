@@ -9,4 +9,6 @@ module Constants
   ORDER_DIRECTIONS = %w[asc ASC desc DESC].freeze
   API_DATE_FROMAT = '%d/%m/%Y'
   API_TIME_FROMAT = '%H:%M'
+  DEBT_ACCOUNT_NAME = 'Debt'
+  DEBT_CATEGORY_NAME = 'Debt'
 end
