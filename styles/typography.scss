@@ -1,0 +1,150 @@
+@use "includes" as *;
+
+.is-typography {
+  &--display {
+    font-size: responsive-values(40, 68);
+    line-height: responsive-values(44, 76);
+    letter-spacing: 0;
+    font-weight: 600;
+  }
+
+  &--t1 {
+    font-size: responsive-values(36, 52);
+    line-height: responsive-values(44, 56);
+    letter-spacing: 0;
+    font-weight: 600;
+  }
+
+  &--t2 {
+    font-size: responsive-values(28, 40);
+    line-height: responsive-values(36, 48);
+    letter-spacing: 0;
+    font-weight: 600;
+  }
+
+  &--t3 {
+    font-size: responsive-values(20, 28);
+    line-height: responsive-values(28, 36);
+    letter-spacing: 0;
+    font-weight: 600;
+  }
+
+  &--t4 {
+    font-size: responsive-values(16, 22);
+    line-height: responsive-values(24, 32);
+    letter-spacing: 0;
+    font-weight: 600;
+  }
+
+  &--t5 {
+    font-size: responsive-values(14, 16);
+    line-height: responsive-values(20, 24);
+    letter-spacing: 0;
+    font-weight: 600;
+  }
+
+  &--t5 {
+    font-size: responsive-values(14, 16);
+    line-height: responsive-values(20, 24);
+    letter-spacing: 0;
+    font-weight: 600;
+  }
+
+  &--t6 {
+    font-size: rem(12);
+    line-height: rem(16);
+    letter-spacing: 0;
+    font-weight: 700;
+  }
+
+  &--body1 {
+    font-size: responsive-values(16, 18);
+    line-height: responsive-values(24, 28);
+    letter-spacing: 0;
+    font-weight: 400;
+  }
+
+  &--body2 {
+    font-size: rem(16);
+    line-height: rem(24);
+    letter-spacing: 0;
+    font-weight: 400;
+  }
+
+  &--stat {
+    font-size: responsive-values(40, 56);
+    line-height: responsive-values(48, 64);
+    letter-spacing: 0;
+    font-weight: 600;
+  }
+
+  &--title1 {
+    font-size: rem(18);
+    line-height: rem(24);
+    letter-spacing: 0;
+    font-weight: 600;
+  }
+
+  &--title2 {
+    font-size: rem(16);
+    line-height: rem(24);
+    letter-spacing: 0;
+    font-weight: 600;
+  }
+
+  &--title3 {
+    font-size: rem(14);
+    line-height: rem(16);
+    letter-spacing: 0;
+    font-weight: 600;
+  }
+
+  &--subtitle1 {
+    font-size: rem(16);
+    line-height: rem(24);
+    letter-spacing: 0;
+    font-weight: 400;
+  }
+
+  &--subtitle2 {
+    font-size: rem(14);
+    line-height: rem(20);
+    letter-spacing: 0;
+    font-weight: 400;
+  }
+
+  &--subtitle3 {
+    font-size: rem(12);
+    line-height: rem(16);
+    letter-spacing: 0;
+    font-weight: 400;
+  }
+
+  &--link1 {
+    font-size: rem(16);
+    line-height: rem(20);
+    letter-spacing: 0;
+    font-weight: 600;
+  }
+
+  &--link2 {
+    font-size: rem(14);
+    line-height: rem(20);
+    letter-spacing: 0;
+    font-weight: 600;
+  }
+
+  &--link3 {
+    font-size: rem(12);
+    line-height: rem(16);
+    letter-spacing: 0;
+    font-weight: 600;
+  }
+
+  &--overline {
+    font-size: rem(12);
+    line-height: rem(16);
+    letter-spacing: 0;
+    font-weight: 700;
+  }
+}

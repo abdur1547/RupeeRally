@@ -1,0 +1,8 @@
+@use "includes" as *;
+@use "sass:map";
+
+.container {
+  max-width: map.get($breakpoints, "xxl"); // Access the 'xxl' breakpoint
+  padding: 0 responsive-values(20, 64);
+  margin: 0 auto;
+}

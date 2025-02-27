@@ -1,3 +1,9 @@
 export default function Home() {
-  return <h1 className="text-red-600">Hello World!</h1>;
+  return (
+    <section>
+      <div className="container">
+        <h1 className="is-typography--display">Home Page</h1>
+      </div>
+    </section>
+  );
 }
