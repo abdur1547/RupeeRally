@@ -58,7 +58,6 @@ gem 'bootsnap', require: false
 
 # admin
 gem 'rails_admin', '~> 3.3'
-gem "cssbundling-rails"
 gem "sassc-rails"
 
 group :development, :test do

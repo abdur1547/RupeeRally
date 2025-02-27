@@ -101,8 +101,6 @@ GEM
     connection_pool (2.5.0)
     content_disposition (1.0.0)
     crass (1.0.6)
-    cssbundling-rails (1.4.2)
-      railties (>= 6.0.0)
     csv (3.3.2)
     date (3.4.1)
     debug (1.10.0)
@@ -504,7 +502,6 @@ DEPENDENCIES
   binding_of_caller
   blueprinter (~> 1.1.2)
   bootsnap
-  cssbundling-rails
   debug
   devise (~> 4.9)
   dry-matcher (~> 1.0)
