@@ -5,7 +5,7 @@ import Image, { StaticImageData } from "next/image";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 
-interface VisualsProps {
+interface AuthSideVisualsProps {
   frame1: StaticImageData;
   frame2: StaticImageData;
   heading: string;
@@ -13,11 +13,11 @@ interface VisualsProps {
   tagline: string;
 }
 
-const Visuals = ({ frame1, frame2, headline, heading, tagline }: VisualsProps) => {
+const AuthSideVisuals = ({ frame1, frame2, headline, heading, tagline }: AuthSideVisualsProps) => {
   return (
     <main className="min-h-dvh flex flex-row">
       <div className="flex-1">
-        <section className="flex flex-col justify-center bg-white h-full w-full max-w-3xl ml-auto p-login-container">
+        <section className="flex flex-col justify-center bg-background text-foreground h-full w-full max-w-3xl ml-auto p-login-container">
           <h1 className="is-typography--t1 text-center mb-8">{heading}</h1>
           <div className="flex flex-row gap-6 mx-auto">
             <Button>Google</Button>
@@ -31,7 +31,7 @@ const Visuals = ({ frame1, frame2, headline, heading, tagline }: VisualsProps) =
         </section>
       </div>
       <div className="flex-1">
-        <section className="bg-green-500 h-full p-login-container">
+        <section className="bg-primary text-white h-full p-login-container">
           <div className="flex flex-col h-full items-center justify-center max-w-2xl">
             <div className="relative mb-28 mr-auto">
               <Image
@@ -70,4 +70,4 @@ const Visuals = ({ frame1, frame2, headline, heading, tagline }: VisualsProps) =
   );
 };
 
-export default Visuals;
+export default AuthSideVisuals;
