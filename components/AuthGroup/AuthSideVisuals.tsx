@@ -6,6 +6,7 @@ import AppleLogo from "@/public/assets/apple-logo.svg";
 import Image, { StaticImageData } from "next/image";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import { cn } from "@/lib/utils";
 
 interface AuthSideVisualsProps {
   children: React.ReactNode;
@@ -27,15 +28,26 @@ const AuthSideVisuals = ({
   return (
     <main className="min-h-dvh flex flex-row">
       <div className="flex-1">
-        <section className="flex flex-col justify-center bg-background text-foreground h-full w-full max-w-2xl ml-auto p-login-container">
+        <section
+          className={cn(
+            "flex flex-col justify-center bg-background text-foreground h-full w-full max-w-2xl py-4 px-12 mx-auto",
+            "sm:px-24 lg:mr-0"
+          )}
+        >
           <h1 className="is-typography--t2 text-center mb-8">{heading}</h1>
-          <div className="flex flex-row gap-6">
-            <Button className="p-3 w-full bg-muted rounded-xl hover:cursor-pointer">
-              <Image src={GoogleLogo} alt="google logo" />
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-6">
+            <Button className="p-2 sm:p-3 w-full bg-muted rounded-md sm:rounded-xl hover:cursor-pointer">
+              <Image
+                src={GoogleLogo}
+                width={20}
+                height={20}
+                className="w-5 h-5"
+                alt="google logo"
+              />
               Google
             </Button>
-            <Button className="p-3 w-full bg-muted rounded-xl hover:cursor-pointer">
-              <Image src={AppleLogo} alt="google logo" />
+            <Button className="p-2 sm:p-3 w-full bg-muted rounded-md sm:rounded-xl hover:cursor-pointer">
+              <Image src={AppleLogo} width={20} height={20} className="w-5 h-5" alt="google logo" />
               Apple
             </Button>
           </div>
@@ -47,33 +59,29 @@ const AuthSideVisuals = ({
           {children}
         </section>
       </div>
-      <div className="flex-1">
-        <section className="bg-primary text-white h-full p-login-container">
+      <div className="flex-1 hidden lg:block">
+        <section className="bg-primary text-white h-full px-24">
           <div className="flex flex-col h-full items-center justify-center max-w-2xl">
-            <div className="relative mb-28 mr-auto">
+            <div className="relative mb-12">
               <Image
                 src={frame1}
                 alt="expense asset image 1"
-                width={390}
-                height={377}
-                className="relative z-10 object-cover"
+                className="relative w-64 h-60 z-10 object-cover"
               />
               <Image
                 src={frame2}
                 alt="expense asset image 2"
-                width={185}
-                height={119}
-                className="absolute z-20 -top-16 -right-24 shadow-2xl rounded-2xl object-cover overflow-hidden"
+                className="absolute w-36 h-20 z-20 -top-16 -right-16 shadow-2xl rounded-2xl object-cover overflow-hidden"
               />
               <Image
                 src={loginEllipse}
                 alt="expense asset image 3"
-                className="absolute z-0 -bottom-16 -right-20 overflow-hidden"
+                className="absolute w-24 h-20 object-contain z-0 -bottom-10 -right-16 overflow-hidden"
               />
               <Image
                 src={loginSquare}
                 alt="expense asset image 4"
-                className="absolute -top-28 -left-3 overflow-hidden"
+                className="absolute w-24 h-20 object-contain -top-22 -left-3 overflow-hidden"
               />
             </div>
             <div className="text-center max-w-96">

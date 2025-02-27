@@ -18,7 +18,10 @@ const LoginForm = () => {
         </div>
       </form>
       <p className="text-center">
-        Don't have an account? <Link href="/signup">Sign up</Link>
+        Don't have an account?{" "}
+        <Button variant="link" className="!text-lg">
+          <Link href="/signup">Sign up</Link>
+        </Button>
       </p>
     </div>
   );
