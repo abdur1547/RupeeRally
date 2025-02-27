@@ -5,18 +5,17 @@ services:
       context: .
       dockerfile: Dockerfile
     env_file: .env
-    links:
-      - redis
-      # - db
-    depends_on:
-      - db
-      - redis
+    # links:
+    #   - redis
+    #   - db
+    # depends_on:
+    #   - db
+    #   - redis
 
   backend:
     <<: *backend_base
     ports:
       - 3000:3000
-
   # db:
   #   image: postgres:latest
   #   restart: always
@@ -24,12 +23,12 @@ services:
   #   volumes:
   #     - db_data:/var/lib/postgresql/data
 
-  sidekiq:
-    <<: *backend_base
-    command: bundle exec sidekiq
+  #   sidekiq:
+  #     <<: *backend_base
+  #     command: bundle exec sidekiq
 
-  redis:
-    image: redis:latest
+  #   redis:
+  #     image: redis:latest
 
-volumes:
-  db_data:
+  # volumes:
+  #   db_data:

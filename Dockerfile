@@ -38,7 +38,7 @@ RUN bundle install && \
 
 COPY . .
 
-RUN bundle exec rails assets:precompile 2>&1 | tee /rails/assets_precompile.log
+RUN yarn build:css | tee /rails/assets_precompile.log
 
 FROM base
 
