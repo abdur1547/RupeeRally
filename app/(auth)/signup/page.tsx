@@ -11,7 +11,9 @@ const Signup = () => {
       heading="Sign Up to Rupee Rally"
       headline="Join our community of smarter savers and stress-free spenders."
       tagline="Split Bills, Share Joys, Save More!"
-    ></AuthSideVisuals>
+    >
+      <div></div>
+    </AuthSideVisuals>
   );
 };
 

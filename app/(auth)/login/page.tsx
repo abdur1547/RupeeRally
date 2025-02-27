@@ -2,6 +2,7 @@ import React from "react";
 import loginFrame1 from "@/public/assets/login/login-frame-1.png";
 import loginFrame2 from "@/public/assets/login/login-frame-2.png";
 import AuthSideVisuals from "@/components/AuthGroup/AuthSideVisuals";
+import LoginForm from "@/components/AuthGroup/LoginForm";
 
 const Login = () => {
   return (
@@ -11,7 +12,11 @@ const Login = () => {
       heading="Login to Rupee Rally"
       headline="Let's Continue Simplifying Your Expenses!"
       tagline="Log in to stay in sync with your friends and finances."
-    ></AuthSideVisuals>
+    >
+      <div>
+        <LoginForm />
+      </div>
+    </AuthSideVisuals>
   );
 };
 

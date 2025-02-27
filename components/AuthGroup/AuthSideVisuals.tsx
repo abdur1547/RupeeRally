@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 
 interface AuthSideVisualsProps {
+  children: React.ReactNode;
   frame1: StaticImageData;
   frame2: StaticImageData;
   heading: string;
@@ -13,7 +14,14 @@ interface AuthSideVisualsProps {
   tagline: string;
 }
 
-const AuthSideVisuals = ({ frame1, frame2, headline, heading, tagline }: AuthSideVisualsProps) => {
+const AuthSideVisuals = ({
+  children,
+  frame1,
+  frame2,
+  headline,
+  heading,
+  tagline,
+}: AuthSideVisualsProps) => {
   return (
     <main className="min-h-dvh flex flex-row">
       <div className="flex-1">
@@ -28,6 +36,7 @@ const AuthSideVisuals = ({ frame1, frame2, headline, heading, tagline }: AuthSid
             <span>OR</span>
             <Separator className="felx-1" />
           </div>
+          {children}
         </section>
       </div>
       <div className="flex-1">
