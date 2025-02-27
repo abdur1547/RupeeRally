@@ -41,6 +41,10 @@
 
   --income-foreground: oklch(0.577 0.245 27.325);
 
+  --button: oklch(89.23% 0.2115 122.3);
+
+  --button-foreground: oklch(25.62% 0 0);
+
   --border: oklch(0.922 0 0);
 
   --input: oklch(0.922 0 0);
@@ -178,6 +182,10 @@
   --color-income: var(--income);
 
   --color-income-foreground: var(--income-foreground);
+
+  --color-button: var(--button);
+
+  --color-button-foreground: var(--button-foreground);
 
   --color-border: var(--border);
 

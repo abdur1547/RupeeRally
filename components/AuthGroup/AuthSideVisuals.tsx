@@ -1,6 +1,8 @@
 import React from "react";
 import loginEllipse from "@/public/assets/login-ellipse.svg";
 import loginSquare from "@/public/assets/login-square.svg";
+import GoogleLogo from "@/public/assets/google-logo.svg";
+import AppleLogo from "@/public/assets/apple-logo.svg";
 import Image, { StaticImageData } from "next/image";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
@@ -25,16 +27,22 @@ const AuthSideVisuals = ({
   return (
     <main className="min-h-dvh flex flex-row">
       <div className="flex-1">
-        <section className="flex flex-col justify-center bg-background text-foreground h-full w-full max-w-3xl ml-auto p-login-container">
-          <h1 className="is-typography--t1 text-center mb-8">{heading}</h1>
-          <div className="flex flex-row gap-6 mx-auto">
-            <Button>Google</Button>
-            <Button>Apple</Button>
+        <section className="flex flex-col justify-center bg-background text-foreground h-full w-full max-w-2xl ml-auto p-login-container">
+          <h1 className="is-typography--t2 text-center mb-8">{heading}</h1>
+          <div className="flex flex-row gap-6">
+            <Button className="p-3 w-full bg-muted rounded-xl hover:cursor-pointer">
+              <Image src={GoogleLogo} alt="google logo" />
+              Google
+            </Button>
+            <Button className="p-3 w-full bg-muted rounded-xl hover:cursor-pointer">
+              <Image src={AppleLogo} alt="google logo" />
+              Apple
+            </Button>
           </div>
           <div className="flex flex-row items-center justify-center gap-4 my-4">
-            <Separator className="felx-1" />
+            <Separator className="flex-1" />
             <span>OR</span>
-            <Separator className="felx-1" />
+            <Separator className="flex-1" />
           </div>
           {children}
         </section>
