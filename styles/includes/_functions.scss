@@ -14,42 +14,42 @@ $rem-units-active: true;
 * @return string   a space-separated string of rem values.
 */
 @function rem($values) {
-	$max: list.length($values);
-	$rem-values: ();
+  $max: list.length($values);
+  $rem-values: ();
 
-	@if $max == 1 {
-		@return convert-to-rem(list.nth($values, 1));
-	}
+  @if $max == 1 {
+    @return convert-to-rem(list.nth($values, 1));
+  }
 
-	@for $i from 1 through $max {
-		$rem-values: list.append($rem-values, convert-to-rem(list.nth($values, $i)));
-	}
+  @for $i from 1 through $max {
+    $rem-values: list.append($rem-values, convert-to-rem(list.nth($values, $i)));
+  }
 
-	@return $rem-values;
+  @return $rem-values;
 }
 
 @function convert-to-rem($value) {
-	@if $rem-units-active == false {
-		$value: strip-unit($value) * rem(1);
+  @if $rem-units-active == false {
+    $value: strip-unit($value) * rem(1);
 
-		@if $value == rem(1) {
-			$value: 0;
-		}
+    @if $value == rem(1) {
+      $value: 0;
+    }
 
-		@return $value;
-	}
+    @return $value;
+  }
 
-	$value: math.div(strip-units($value), strip-units($rem-base)) * 1rem;
+  $value: math.div(strip-units($value), strip-units($rem-base)) * 1rem;
 
-	@if $value == 0 {
-		$value: 0; // Turn 0rem into 0
-	}
+  @if $value == 0 {
+    $value: 0; // Turn 0rem into 0
+  }
 
-	@return $value;
+  @return $value;
 }
 
-@function strip-units( $number ) {
-	@return math.div($number,  $number * 0 + 1 );
+@function strip-units($number) {
+  @return math.div($number, $number * 0 + 1);
 }
 
 /*
@@ -63,79 +63,80 @@ $rem-units-active: true;
 *
 * @return string   a CSS clamp property value.
 */
-@function responsive-values($min, $max, $smallest-breakpoint: "sm", $largest-breakpoint: "xxl", $screen: "width") {
-	$min-unit: math.unit($min);
-	$max-unit: math.unit($max);
-	$viewport-unit: 100vw;
+@function responsive-values($min, $max, $smallest-breakpoint: "md", $largest-breakpoint: "xxl", $screen: "width") {
+  $min-unit: math.unit($min);
+  $max-unit: math.unit($max);
+  $viewport-unit: 100vw;
 
-	@if $min-unit != "" {
-		$min: strip-units($min) * $rem-base;
-	}
+  @if $min-unit != "" {
+    $min: strip-units($min) * $rem-base;
+  }
 
-	@if $max-unit != "" {
-		$max: strip-units($max) * $rem-base;
-	}
+  @if $max-unit != "" {
+    $max: strip-units($max) * $rem-base;
+  }
 
-	@if $min == $max {
-		@return rem($min);
-	}
+  @if $min == $max {
+    @return rem($min);
+  }
 
-	@if $screen == "height" {
-		$viewport-unit: 100vh;
-	}
+  @if $screen == "height" {
+    $viewport-unit: 100vh;
+  }
 
-	$min-width: $smallest-breakpoint;
-	$max-width: $largest-breakpoint;
+  $min-width: $smallest-breakpoint;
+  $max-width: $largest-breakpoint;
 
-	@if meta.type-of($smallest-breakpoint) == "string" {
-		$min-width: strip-units(map.get($breakpoints, $smallest-breakpoint)) * 16;
-	}
+  @if meta.type-of($smallest-breakpoint) == "string" {
+    $min-width: strip-units(map.get($breakpoints, $smallest-breakpoint)) * 16;
+  }
 
-	@if meta.type-of($largest-breakpoint) == "string" {
-		$max-width: strip-units(map.get($breakpoints, $largest-breakpoint)) * 16;
-	}
+  @if meta.type-of($largest-breakpoint) == "string" {
+    $max-width: strip-units(map.get($breakpoints, $largest-breakpoint)) * 16;
+  }
 
-	@if $min-width == $max-width {
-		$min-width: $min-width - 1;
-	}
+  @if $min-width == $max-width {
+    $min-width: $min-width - 1;
+  }
 
-	$slope: math.div($max - $min, $max-width - $min-width);
-	$y-axis-intersection: -$min-width * $slope + $min;
-	$preferred-size: #{rem($y-axis-intersection)} #{"+"} #{$slope * $viewport-unit};
+  $slope: math.div($max - $min, $max-width - $min-width);
+  $y-axis-intersection: -$min-width * $slope + $min;
+  $preferred-size: #{rem($y-axis-intersection)} #{"+"} #{$slope * $viewport-unit};
 
-	@if $y-axis-intersection == 0 {
-		$preferred-size: #{$slope #{"*"} $viewport-unit};
-	}
+  @if $y-axis-intersection == 0 {
+    $preferred-size: #{$slope #{"*"} $viewport-unit};
+  }
 
-	@if $min > $max {
-		$min-old: $min;
-		$max-old: $max;
-		$min: $max-old;
-		$max: $min-old;
-	}
+  @if $min > $max {
+    $min-old: $min;
+    $max-old: $max;
+    $min: $max-old;
+    $max: $min-old;
+  }
 
-	$min: rem($min);
-	$max: rem($max);
+  $min: rem($min);
+  $max: rem($max);
 
-	@if $min == 0 {
-		$min: 0;
-	}
+  @if $min == 0 {
+    $min: 0;
+  }
 
-	@if $max == 0 {
-		$max: 0;
-	}
+  @if $max == 0 {
+    $max: 0;
+  }
 
-	@return clamp(#{$min}, #{$preferred-size}, #{$max});
+  @return clamp(#{$min}, #{$preferred-size}, #{$max});
 }
 
 // Breakpoints
 $breakpoints: (
-	xs: rem(375),
-	sm: rem(576),
-	md: rem(768),
-	lg: rem(992),
-	xl: rem(1200),
-	xxl: rem(1440)
+  xs: rem(375),
+  sm: rem(576),
+  md: rem(768),
+  lg: rem(992),
+  xl: rem(1200),
+  xxl: rem(1440),
+  xxxl: rem(1680),
 );
 
 // The map defined in the `$breakpoints` global variable is used as the `$breakpoints` argument by default.
@@ -143,7 +144,7 @@ $breakpoints: (
 //    >> breakpoint(sm, (xs: 0, sm: 576px, md: 768px, lg: 992px, xl: 1200px))
 //    576px
 @function breakpoint($name) {
-	$min: map.get($breakpoints, $name);
+  $min: map.get($breakpoints, $name);
 
-	@return if($min != 0, $min, null);
+  @return if($min != 0, $min, null);
 }

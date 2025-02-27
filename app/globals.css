@@ -1,5 +1,4 @@
-@use "tailwindcss";
-@use "../styles/base.scss";
+@import "tailwindcss";
 
 @plugin "tailwindcss-animate";
 

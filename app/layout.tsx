@@ -1,4 +1,5 @@
-import "./globals.scss";
+import "./globals.css";
+import "../styles/index.scss";
 import type { Metadata } from "next";
 import { Figtree } from "next/font/google";
 import { faviconIcons } from "@/constants";
