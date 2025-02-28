@@ -5,7 +5,7 @@ import { Label } from "@/components/ui/label";
 import { EyeIcon, EyeOffIcon, Lock } from "lucide-react";
 import { useId, useState } from "react";
 
-export default function InputPassword() {
+export default function InputPassword({ ...props }: React.ComponentProps<"input">) {
   const id = useId();
   const [isVisible, setIsVisible] = useState<boolean>(false);
 
@@ -22,6 +22,7 @@ export default function InputPassword() {
           className="pe-9 ps-9 rounded-full"
           placeholder="Password"
           type={isVisible ? "text" : "password"}
+          {...props}
         />
         <div className="text-muted-foreground/80 pointer-events-none absolute inset-y-0 start-0 flex items-center justify-center ps-3 peer-disabled:opacity-50">
           <Lock size={16} aria-hidden="true" />

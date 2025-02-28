@@ -71,7 +71,7 @@ const AuthSideVisuals = ({
               <Image
                 src={frame2}
                 alt="expense asset image 2"
-                className="absolute w-36 h-20 z-20 -top-16 -right-16 shadow-2xl rounded-2xl object-contain overflow-hidden"
+                className="absolute w-36 h-20 z-20 -top-16 -right-16 shadow-2xl rounded-2xl object-cover overflow-hidden"
               />
               <Image
                 src={loginEllipse}

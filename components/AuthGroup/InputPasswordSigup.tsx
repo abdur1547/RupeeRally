@@ -1,13 +1,15 @@
-"use client";
-
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { CheckIcon, EyeIcon, EyeOffIcon, Lock, XIcon } from "lucide-react";
-import { useId, useMemo, useState } from "react";
+import { useId, useState, useEffect } from "react";
 
-export default function InputPasswordSigup() {
+export default function InputPasswordSigup({
+  getPassword,
+}: {
+  getPassword: React.Dispatch<React.SetStateAction<string>>;
+}) {
   const id = useId();
-  const [password, setPassword] = useState("");
+  const [password, setPassword] = useState<string>("");
   const [isVisible, setIsVisible] = useState<boolean>(false);
 
   const toggleVisibility = () => setIsVisible((prevState) => !prevState);
@@ -28,9 +30,13 @@ export default function InputPasswordSigup() {
 
   const strength = checkStrength(password);
 
-  const strengthScore = useMemo(() => {
-    return strength.filter((req) => req.met).length;
-  }, [strength]);
+  useEffect(() => {
+    const strengthScore = strength.filter((req) => req.met).length;
+
+    if (strengthScore === 4) {
+      getPassword(password);
+    }
+  }, [password, strength, getPassword]);
 
   const getStrengthColor = (score: number) => {
     if (score === 0) return "bg-border";
@@ -88,22 +94,24 @@ export default function InputPasswordSigup() {
       <div
         className="bg-border mt-3 mb-4 h-1 w-full overflow-hidden rounded-full"
         role="progressbar"
-        aria-valuenow={strengthScore}
+        aria-valuenow={strength.filter((req) => req.met).length}
         aria-valuemin={0}
         aria-valuemax={4}
         aria-label="Password strength"
       >
         <div
           className={`h-full ${getStrengthColor(
-            strengthScore
+            strength.filter((req) => req.met).length
           )} transition-all duration-500 ease-out`}
-          style={{ width: `${(strengthScore / 4) * 100}%` }}
+          style={{
+            width: `${(strength.filter((req) => req.met).length / 4) * 100}%`,
+          }}
         ></div>
       </div>
 
       {/* Password strength description */}
       <p id={`${id}-description`} className="text-foreground mb-2 text-sm font-medium">
-        {getStrengthText(strengthScore)}. Must contain:
+        {getStrengthText(strength.filter((req) => req.met).length)}. Must contain:
       </p>
 
       {/* Password requirements list */}
