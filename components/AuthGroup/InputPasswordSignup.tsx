@@ -115,7 +115,7 @@ export default function InputPasswordSignup({
       </p>
 
       {/* Password requirements list */}
-      <ul className="grid grid-cols-2 gap-1.5" aria-label="Password requirements">
+      <ul className="space-y-1.5" aria-label="Password requirements">
         {strength.map((req, index) => (
           <li key={index} className="flex items-center gap-2">
             {req.met ? (

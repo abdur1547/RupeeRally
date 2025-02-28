@@ -8,6 +8,11 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 
+const socialLogins = [
+  { name: "Google", logo: GoogleLogo, alt: "Google logo" },
+  { name: "Apple", logo: AppleLogo, alt: "Apple logo" },
+];
+
 interface AuthSideVisualsProps {
   children: React.ReactNode;
   frame1: StaticImageData;
@@ -34,24 +39,19 @@ const AuthSideVisuals = ({
             "sm:px-24 lg:mr-0"
           )}
         >
-          <h1 className="text-3xl font-bold text-center mb-8">{heading}</h1>
-          <div className="flex flex-col sm:flex-row gap-3 sm:gap-6">
-            <Button className="p-2 sm:p-3 w-full bg-muted rounded-md hover:cursor-pointer hover:bg-muted">
-              <Image
-                src={GoogleLogo}
-                width={20}
-                height={20}
-                className="w-5 h-5"
-                alt="google logo"
-              />
-              Google
-            </Button>
-            <Button className="p-2 sm:p-3 w-full bg-muted rounded-md hover:cursor-pointer hover:bg-muted">
-              <Image src={AppleLogo} width={20} height={20} className="w-5 h-5" alt="google logo" />
-              Apple
-            </Button>
+          <h1 className="text-3xl font-bold text-center mb-6">{heading}</h1>
+          <div className="flex flex-col items-center justify-center sm:flex-row gap-3 sm:gap-6">
+            {socialLogins.map(({ name, logo, alt }) => (
+              <Button
+                key={name}
+                className="flex items-center gap-2 px-3 py-2 w-full bg-muted rounded-sm text-sm cursor-pointer hover:bg-muted"
+              >
+                <Image src={logo} width={16} height={16} className="w-4 h-4" alt={alt} />
+                <span>{name}</span>
+              </Button>
+            ))}
           </div>
-          <div className="flex flex-row items-center justify-center gap-4 my-4">
+          <div className="flex flex-row items-center justify-center gap-4 my-2.5">
             <Separator className="flex-1" />
             <span className="text-sm font-normal">OR</span>
             <Separator className="flex-1" />

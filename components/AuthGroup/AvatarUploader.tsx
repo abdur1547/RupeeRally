@@ -19,20 +19,16 @@ import {
 } from "@/components/ui/dialog";
 
 interface AvatarUploaderProps {
-  image: string | null;
   onImageSelect: (img: string | null) => void;
 }
 
-const AvatarUploader: React.FC<AvatarUploaderProps> = ({ image, onImageSelect }) => {
+const AvatarUploader: React.FC<AvatarUploaderProps> = ({ onImageSelect }) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const cropperRef = useRef<ReactCropperElement>(null);
-  const [localImage, setLocalImage] = useState<string | null>(image);
-  const [isCropping, setIsCropping] = useState(false);
 
-  // Sync state when parent updates the image
-  useEffect(() => {
-    setLocalImage(image);
-  }, [image]);
+  const [localImage, setLocalImage] = useState<string | null>(null);
+  const [croppedImage, setCroppedImage] = useState<string | null>(null);
+  const [isCropping, setIsCropping] = useState(false);
 
   // Handle file selection
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -40,6 +36,7 @@ const AvatarUploader: React.FC<AvatarUploaderProps> = ({ image, onImageSelect })
       const file = e.target.files[0];
       const imageUrl = URL.createObjectURL(file);
       setLocalImage(imageUrl);
+      setCroppedImage(imageUrl);
       onImageSelect(imageUrl);
     }
   };
@@ -49,18 +46,13 @@ const AvatarUploader: React.FC<AvatarUploaderProps> = ({ image, onImageSelect })
     fileInputRef.current?.click();
   };
 
-  // Open the cropper
-  const openCropper = () => {
-    if (localImage) setIsCropping(true);
-  };
-
   // Crop the image and save
   const handleCrop = () => {
     if (cropperRef.current?.cropper) {
       const croppedCanvas = cropperRef.current.cropper.getCroppedCanvas();
       if (croppedCanvas) {
         const croppedDataUrl = croppedCanvas.toDataURL();
-        setLocalImage(croppedDataUrl);
+        setCroppedImage(croppedDataUrl);
         onImageSelect(croppedDataUrl);
         setIsCropping(false);
       }
@@ -70,6 +62,7 @@ const AvatarUploader: React.FC<AvatarUploaderProps> = ({ image, onImageSelect })
   // Delete the image
   const handleDelete = () => {
     setLocalImage(null);
+    setCroppedImage(null);
     onImageSelect(null);
     setIsCropping(false);
 
@@ -82,11 +75,11 @@ const AvatarUploader: React.FC<AvatarUploaderProps> = ({ image, onImageSelect })
   return (
     <div className="relative">
       {/* Placeholder or Cropped Image */}
-      {localImage ? (
+      {localImage && croppedImage ? (
         <div className="flex items-center justify-center w-full h-full">
           <div className="relative group">
             <Image
-              src={localImage}
+              src={croppedImage}
               width={64}
               height={64}
               className="w-16 h-16 object-cover overflow-hidden rounded-full"
@@ -95,16 +88,14 @@ const AvatarUploader: React.FC<AvatarUploaderProps> = ({ image, onImageSelect })
 
             <Dialog open={isCropping} onOpenChange={setIsCropping}>
               <DialogTrigger asChild>
-                <button
-                  className="absolute cursor-pointer top-0 left-0 w-full h-full flex items-center justify-center bg-black/40 text-white rounded-full opacity-0 group-hover:opacity-100 transition"
-                  onClick={openCropper}
-                >
+                <button className="absolute cursor-pointer top-0 left-0 w-full h-full flex items-center justify-center bg-black/40 text-white rounded-full opacity-0 group-hover:opacity-100 transition">
                   <Pencil size={16} />
                 </button>
               </DialogTrigger>
               <DialogContent>
                 <DialogHeader className="flex flex-col items-center justify-center">
                   <DialogTitle>Adjust Your Profile Picture</DialogTitle>
+                  <DialogDescription></DialogDescription>
                   <Cropper
                     ref={cropperRef}
                     src={localImage}
@@ -133,7 +124,7 @@ const AvatarUploader: React.FC<AvatarUploaderProps> = ({ image, onImageSelect })
             width={64}
             height={64}
             alt="upload image"
-            className="cursor-pointer"
+            className="w-16 h-16 cursor-pointer"
             onClick={handleUploadClick}
           />
         </div>

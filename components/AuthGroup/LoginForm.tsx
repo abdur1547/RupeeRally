@@ -41,7 +41,7 @@ const LoginForm = () => {
 
   return (
     <div className="space-y-4">
-      <form action={onSubmit} className="space-y-5">
+      <form className="space-y-5">
         <div>
           <IconInput
             Icon={Mail}
@@ -57,10 +57,10 @@ const LoginForm = () => {
           {passwordError && <p className="text-destructive">{passwordError}</p>}
         </div>
         <div className="flex flex-col space-y-7">
-          <Button variant="link" className="ml-auto">
+          <Button variant="link" type="button" className="ml-auto">
             Forget Password?
           </Button>
-          <Button>Login</Button>
+          <Button onClick={onSubmit}>Login</Button>
         </div>
       </form>
       <p className="text-center">
