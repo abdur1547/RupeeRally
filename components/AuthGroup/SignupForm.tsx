@@ -21,17 +21,17 @@ const SignupForm = () => {
 
   const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
-  const handleImageSelect = (file: File | null) => {
-    if (file) {
-      const objectUrl = URL.createObjectURL(file);
-      setImage(objectUrl);
+  // const handleImageSelect = (file: File | null) => {
+  //   if (file) {
+  //     const objectUrl = URL.createObjectURL(file);
+  //     setImage(objectUrl);
 
-      // Cleanup the URL when component unmounts or new image is selected
-      return () => URL.revokeObjectURL(objectUrl);
-    } else {
-      setImage(null);
-    }
-  };
+  //     // Cleanup the URL when component unmounts or new image is selected
+  //     return () => URL.revokeObjectURL(objectUrl);
+  //   } else {
+  //     setImage(null);
+  //   }
+  // };
 
   const onSubmit = async () => {
     let valid = true;
@@ -66,7 +66,7 @@ const SignupForm = () => {
     <div className="space-y-4">
       <form action={onSubmit} className="space-y-5">
         <div>
-          <AvatarUploader image={image} onImageSelect={handleImageSelect} />
+          <AvatarUploader image={image} onImageSelect={setImage} />
         </div>
         <div>
           <IconInput
