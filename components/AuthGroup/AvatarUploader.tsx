@@ -1,9 +1,9 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import Cropper, { ReactCropperElement } from "react-cropper";
 import "cropperjs/dist/cropper.css";
-import { X, Pencil } from "lucide-react";
+import { Pencil } from "lucide-react";
 import CameraUploader from "@/public/assets/signup/camera-uploader.svg";
 import Image from "next/image";
 import { Button } from "../ui/button";

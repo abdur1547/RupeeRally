@@ -35,7 +35,7 @@ const LoginForm = () => {
     }
 
     if (valid) {
-      console.log("Form submitted successfully");
+      // API Call
     }
   };
 
