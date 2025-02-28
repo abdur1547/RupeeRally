@@ -18,7 +18,10 @@ const buttonVariants = cva(
         ),
         secondary: cn("bg-muted text-button-foreground shadow-xs", "hover:bg-button/80"),
         ghost: cn("text-button-foreground", "hover:bg-button hover:bg-button/80"),
-        link: cn("text-primary fond-bolder underline-offset-4 !p-0", "hover:text-button"),
+        link: cn(
+          "text-button-foreground underline-offset-4 decoration-button !p-0",
+          "hover:underline"
+        ),
       },
       size: {
         default: "px-4 py-2 has-[>svg]:px-3",

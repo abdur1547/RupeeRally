@@ -1,31 +1,27 @@
 import React from "react";
 import IconInput from "./IconInput";
-import InputPassword from "./InputPassword";
+import InputPasswordSigup from "./InputPasswordSigup";
 import { Button } from "../ui/button";
 import Link from "next/link";
-import { Mail } from "lucide-react";
+import { User, Mail } from "lucide-react";
 
-const LoginForm = () => {
+const SignupForm = () => {
   return (
     <div className="space-y-5">
       <form action="" className="space-y-5">
+        <IconInput Icon={User} placeholder="Full Name" type="text" />
         <IconInput Icon={Mail} placeholder="Email Address" type="email" />
-        <InputPassword />
-        <div className="flex flex-col space-y-5">
-          <Button variant="link" className="ml-auto">
-            Forget Password?
-          </Button>
-          <Button>Login</Button>
-        </div>
+        <InputPasswordSigup />
+        <Button className="w-full">Sign up</Button>
       </form>
       <p className="text-center">
-        Don't have an account?{" "}
+        Already have an account?{" "}
         <Button variant="link" className="!text-lg">
-          <Link href="/signup">Sign up</Link>
+          <Link href="/login">Login</Link>
         </Button>
       </p>
     </div>
   );
 };
 
-export default LoginForm;
+export default SignupForm;

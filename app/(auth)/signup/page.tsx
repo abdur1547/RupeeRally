@@ -2,6 +2,7 @@ import React from "react";
 import signupFrame1 from "@/public/assets/signup/signup-frame-1.png";
 import signupFrame2 from "@/public/assets/signup/signup-frame-2.png";
 import AuthSideVisuals from "@/components/AuthGroup/AuthSideVisuals";
+import SignupForm from "@/components/AuthGroup/SignupForm";
 
 const Signup = () => {
   return (
@@ -12,7 +13,7 @@ const Signup = () => {
       headline="Join our community of smarter savers and stress-free spenders."
       tagline="Split Bills, Share Joys, Save More!"
     >
-      <div></div>
+      <SignupForm />
     </AuthSideVisuals>
   );
 };

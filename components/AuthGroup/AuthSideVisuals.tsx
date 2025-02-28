@@ -62,21 +62,21 @@ const AuthSideVisuals = ({
       <div className="flex-1 hidden lg:block">
         <section className="bg-primary text-white h-full px-24">
           <div className="flex flex-col h-full items-center justify-center max-w-2xl">
-            <div className="relative mb-12">
+            <div className="relative mb-16">
               <Image
                 src={frame1}
                 alt="expense asset image 1"
-                className="relative w-64 h-60 z-10 object-cover"
+                className="relative w-64 h-60 z-10 rounded-2xl object-contain overflow-hidden"
               />
               <Image
                 src={frame2}
                 alt="expense asset image 2"
-                className="absolute w-36 h-20 z-20 -top-16 -right-16 shadow-2xl rounded-2xl object-cover overflow-hidden"
+                className="absolute w-36 h-20 z-20 -top-16 -right-16 shadow-2xl rounded-2xl object-contain overflow-hidden"
               />
               <Image
                 src={loginEllipse}
                 alt="expense asset image 3"
-                className="absolute w-24 h-20 object-contain z-0 -bottom-10 -right-16 overflow-hidden"
+                className="absolute w-24 h-20 object-contain z-0 -bottom-10 -right-14 overflow-hidden"
               />
               <Image
                 src={loginSquare}
