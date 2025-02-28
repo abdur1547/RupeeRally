@@ -40,7 +40,7 @@ const LoginForm = () => {
   };
 
   return (
-    <div className="space-y-5">
+    <div className="space-y-4">
       <form action={onSubmit} className="space-y-5">
         <div>
           <IconInput
@@ -56,7 +56,7 @@ const LoginForm = () => {
           <InputPassword value={password} onChange={(e) => setPassword(e.target.value)} />
           {passwordError && <p className="text-destructive">{passwordError}</p>}
         </div>
-        <div className="flex flex-col space-y-5">
+        <div className="flex flex-col space-y-7">
           <Button variant="link" className="ml-auto">
             Forget Password?
           </Button>

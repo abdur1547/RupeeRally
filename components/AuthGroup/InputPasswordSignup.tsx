@@ -3,7 +3,7 @@ import { Label } from "@/components/ui/label";
 import { CheckIcon, EyeIcon, EyeOffIcon, Lock, XIcon } from "lucide-react";
 import { useId, useState, useEffect } from "react";
 
-export default function InputPasswordSigup({
+export default function InputPasswordSignup({
   getPassword,
 }: {
   getPassword: React.Dispatch<React.SetStateAction<string>>;
@@ -111,7 +111,7 @@ export default function InputPasswordSigup({
 
       {/* Password strength description */}
       <p id={`${id}-description`} className="text-foreground mb-2 text-sm font-medium">
-        {getStrengthText(strength.filter((req) => req.met).length)}. Must contain:
+        {getStrengthText(strength.filter((req) => req.met).length)} - Must contain:
       </p>
 
       {/* Password requirements list */}

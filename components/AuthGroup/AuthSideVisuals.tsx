@@ -34,9 +34,9 @@ const AuthSideVisuals = ({
             "sm:px-24 lg:mr-0"
           )}
         >
-          <h1 className="is-typography--t2 text-center mb-8">{heading}</h1>
+          <h1 className="text-3xl font-bold text-center mb-8">{heading}</h1>
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-6">
-            <Button className="p-2 sm:p-3 w-full bg-muted rounded-md sm:rounded-xl hover:cursor-pointer">
+            <Button className="p-2 sm:p-3 w-full bg-muted rounded-md hover:cursor-pointer hover:bg-muted">
               <Image
                 src={GoogleLogo}
                 width={20}
@@ -46,14 +46,14 @@ const AuthSideVisuals = ({
               />
               Google
             </Button>
-            <Button className="p-2 sm:p-3 w-full bg-muted rounded-md sm:rounded-xl hover:cursor-pointer">
+            <Button className="p-2 sm:p-3 w-full bg-muted rounded-md hover:cursor-pointer hover:bg-muted">
               <Image src={AppleLogo} width={20} height={20} className="w-5 h-5" alt="google logo" />
               Apple
             </Button>
           </div>
           <div className="flex flex-row items-center justify-center gap-4 my-4">
             <Separator className="flex-1" />
-            <span>OR</span>
+            <span className="text-sm font-normal">OR</span>
             <Separator className="flex-1" />
           </div>
           {children}
@@ -85,8 +85,8 @@ const AuthSideVisuals = ({
               />
             </div>
             <div className="text-center max-w-96">
-              <h2 className="is-typography--t3 mb-2.5">{headline}</h2>
-              <h5 className="is-typography--t5">{tagline}</h5>
+              <h2 className="text-3xl font-bold mb-2.5">{headline}</h2>
+              <h5 className="text-base font-normal">{tagline}</h5>
             </div>
           </div>
         </section>

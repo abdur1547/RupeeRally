@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import IconInput from "./IconInput";
-import InputPasswordSigup from "./InputPasswordSigup";
+import InputPasswordSignup from "./InputPasswordSignup";
 import { Button } from "../ui/button";
 import Link from "next/link";
 import { User, Mail } from "lucide-react";
@@ -71,7 +71,7 @@ const SignupForm = () => {
           {emailError && <p className="text-destructive">{emailError}</p>}
         </div>
         <div>
-          <InputPasswordSigup getPassword={setPassword} />
+          <InputPasswordSignup getPassword={setPassword} />
         </div>
         <Button className="w-full">Sign up</Button>
       </form>
