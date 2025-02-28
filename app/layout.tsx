@@ -1,4 +1,5 @@
-import "./globals.scss";
+import "./globals.css";
+import "../styles/index.scss";
 import type { Metadata } from "next";
 import { Figtree } from "next/font/google";
 import { faviconIcons } from "@/constants";
@@ -9,13 +10,15 @@ const figtree = Figtree({
 });
 
 const title = "RupeeRally - Simplify Personal & Shared Finance Management";
-const description = "Take control of your finances with RupeeRally - the smart way to track, manage, and optimize both personal and shared expenses. Effortless budgeting, expense tracking, and financial planning for individuals and groups.";
+const description =
+  "Take control of your finances with RupeeRally - the smart way to track, manage, and optimize both personal and shared expenses. Effortless budgeting, expense tracking, and financial planning for individuals and groups.";
 
 export const metadata: Metadata = {
   title,
   description,
   icons: faviconIcons,
-  keywords: "personal finance, expense tracker, budget planner, shared expenses, money management, financial planning, bill splitting, savings tracker, debt management, household budget, group expenses, financial goals, expense sharing, budget app, finance manager, rupee tracker, Indian finance app, financial dashboard",
+  keywords:
+    "personal finance, expense tracker, budget planner, shared expenses, money management, financial planning, bill splitting, savings tracker, debt management, household budget, group expenses, financial goals, expense sharing, budget app, finance manager, rupee tracker, Indian finance app, financial dashboard",
   openGraph: {
     title,
     description,

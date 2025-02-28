@@ -1,5 +1,8 @@
 @use "includes" as *;
+@use "sass:map";
 
-h1 {
-  font-size: responsive-values(32, 64);
+.container {
+  max-width: map.get($breakpoints, "xxl"); // Access the 'xxl' breakpoint
+  padding: 0 responsive-values(20, 64);
+  margin: 0 auto;
 }

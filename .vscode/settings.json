@@ -26,6 +26,6 @@
   "prettier.trailingComma": "es5",
   "prettier.tabWidth": 2,
   "prettier.semi": true,
-  "prettier.printWidth": 10000,
+  "prettier.printWidth": 100,
   "prettier.proseWrap": "preserve"
 }

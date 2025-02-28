@@ -1,5 +1,4 @@
-@use "tailwindcss";
-@use "../styles/base.scss";
+@import "tailwindcss";
 
 @plugin "tailwindcss-animate";
 
@@ -18,25 +17,33 @@
 
   --popover-foreground: oklch(0.145 0 0);
 
-  --primary: oklch(0.205 0 0);
+  --primary: oklch(29.04% 0.0407 184.92);
 
   --primary-foreground: oklch(0.985 0 0);
 
-  --secondary: oklch(0.97 0 0);
+  --secondary: oklch(63.68% 0 0);
 
   --secondary-foreground: oklch(0.205 0 0);
 
-  --muted: oklch(0.97 0 0);
+  --muted: oklch(97.02% 0 0);
 
   --muted-foreground: oklch(0.556 0 0);
 
-  --accent: oklch(0.97 0 0);
+  --accent: oklch(89.23% 0.2115 122.3);
 
   --accent-foreground: oklch(0.205 0 0);
 
-  --destructive: oklch(0.577 0.245 27.325);
+  --destructive: oklch(59.15% 0.202 21.24);
 
   --destructive-foreground: oklch(0.577 0.245 27.325);
+
+  --income: oklch(64.01% 0.1751 146.74);
+
+  --income-foreground: oklch(0.577 0.245 27.325);
+
+  --button: oklch(89.23% 0.2115 122.3);
+
+  --button-foreground: oklch(25.62% 0 0);
 
   --border: oklch(0.922 0 0);
 
@@ -73,7 +80,7 @@
   --sidebar-ring: oklch(0.87 0 0);
 }
 
-.dark {
+/* .dark {
   --background: oklch(0.145 0 0);
 
   --foreground: oklch(0.985 0 0);
@@ -137,7 +144,7 @@
   --sidebar-border: oklch(0.269 0 0);
 
   --sidebar-ring: oklch(0.439 0 0);
-}
+} */
 
 @theme inline {
   --color-background: var(--background);
@@ -171,6 +178,14 @@
   --color-destructive: var(--destructive);
 
   --color-destructive-foreground: var(--destructive-foreground);
+
+  --color-income: var(--income);
+
+  --color-income-foreground: var(--income-foreground);
+
+  --color-button: var(--button);
+
+  --color-button-foreground: var(--button-foreground);
 
   --color-border: var(--border);
 
