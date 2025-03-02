@@ -11,7 +11,6 @@ services:
       - ../..:/workspaces:cached
       - $HOME/.ssh/:/home/vscode/.ssh/
     command: sleep infinity
-
   # db:
   #   image: postgres:latest
   #   restart: unless-stopped
@@ -22,8 +21,8 @@ services:
   #     POSTGRES_DB: ruby_on_rails_devcontainer_development
   #     POSTGRES_PASSWORD: password
 
-  redis:
-    image: redis:latest
-    restart: unless-stopped
-    ports:
-      - 6379:6379
+  # redis:
+  #   image: redis:latest
+  #   restart: unless-stopped
+  #   ports:
+  #     - 6379:6379
