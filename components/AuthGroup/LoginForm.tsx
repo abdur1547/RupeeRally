@@ -5,12 +5,14 @@ import IconInput from "./IconInput";
 import InputPassword from "./InputPassword";
 import { Button } from "../ui/button";
 import Link from "next/link";
-import { Mail } from "lucide-react";
+import { Mail, LoaderCircle } from "lucide-react";
 import { loginUser } from "@/lib/actions/auth/auth";
 import { toast } from "sonner";
 import { redirect } from "next/navigation";
 
 const LoginForm = () => {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
   const [emailError, setEmailError] = useState<string | null>(null);
   const [passwordError, setPasswordError] = useState<string | null>(null);
 
@@ -41,6 +43,7 @@ const LoginForm = () => {
     }
 
     if (valid) {
+      setIsLoading(true);
       const response = await loginUser(email, password);
 
       if (response.success) {
@@ -53,6 +56,7 @@ const LoginForm = () => {
           description: response.message,
         });
       }
+      setIsLoading(false);
     }
   };
 
@@ -71,7 +75,10 @@ const LoginForm = () => {
           <Button variant="link" type="button" className="ml-auto">
             Forget Password?
           </Button>
-          <Button>Login</Button>
+          <Button type="submit" disabled={isLoading}>
+            Login
+            {isLoading && <LoaderCircle className="animate-spin" size={20} />}
+          </Button>
         </div>
       </form>
       <p className="text-center">

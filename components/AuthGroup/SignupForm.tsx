@@ -1,14 +1,16 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { FormEvent, useState } from "react";
 import IconInput from "./IconInput";
 import InputPasswordSignup from "./InputPasswordSignup";
 import { Button } from "../ui/button";
 import Link from "next/link";
-import { User, Mail } from "lucide-react";
+import { User, Mail, LoaderCircle } from "lucide-react";
 import AvatarUploader from "./AvatarUploader";
 
 const SignupForm = () => {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
   const [image, setImage] = useState<string | null>(null);
 
   const [fullName, setFullName] = useState<string>("");
@@ -21,7 +23,9 @@ const SignupForm = () => {
 
   const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
-  const onSubmit = async () => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
     let valid = true;
 
     if (!fullName) {
@@ -49,7 +53,7 @@ const SignupForm = () => {
 
   return (
     <div className="space-y-4">
-      <form className="space-y-4">
+      <form onSubmit={handleSubmit} className="space-y-4">
         <div>
           <AvatarUploader onImageSelect={setImage} />
         </div>
@@ -76,8 +80,9 @@ const SignupForm = () => {
         <div>
           <InputPasswordSignup getPassword={setPassword} />
         </div>
-        <Button className="w-full" onClick={onSubmit}>
+        <Button className="w-full" type="submit" disabled={isLoading}>
           Sign up
+          {isLoading && <LoaderCircle className="animate-spin" size={20} />}
         </Button>
       </form>
       <p className="text-center">

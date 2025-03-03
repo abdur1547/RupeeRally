@@ -50,7 +50,7 @@ const items = [
   },
   {
     title: "Friends",
-    url: "#",
+    url: "/dashboard/friends",
     icon: UserRoundPlus,
   },
   {

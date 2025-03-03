@@ -3,8 +3,14 @@ import signupFrame1 from "@/public/assets/signup/signup-frame-1.png";
 import signupFrame2 from "@/public/assets/signup/signup-frame-2.png";
 import AuthSideVisuals from "@/components/AuthGroup/AuthSideVisuals";
 import SignupForm from "@/components/AuthGroup/SignupForm";
+import { redirect } from "next/navigation";
+import { isUserLoggedIn } from "@/lib/actions/auth/auth";
 
-const Signup = () => {
+const Signup = async () => {
+  if (await isUserLoggedIn()) {
+    redirect("/dashboard");
+  }
+
   return (
     <AuthSideVisuals
       frame1={signupFrame1}
