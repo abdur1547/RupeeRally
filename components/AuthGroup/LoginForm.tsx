@@ -8,6 +8,7 @@ import Link from "next/link";
 import { Mail } from "lucide-react";
 import { loginUser } from "@/lib/actions/auth/auth";
 import { toast } from "sonner";
+import { redirect } from "next/navigation";
 
 const LoginForm = () => {
   const [emailError, setEmailError] = useState<string | null>(null);
@@ -46,6 +47,7 @@ const LoginForm = () => {
         toast("Success", {
           description: response.message,
         });
+        redirect("/dashboard");
       } else {
         toast("Error", {
           description: response.message,
