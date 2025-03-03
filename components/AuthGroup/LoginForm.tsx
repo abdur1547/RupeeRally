@@ -6,6 +6,8 @@ import InputPassword from "./InputPassword";
 import { Button } from "../ui/button";
 import Link from "next/link";
 import { Mail } from "lucide-react";
+import { loginUser } from "@/lib/actions/auth/auth";
+import { toast } from "sonner";
 
 const LoginForm = () => {
   const [emailError, setEmailError] = useState<string | null>(null);
@@ -38,7 +40,17 @@ const LoginForm = () => {
     }
 
     if (valid) {
-      // API Call
+      const response = await loginUser(email, password);
+
+      if (response.success) {
+        toast("Success", {
+          description: response.message,
+        });
+      } else {
+        toast("Error", {
+          description: response.message,
+        });
+      }
     }
   };
 
