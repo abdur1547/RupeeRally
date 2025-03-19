@@ -139,7 +139,7 @@ RSpec.describe '/api/v0/categories', type: :request do
 
         it 'returns unprocessable' do
           expect(response).to be_unprocessable
-          expect(response.parsed_body['errors'][0][0]).to eq('Name has already been taken')
+          expect(response.parsed_body['errors'][0]).to eq('Name has already been taken')
         end
       end
     end

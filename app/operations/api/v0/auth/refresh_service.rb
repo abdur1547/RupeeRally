@@ -17,7 +17,7 @@ module Api::V0
         yield validate_access_token
         yield fetch_user
         yield validate_refresh_token
-        blacklist_previoud_access_token
+        blacklist_previous_access_token
         Success(json_serialize)
       end
 
@@ -50,7 +50,7 @@ module Api::V0
         Success()
       end
 
-      def blacklist_previoud_access_token
+      def blacklist_previous_access_token
         Jwt::Blacklister.blacklist!(jti: decoded_token[:jti], user:)
       end
 

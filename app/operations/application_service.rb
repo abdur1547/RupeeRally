@@ -39,9 +39,15 @@ module ApplicationService
 
     def validate_params(params)
       @validation_outcome = contract.new.call(params)
-      return Failure(validation_outcome.errors.to_h) if validation_outcome.failure? # rubocop:disable Rails/DeprecatedActiveModelErrorsMethods
+      return Failure(format_validation_errors(validation_outcome.errors.to_h)) if validation_outcome.failure? # rubocop:disable Rails/DeprecatedActiveModelErrorsMethods
 
       Success(validation_outcome.to_h)
+    end
+
+    def format_validation_errors(errors)
+      errors.flat_map do |field, messages|
+        messages.map { |message| "#{field.to_s.humanize} #{message}" }
+      end
     end
 
     def contract

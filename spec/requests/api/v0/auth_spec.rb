@@ -21,12 +21,12 @@ RSpec.describe '/api/v0/auth', type: :request do
       context 'when required params are provides' do
         it 'should create user' do
           expect(response).to be_created
-          expect(response).to match_json_schema('v0/user')
+          expect(response).to match_json_schema('v0/auth/signup')
         end
       end
     end
 
-    describe 'failour' do
+    describe 'failure' do
       context 'when email is not provided' do
         let(:email) { '' }
 
