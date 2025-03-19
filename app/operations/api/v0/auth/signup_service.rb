@@ -36,7 +36,7 @@ module Api::V0
                          name: params[:name])
         return Success() if user.save
 
-        Failure(user.errors.messages)
+        Failure(user.errors.full_messages)
       end
 
       def issue_new_tokens
