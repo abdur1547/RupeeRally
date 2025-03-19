@@ -248,13 +248,13 @@ RSpec.describe '/api/v0/accounts', type: :request do
 
         it 'returns not_found' do
           expect(response).to be_unprocessable
-          expect(response.parsed_body['errors'][0][0]).to eq('Name has already been taken')
+          expect(response.parsed_body['errors'][0]).to eq('Name has already been taken')
         end
       end
 
       context 'when account name is not provided' do
         let(:params) { {} }
-        
+
         it 'returns not_found' do
           expect(response).to be_unprocessable
           expect(response.parsed_body['errors'].count > 0).to be_truthy
@@ -335,7 +335,7 @@ RSpec.describe '/api/v0/accounts', type: :request do
 
       context 'when initial balance is increased' do
         let(:u_initial_balance_cents) { 4000 }
-        
+
         it 'should increase account balance' do
           expect(response).to be_ok
           updated_balance = account.balance_cents + 1000
@@ -347,10 +347,10 @@ RSpec.describe '/api/v0/accounts', type: :request do
           expect(acc.balance_cents).to eql(updated_balance)
         end
       end
-      
+
       context 'when initial balance is decreased' do
         let(:u_initial_balance_cents) { 2000 }
-        
+
         it 'should decreased account balance' do
           expect(response).to be_ok
           updated_balance = account.balance_cents - 1000
