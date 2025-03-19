@@ -12,6 +12,8 @@ namespace :api do
       post :refresh, to: 'auth#refresh'
     end
 
+    get :user_info, to: 'users#show'
+
     resources :accounts, only: api_only_routes
     resources :categories, only: api_only_routes
     resources :transactions, only: %i[index show destroy]
