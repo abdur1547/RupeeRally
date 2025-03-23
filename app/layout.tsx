@@ -3,6 +3,7 @@ import "../styles/index.scss";
 import type { Metadata } from "next";
 import { Figtree } from "next/font/google";
 import { faviconIcons } from "@/constants";
+import { Toaster } from "@/components/ui/sonner";
 
 const figtree = Figtree({
   variable: "--font-figtree",
@@ -39,7 +40,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <link rel="manifest" href="/site.webmanifest" />
-      <body className={`${figtree.variable} antialiased`}>{children}</body>
+      <body className={`${figtree.variable} antialiased`}>
+        {children}
+        <Toaster />
+      </body>
     </html>
   );
 }
