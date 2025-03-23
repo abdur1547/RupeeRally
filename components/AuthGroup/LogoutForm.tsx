@@ -1,6 +1,6 @@
 "use client";
 
-import { logoutUser } from "@/lib/actions/auth/auth";
+import { logoutUser } from "@/lib/actions/auth/logout";
 import React, { FormEvent, useState } from "react";
 import { Button } from "../ui/button";
 import { toast } from "sonner";

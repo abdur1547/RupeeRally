@@ -7,11 +7,14 @@ import { Button } from "../ui/button";
 import Link from "next/link";
 import { User, Mail, LoaderCircle } from "lucide-react";
 import AvatarUploader from "./AvatarUploader";
+import { signupUser } from "@/lib/actions/auth/signup";
+import { toast } from "sonner";
+import { redirect } from "next/navigation";
 
 const SignupForm = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const [image, setImage] = useState<string | null>(null);
+  // const [image, setImage] = useState<string | null>(null);
 
   const [fullName, setFullName] = useState<string>("");
   const [fullNameError, setFullNameError] = useState<string>();
@@ -47,7 +50,24 @@ const SignupForm = () => {
     }
 
     if (valid) {
-      // API Call
+      setIsLoading(true);
+      const response = await signupUser({
+        fullname: fullName,
+        email: email,
+        password: password,
+      });
+
+      console.log("res:", response);
+
+      if (response.success) {
+        toast(response.message);
+        redirect("/dashboard");
+      } else {
+        toast(response.message, {
+          description: response.errors[0],
+        });
+      }
+      setIsLoading(false);
     }
   };
 
@@ -55,7 +75,7 @@ const SignupForm = () => {
     <div className="space-y-4">
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <AvatarUploader onImageSelect={setImage} />
+          <AvatarUploader onImageSelect={() => {}} />
         </div>
         <div>
           <IconInput

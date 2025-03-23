@@ -4,7 +4,7 @@ import loginFrame2 from "@/public/assets/login/login-frame-2.png";
 import AuthSideVisuals from "@/components/AuthGroup/AuthSideVisuals";
 import LoginForm from "@/components/AuthGroup/LoginForm";
 import { redirect } from "next/navigation";
-import { isUserLoggedIn } from "@/lib/actions/auth/auth";
+import { isUserLoggedIn } from "@/lib/actions/auth/logout";
 
 const Login = async () => {
   if (await isUserLoggedIn()) {

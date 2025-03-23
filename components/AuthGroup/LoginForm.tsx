@@ -6,7 +6,7 @@ import InputPassword from "./InputPassword";
 import { Button } from "../ui/button";
 import Link from "next/link";
 import { Mail, LoaderCircle } from "lucide-react";
-import { loginUser } from "@/lib/actions/auth/auth";
+import { loginUser } from "@/lib/actions/auth/login";
 import { toast } from "sonner";
 import { redirect } from "next/navigation";
 

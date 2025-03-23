@@ -2,12 +2,11 @@
 
 import React, { useRef, useState } from "react";
 import Cropper, { ReactCropperElement } from "react-cropper";
-import "cropperjs/dist/cropper.css";
+import "react-cropper/node_modules/cropperjs/dist/cropper.css";
 import { Pencil } from "lucide-react";
 import CameraUploader from "@/public/assets/signup/camera-uploader.svg";
 import Image from "next/image";
 import { Button } from "../ui/button";
-
 import {
   Dialog,
   DialogContent,
@@ -48,8 +47,9 @@ const AvatarUploader: React.FC<AvatarUploaderProps> = ({ onImageSelect }) => {
 
   // Crop the image and save
   const handleCrop = () => {
-    if (cropperRef.current?.cropper) {
-      const croppedCanvas = cropperRef.current.cropper.getCroppedCanvas();
+    const cropper = cropperRef.current?.cropper;
+    if (cropper) {
+      const croppedCanvas = cropper.getCroppedCanvas();
       if (croppedCanvas) {
         const croppedDataUrl = croppedCanvas.toDataURL();
         setCroppedImage(croppedDataUrl);

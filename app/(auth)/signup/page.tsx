@@ -4,7 +4,7 @@ import signupFrame2 from "@/public/assets/signup/signup-frame-2.png";
 import AuthSideVisuals from "@/components/AuthGroup/AuthSideVisuals";
 import SignupForm from "@/components/AuthGroup/SignupForm";
 import { redirect } from "next/navigation";
-import { isUserLoggedIn } from "@/lib/actions/auth/auth";
+import { isUserLoggedIn } from "@/lib/actions/auth/logout";
 
 const Signup = async () => {
   if (await isUserLoggedIn()) {
