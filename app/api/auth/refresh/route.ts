@@ -39,6 +39,7 @@ export async function GET() {
 
     return NextResponse.json({ success: true });
   } catch (error) {
+    console.error("Error refreshing the token.", new Date().toLocaleString(), error);
     return NextResponse.json({ success: false, message: "Internal Server Error" }, { status: 500 });
   }
 }
