@@ -1,40 +1,55 @@
 "use client";
 
 import { logoutUser } from "@/lib/actions/auth/logout";
-import React, { FormEvent, useState } from "react";
+import React, { useState, MouseEventHandler } from "react";
 import { toast } from "sonner";
 import { redirect } from "next/navigation";
 import { LoaderCircle, LogOutIcon } from "lucide-react";
-import { DropdownMenuItem } from "../ui/dropdown-menu";
+import { cn } from "@/lib/utils";
 
-export const LogoutForm = () => {
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+interface LogoutFormProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  iconSize?: "default" | "lg";
+}
 
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+const LogoutForm = React.forwardRef<HTMLButtonElement, LogoutFormProps>(
+  ({ iconSize = "default", className, ...props }, ref) => {
+    const [isLoading, setIsLoading] = useState<boolean>(false);
 
-    setIsLoading(true);
-    const response = await logoutUser();
+    const handleSubmit: MouseEventHandler<HTMLButtonElement> = async () => {
+      setIsLoading(true);
+      const response = await logoutUser();
 
-    if (response.success) {
-      toast("Logged out successfully!");
-      redirect("/login");
-    } else {
-      toast("Logout failed");
-    }
-    setIsLoading(false);
-  };
+      if (response.success) {
+        toast("Logged out successfully!");
+        redirect("/login");
+      } else {
+        toast("Logout failed");
+      }
+      setIsLoading(false);
+    };
 
-  return (
-    <form onSubmit={handleSubmit}>
-      <DropdownMenuItem asChild className="w-full">
-        <button type="submit">
-          <LogOutIcon size={16} className="opacity-60" aria-hidden="true" />
-          <span>Logout</span>
-          {isLoading && <LoaderCircle className="animate-spin" size={16} />}
-        </button>
-      </DropdownMenuItem>
-      {/* <Button type="submit">Logout</Button> */}
-    </form>
-  );
-};
+    return (
+      <button
+        type="button"
+        className={`group w-full ${className}`}
+        onClick={handleSubmit}
+        ref={ref}
+        {...props}
+      >
+        <LogOutIcon
+          size={iconSize === "default" ? 16 : 24}
+          aria-hidden="true"
+          className={cn({
+            "size-9 p-1.5 bg-muted rounded-md group-hover:bg-transparent": iconSize === "lg",
+          })}
+        />
+        Logout
+        {isLoading && <LoaderCircle className="animate-spin" size={16} />}
+      </button>
+    );
+  }
+);
+
+LogoutForm.displayName = "LogoutForm"; // Set displayName for better debugging
+
+export { LogoutForm };

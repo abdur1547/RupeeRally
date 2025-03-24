@@ -12,13 +12,14 @@ import {
 
 import { ChevronDownIcon, Headset, User, UserPenIcon } from "lucide-react";
 import { LogoutForm } from "./AuthGroup/LogoutForm";
+import Link from "next/link";
 
 export const ProfileDropdown = () => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" className="h-auto p-0 hover:bg-transparent cursor-pointer">
-          <Avatar>
+          <Avatar className="size-8">
             <AvatarImage src="./avatar.jpg" alt="Profile image" />
             <AvatarFallback className="bg-transparent border border-secondary">
               <User />
@@ -52,17 +53,21 @@ export const ProfileDropdown = () => {
         </DropdownMenuGroup>
         <DropdownMenuSeparator /> */}
         <DropdownMenuGroup>
-          <DropdownMenuItem>
-            <UserPenIcon size={16} className="opacity-60" aria-hidden="true" />
-            <span>Account</span>
+          <DropdownMenuItem asChild className="group text-secondary">
+            <Link href="/profile">
+              <UserPenIcon size={16} aria-hidden="true" />
+              <span>Profile</span>
+            </Link>
           </DropdownMenuItem>
-          <DropdownMenuItem>
-            <Headset size={16} className="opacity-60" aria-hidden="true" />
+          <DropdownMenuItem className="group text-secondary">
+            <Headset size={16} aria-hidden="true" />
             <span>Support</span>
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
-        <LogoutForm />
+        <DropdownMenuItem asChild className="group text-secondary">
+          <LogoutForm />
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );

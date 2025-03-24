@@ -13,10 +13,10 @@ const DashboardLayout = ({
     <AuthProvider>
       <SidebarProvider>
         <AppSidebar />
-        <section className="bg-muted w-full">
+        <div className="bg-muted w-full">
           <Header />
-          <main className="p-4">{children}</main>
-        </section>
+          <main className="p-8">{children}</main>
+        </div>
       </SidebarProvider>
     </AuthProvider>
   );
