@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import api from "@/lib/actions/auth/axiosInstance";
 import { cookies } from "next/headers";
+import { logoutUser } from "@/lib/actions/auth/logout";
 
 /**
  * API route to refresh the user's access token using the stored refresh token.
@@ -40,6 +41,7 @@ export async function GET() {
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error("Error refreshing the token.", new Date().toLocaleString(), error);
+    await logoutUser();
     return NextResponse.json({ success: false, message: "Internal Server Error" }, { status: 500 });
   }
 }
