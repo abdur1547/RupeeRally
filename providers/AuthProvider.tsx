@@ -1,5 +1,6 @@
 "use client";
 
+import { refreshToken } from "@/lib/actions/auth/refresh";
 import axios from "axios";
 import { redirect } from "next/navigation";
 import { useEffect } from "react";
@@ -15,8 +16,9 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
   useEffect(() => {
     const interval = setInterval(async () => {
       try {
-        const response = await axios.get("/api/auth/refresh");
-        if (!response.data.success) {
+        const response = await refreshToken();
+
+        if (!response.success) {
           console.error(response.data.message);
           redirectUser();
         }
