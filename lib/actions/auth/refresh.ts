@@ -1,11 +1,11 @@
 "use server";
 
-import api from "@/lib/actions/auth/axiosInstance";
+import api from "@/lib/helpers/axiosInstance";
 import { cookies } from "next/headers";
 import axios from "axios";
 import { ApiResponse } from "@/types";
 
-export async function refreshToken(): Promise<ApiResponse> {
+export const refreshToken = async (): Promise<ApiResponse> => {
   try {
     const accessToken = (await cookies()).get("access_token")?.value;
     const refreshToken = (await cookies()).get("refresh_token")?.value;
@@ -33,7 +33,7 @@ export async function refreshToken(): Promise<ApiResponse> {
 
     return { success: true, message: "Token refreshed!", errors: [], data: null };
   } catch (error) {
-    console.error("Error loging in user.", new Date().toLocaleString(), error);
+    console.error("Error refreshing token.", new Date().toLocaleString(), error);
     if (axios.isAxiosError(error)) {
       if (error.response) {
         return {
@@ -51,4 +51,4 @@ export async function refreshToken(): Promise<ApiResponse> {
       data: null,
     };
   }
-}
+};

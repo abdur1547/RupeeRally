@@ -1,4 +1,5 @@
 import { LogoutForm } from "@/components/AuthGroup/LogoutForm";
+import { Details } from "@/components/Profile";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
@@ -13,7 +14,7 @@ import {
 } from "lucide-react";
 import React from "react";
 
-const Account = () => {
+const Account = async () => {
   return (
     <div className="flex gap-4">
       <section className="bg-white p-6 rounded-xl flex flex-col gap-4 w-xs">
@@ -82,7 +83,7 @@ const Account = () => {
           <LogoutForm iconSize="lg" />
         </Button>
       </section>
-      <section></section>
+      <Details />
     </div>
   );
 };
