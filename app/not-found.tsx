@@ -4,10 +4,9 @@ import { redirect } from "next/navigation";
 const NotFound = async () => {
   if (await isUserLoggedIn()) {
     redirect("/dashboard");
-  } else {
-    redirect("/login");
   }
-  return null;
+
+  redirect("/login");
 };
 
 export default NotFound;

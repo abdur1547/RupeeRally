@@ -1,11 +1,11 @@
 "use server";
 
-import api from "@/lib/actions/auth/axiosInstance";
+import api from "@/lib/helpers/axiosInstance";
 import { cookies } from "next/headers";
 import axios from "axios";
 import { ApiResponse } from "@/types";
 
-export async function signupUser({
+export const signupUser = async ({
   fullname,
   email,
   password,
@@ -13,7 +13,7 @@ export async function signupUser({
   fullname: string;
   email: string;
   password: string;
-}): Promise<ApiResponse> {
+}): Promise<ApiResponse> => {
   try {
     const response = await api.post<ApiResponse>("/auth/signup", {
       name: fullname,
@@ -62,4 +62,4 @@ export async function signupUser({
       data: null,
     };
   }
-}
+};

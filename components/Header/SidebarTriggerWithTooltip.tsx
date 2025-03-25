@@ -10,7 +10,7 @@ const SidebarTriggerWithTooltip = () => {
   return (
     <TooltipProvider>
       <Tooltip>
-        <TooltipTrigger asChild>
+        <TooltipTrigger asChild className="justify-center">
           <SidebarTrigger />
         </TooltipTrigger>
         <TooltipContent>

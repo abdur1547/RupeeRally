@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Wallet,
   Home,
@@ -20,6 +22,7 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 // Menu items.
 const items = [
@@ -30,42 +33,44 @@ const items = [
   },
   {
     title: "Budgets",
-    url: "/dashboard/budgets",
+    url: "/budgets",
     icon: CircleDollarSign,
   },
   {
     title: "My Accounts",
-    url: "/dashboard/accounts",
+    url: "/accounts",
     icon: Wallet,
   },
   {
     title: "Records",
-    url: "/dashboard/records",
+    url: "/records",
     icon: NotebookPen,
   },
   {
     title: "Categories",
-    url: "/dashboard/categories",
+    url: "/categories",
     icon: ChartColumnStacked,
   },
   {
     title: "Friends",
-    url: "/dashboard/friends",
+    url: "/friends",
     icon: UserRoundPlus,
   },
   {
     title: "Groups",
-    url: "/dashboard/groups",
+    url: "/groups",
     icon: Users,
   },
   {
     title: "Activity",
-    url: "/dashboard/activity",
+    url: "/activity",
     icon: ChartNoAxesCombined,
   },
 ];
 
 export function AppSidebar() {
+  const pathname = usePathname();
+
   return (
     <Sidebar className="border-none">
       <SidebarContent>
@@ -77,7 +82,11 @@ export function AppSidebar() {
             <SidebarMenu>
               {items.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild className="py-5">
+                  <SidebarMenuButton
+                    asChild
+                    className="py-5"
+                    isActive={pathname.includes(item.url)}
+                  >
                     <Link href={item.url}>
                       <item.icon />
                       <span>{item.title}</span>
