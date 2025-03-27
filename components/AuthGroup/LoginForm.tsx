@@ -1,77 +1,85 @@
 "use client";
 
-import React, { FormEvent, useState } from "react";
-import IconInput from "./IconInput";
-import InputPassword from "./InputPassword";
-import { Button } from "../ui/button";
+import React, { useState } from "react";
 import Link from "next/link";
+import { IconInput } from "./IconInput";
+import { InputPassword } from "./InputPassword";
+import { Button } from "../ui/button";
 import { Mail, LoaderCircle } from "lucide-react";
 import { loginUser } from "@/lib/actions/auth/login";
 import { toast } from "sonner";
 import { redirect } from "next/navigation";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
 
-const LoginForm = () => {
+import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
+
+const formSchema = z.object({
+  email: z.string().email({ message: "Please enter a valid email address." }),
+  password: z.string().min(8, { message: "Password should be at least 8 characters long." }),
+});
+
+export const LoginForm = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const [emailError, setEmailError] = useState<string | null>(null);
-  const [passwordError, setPasswordError] = useState<string | null>(null);
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
 
-  const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-  const passwordRegex = /^.{8,}$/;
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    const { email, password } = values;
 
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+    setIsLoading(true);
+    const response = await loginUser(email, password);
 
-    const formData = new FormData(event.currentTarget);
-    const email = formData.get("email")?.toString() || "";
-    const password = formData.get("password")?.toString() || "";
-
-    let valid = true;
-
-    if (!email || !emailRegex.test(email)) {
-      setEmailError("Please enter a valid email address.");
-      valid = false;
+    if (response.success) {
+      toast("Success", {
+        description: response.message,
+      });
+      redirect("/dashboard");
     } else {
-      setEmailError(null);
+      toast("Error", {
+        description: response.message,
+      });
     }
-
-    if (!password || !passwordRegex.test(password as string)) {
-      setPasswordError("Password must be at least 8 characters.");
-      valid = false;
-    } else {
-      setPasswordError(null);
-    }
-
-    if (valid) {
-      setIsLoading(true);
-      const response = await loginUser(email, password);
-
-      if (response.success) {
-        toast("Success", {
-          description: response.message,
-        });
-        redirect("/dashboard");
-      } else {
-        toast("Error", {
-          description: response.message,
-        });
-      }
-      setIsLoading(false);
-    }
+    setIsLoading(false);
   };
 
   return (
-    <div className="space-y-4">
-      <form onSubmit={handleSubmit} className="space-y-5">
-        <div>
-          <IconInput Icon={Mail} placeholder="Email Address" type="email" name="email" />
-          {emailError && <p className="text-destructive">{emailError}</p>}
-        </div>
-        <div>
-          <InputPassword name="password" />
-          {passwordError && <p className="text-destructive">{passwordError}</p>}
-        </div>
-        <div className="flex flex-col space-y-7">
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+        <FormField
+          control={form.control}
+          name="email"
+          render={({ field }) => (
+            <FormItem>
+              <FormControl>
+                <IconInput Icon={Mail} placeholder="Email Address" autoComplete="on" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="password"
+          render={({ field }) => (
+            <FormItem>
+              <FormControl>
+                <InputPassword placeholder="Password" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <div className="flex flex-col gap-7">
           <Button variant="link" type="button" className="ml-auto">
             Forget Password?
           </Button>
@@ -81,14 +89,12 @@ const LoginForm = () => {
           </Button>
         </div>
       </form>
-      <p className="text-center">
+      <p className="text-center mt-3.5">
         Don&apos;t have an account?{" "}
-        <Button variant="link" className="!text-lg">
+        <Button variant="link" className="!text-lg !font-semibold">
           <Link href="/signup">Sign up</Link>
         </Button>
       </p>
-    </div>
+    </Form>
   );
 };
-
-export default LoginForm;

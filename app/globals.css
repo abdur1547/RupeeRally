@@ -65,7 +65,8 @@
 
   --border: oklch(0.922 0 0);
 
-  --input: oklch(0.922 0 0);
+  /* #8b8b8b */
+  --input: oklch(63.68% 0 0);
 
   --ring: oklch(0.87 0 0);
 

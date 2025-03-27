@@ -18,10 +18,10 @@ import {
 } from "@/components/ui/dialog";
 
 interface AvatarUploaderProps {
-  onImageSelect: (img: string | null) => void;
+  onImageSelect: (img: string) => void;
 }
 
-const AvatarUploader: React.FC<AvatarUploaderProps> = ({ onImageSelect }) => {
+export const AvatarUploader: React.FC<AvatarUploaderProps> = ({ onImageSelect }) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const cropperRef = useRef<ReactCropperElement>(null);
 
@@ -63,7 +63,7 @@ const AvatarUploader: React.FC<AvatarUploaderProps> = ({ onImageSelect }) => {
   const handleDelete = () => {
     setLocalImage(null);
     setCroppedImage(null);
-    onImageSelect(null);
+    onImageSelect("");
     setIsCropping(false);
 
     // Reset file input value to allow re-uploading the same image
@@ -141,5 +141,3 @@ const AvatarUploader: React.FC<AvatarUploaderProps> = ({ onImageSelect }) => {
     </div>
   );
 };
-
-export default AvatarUploader;
