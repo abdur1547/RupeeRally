@@ -20,7 +20,7 @@ const buttonVariants = cva(
           "hover:bg-button/80"
         ),
         secondary: cn(
-          "bg-muted text-button-foreground shadow-xs justify-center",
+          "bg-muted text-button-foreground shadow-xs rounded-full justify-center",
           "hover:bg-button/80"
         ),
         ghost: cn(
@@ -33,7 +33,7 @@ const buttonVariants = cva(
         ),
       },
       size: {
-        default: "px-3 py-2",
+        default: "px-6 py-2",
         icon: "size-9",
       },
     },
