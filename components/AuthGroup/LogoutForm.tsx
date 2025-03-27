@@ -1,10 +1,10 @@
 "use client";
 
-import { logoutUser } from "@/lib/actions/auth/logout";
 import React, { useState, MouseEventHandler } from "react";
 import { toast } from "sonner";
-import { redirect } from "next/navigation";
 import { LoaderCircle, LogOutIcon } from "lucide-react";
+import { logoutUser } from "@/lib/actions/auth/logout";
+import { redirect } from "next/navigation";
 import { IconSwapButton } from "../IconSwapButton";
 
 interface LogoutFormProps {
