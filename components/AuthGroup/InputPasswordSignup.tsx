@@ -1,14 +1,9 @@
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { CheckIcon, EyeIcon, EyeOffIcon, Lock, XIcon } from "lucide-react";
-import { useId, useState, useEffect } from "react";
+import { useId, useState } from "react";
 import { FormMessage } from "../ui/form";
 
-interface IconInputProps extends React.ComponentProps<"input"> {
-  // onPasswordChange: (value: string) => void;
-}
-
-export const InputPasswordSignup = ({ value, ...inputProps }: IconInputProps) => {
+export const InputPasswordSignup = ({ value, ...inputProps }: React.ComponentProps<"input">) => {
   const id = useId();
   const [isVisible, setIsVisible] = useState<boolean>(false);
 

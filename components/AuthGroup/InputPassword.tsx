@@ -1,7 +1,6 @@
 "use client";
 
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { EyeIcon, EyeOffIcon, Lock } from "lucide-react";
 import { useId, useState } from "react";
 
