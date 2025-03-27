@@ -12,7 +12,7 @@ import {
 
 import { ChevronDownIcon, Headset, User, UserPenIcon } from "lucide-react";
 import { LogoutForm } from "./AuthGroup/LogoutForm";
-import Link from "next/link";
+import { IconSwapButton, IconSwapLink } from "./IconSwapButton";
 
 export const ProfileDropdown = () => {
   return (
@@ -29,7 +29,7 @@ export const ProfileDropdown = () => {
           <ChevronDownIcon size={14} className="text-secondary" aria-hidden="true" />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="max-w-64 border-none p-2">
+      <DropdownMenuContent className="max-w-64 border-none p-2 space-y-2">
         <DropdownMenuLabel className="flex min-w-0 flex-col">
           <span className="text-foreground truncate text-sm font-medium">Keith Kennedy</span>
           <span className="text-muted-foreground truncate text-xs font-normal">
@@ -37,36 +37,21 @@ export const ProfileDropdown = () => {
           </span>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
-        {/* <DropdownMenuGroup>
-          <DropdownMenuItem>
-            <BoltIcon size={16} className="opacity-60" aria-hidden="true" />
-            <span>Option 1</span>
-          </DropdownMenuItem>
-          <DropdownMenuItem>
-            <Layers2Icon size={16} className="opacity-60" aria-hidden="true" />
-            <span>Option 2</span>
-          </DropdownMenuItem>
-          <DropdownMenuItem>
-            <BookOpenIcon size={16} className="opacity-60" aria-hidden="true" />
-            <span>Option 3</span>
-          </DropdownMenuItem>
-        </DropdownMenuGroup>
-        <DropdownMenuSeparator /> */}
         <DropdownMenuGroup>
-          <DropdownMenuItem asChild className="group text-secondary">
-            <Link href="/profile">
-              <UserPenIcon size={16} aria-hidden="true" />
-              <span>Profile</span>
-            </Link>
+          <DropdownMenuItem asChild>
+            <IconSwapLink size="sm" href="/profile" Icon={UserPenIcon}>
+              Profile
+            </IconSwapLink>
           </DropdownMenuItem>
-          <DropdownMenuItem className="group text-secondary">
-            <Headset size={16} aria-hidden="true" />
-            <span>Support</span>
+          <DropdownMenuItem asChild>
+            <IconSwapButton size="sm" Icon={Headset}>
+              Support
+            </IconSwapButton>
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild className="group text-secondary">
-          <LogoutForm />
+          <LogoutForm size="sm" />
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

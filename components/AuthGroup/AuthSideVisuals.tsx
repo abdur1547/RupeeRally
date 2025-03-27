@@ -22,7 +22,7 @@ interface AuthSideVisualsProps {
   tagline: string;
 }
 
-const AuthSideVisuals = ({
+export const AuthSideVisuals = ({
   children,
   frame1,
   frame2,
@@ -40,18 +40,18 @@ const AuthSideVisuals = ({
           )}
         >
           <h1 className="text-3xl font-bold text-center mb-6">{heading}</h1>
-          <div className="flex flex-col items-center justify-center sm:flex-row gap-3 sm:gap-6">
+          <div className="flex flex-col items-center justify-center sm:flex-row gap-3 sm:gap-6 mb-4">
             {socialLogins.map(({ name, logo, alt }) => (
               <Button
                 key={name}
-                className="flex items-center gap-2 px-3 py-2 w-full bg-muted rounded-sm text-sm cursor-pointer hover:bg-muted"
+                className="flex items-center gap-2 px-3 py-2 w-full bg-muted rounded-md text-sm cursor-pointer hover:bg-muted"
               >
                 <Image src={logo} width={16} height={16} className="w-4 h-4" alt={alt} />
                 <span>{name}</span>
               </Button>
             ))}
           </div>
-          <div className="flex flex-row items-center justify-center gap-4 my-2.5">
+          <div className="flex flex-row items-center justify-center gap-4 mb-8">
             <Separator className="flex-1" />
             <span className="text-sm font-normal">OR</span>
             <Separator className="flex-1" />
@@ -94,5 +94,3 @@ const AuthSideVisuals = ({
     </main>
   );
 };
-
-export default AuthSideVisuals;
