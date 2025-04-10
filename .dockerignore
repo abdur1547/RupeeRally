@@ -2,6 +2,13 @@
 
 # Ignore git directory.
 /.git/
+.gitignore
+.gitattributes
+README.md
+
+/.devcontainer/
+/.github/
+/.vscode/
 
 # Ignore bundler config.
 /.bundle
@@ -35,3 +42,24 @@
 
 Dockerfile
 docker-compose.yml
+
+# docs
+/docs
+
+### Rails ###
+*.rbc
+capybara-*.html
+.rspec
+/db/*.sqlite3
+/db/*.sqlite3-journal
+/public/system
+/coverage/
+/spec/tmp
+rerun.txt
+pickle-email-*.html
+
+# Ignore all logfiles and tempfiles.
+/log/*
+/tmp/*
+!/log/.keep
+!/tmp/.keep

@@ -112,7 +112,7 @@ RSpec.describe '/api/v0/auth', type: :request do
     describe 'success' do
       context 'when access_token & refresh_token are valid' do
         it 'returns new access_token' do
-          expect(response).to be_created
+          expect(response).to be_ok
         end
       end
     end
