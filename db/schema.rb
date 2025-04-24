@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_01_28_142910) do
+ActiveRecord::Schema[8.0].define(version: 2025_04_24_113515) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -22,14 +22,14 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_28_142910) do
     t.integer "initial_balance_cents", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "user_id"
+    t.bigint "user_id"
     t.index ["user_id", "name"], name: "index_accounts_on_user_id_and_name", unique: true
     t.index ["user_id"], name: "index_accounts_on_user_id"
   end
 
   create_table "blacklisted_tokens", force: :cascade do |t|
     t.string "jti"
-    t.integer "user_id", null: false
+    t.bigint "user_id", null: false
     t.datetime "exp", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -43,7 +43,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_28_142910) do
     t.integer "category_type", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "user_id"
+    t.bigint "user_id"
     t.index ["user_id", "name", "category_type"], name: "index_categories_on_user_id_and_name_and_category_type", unique: true
     t.index ["user_id"], name: "index_categories_on_user_id"
   end
@@ -52,13 +52,13 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_28_142910) do
     t.string "name", default: "", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "created_by_id"
+    t.bigint "created_by_id"
     t.index ["name", "created_by_id"], name: "index_groups_on_name_and_created_by_id", unique: true
   end
 
   create_table "refresh_tokens", force: :cascade do |t|
     t.string "crypted_token"
-    t.integer "user_id", null: false
+    t.bigint "user_id", null: false
     t.datetime "exp", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -69,30 +69,39 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_28_142910) do
   create_table "transactions", force: :cascade do |t|
     t.text "description", default: "", null: false
     t.integer "amount_cents", default: 0, null: false
-    t.integer "divided_by", default: 0, null: false
     t.date "selected_date", default: -> { "CURRENT_DATE" }, null: false
     t.time "selected_time"
-    t.integer "transaction_type", default: 0, null: false
     t.integer "direction", default: 0, null: false
     t.integer "user_share", default: 0, null: false
     t.integer "status", default: 0, null: false
-    t.integer "parent_transaction_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "user_id"
-    t.integer "account_id"
-    t.integer "category_id"
-    t.integer "paid_by_id"
+    t.bigint "user_id"
+    t.bigint "account_id"
+    t.bigint "category_id"
+    t.bigint "transfer_id"
     t.index ["account_id"], name: "index_transactions_on_account_id", where: "(account_id IS NOT NULL)"
     t.index ["category_id"], name: "index_transactions_on_category_id", where: "(category_id IS NOT NULL)"
-    t.index ["paid_by_id"], name: "index_transactions_on_paid_by_id"
-    t.index ["parent_transaction_id"], name: "index_transactions_on_parent_transaction_id", where: "(parent_transaction_id IS NOT NULL)"
+    t.index ["transfer_id"], name: "index_transactions_on_transfer_id", where: "(transfer_id IS NOT NULL)"
     t.index ["user_id"], name: "index_transactions_on_user_id"
   end
 
+  create_table "transfers", force: :cascade do |t|
+    t.integer "amount_cents", default: 0, null: false
+    t.text "description", default: "", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "from_account_id_id", null: false
+    t.bigint "to_account_id_id", null: false
+    t.bigint "user_id", null: false
+    t.index ["from_account_id_id"], name: "index_transfers_on_from_account_id_id"
+    t.index ["to_account_id_id"], name: "index_transfers_on_to_account_id_id"
+    t.index ["user_id"], name: "index_transfers_on_user_id"
+  end
+
   create_table "user_groups", force: :cascade do |t|
-    t.integer "user_id", null: false
-    t.integer "group_id", null: false
+    t.bigint "user_id", null: false
+    t.bigint "group_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["group_id"], name: "index_user_groups_on_group_id"
@@ -123,8 +132,11 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_28_142910) do
   add_foreign_key "refresh_tokens", "users"
   add_foreign_key "transactions", "accounts"
   add_foreign_key "transactions", "categories"
+  add_foreign_key "transactions", "transfers"
   add_foreign_key "transactions", "users"
-  add_foreign_key "transactions", "users", column: "paid_by_id"
+  add_foreign_key "transfers", "accounts", column: "from_account_id_id"
+  add_foreign_key "transfers", "accounts", column: "to_account_id_id"
+  add_foreign_key "transfers", "users"
   add_foreign_key "user_groups", "groups"
   add_foreign_key "user_groups", "users"
 end
