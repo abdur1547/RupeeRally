@@ -17,7 +17,7 @@ namespace :api do
     resources :accounts, only: api_only_routes
     resources :categories, only: api_only_routes
     resources :transactions, only: %i[index show destroy]
-    resources :transfer_transactions, only: %i[create update]
+    resources :transfers, only: %i[create update]
     resources :individual_transactions, only: %i[create update]
     resources :shared_transactions, only: %i[create]
   end
