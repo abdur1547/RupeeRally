@@ -4,9 +4,10 @@ module Jwt
   module Authenticator
     module_function
 
-    def call(headers:)
+    def call(headers:, cookies:)
       token = Jwt::Authenticator.authenticate_header(
-        headers
+        headers,
+        cookies
       )
       raise ::Auth::MissingTokenError if token.blank?
 
@@ -19,8 +20,8 @@ module Jwt
       [user, decoded_token]
     end
 
-    def authenticate_header(headers)
-      headers['Authorization']&.split('Bearer ')&.last
+    def authenticate_header(headers, cookies)
+      (headers['Authorization'] || cookies['access_token'])&.split('Bearer ')&.last
     end
 
     def authenticate_user_from_token(decoded_token)

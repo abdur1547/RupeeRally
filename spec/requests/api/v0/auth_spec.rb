@@ -95,11 +95,6 @@ RSpec.describe '/api/v0/auth', type: :request do
     let(:token_pair) { Jwt::Issuer.call(user) }
     let(:access_token) { valid_jwt(user) }
     let(:refresh_token) { token_pair[:refresh_token].token }
-    let(:headers) do
-      {
-        Authorization: access_token
-      }
-    end
     let(:params) do
       {
         access_token:,
@@ -107,7 +102,11 @@ RSpec.describe '/api/v0/auth', type: :request do
       }
     end
 
-    before { post '/api/v0/auth/refresh', headers:, params: }
+    before do
+      cookies[:refresh_token] = refresh_token
+      cookies[:access_token] = access_token
+      post '/api/v0/auth/refresh', params:
+    end
 
     describe 'success' do
       context 'when access_token & refresh_token are valid' do
