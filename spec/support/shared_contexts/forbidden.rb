@@ -2,7 +2,7 @@
 
 RSpec.shared_context 'forbidden' do
   context 'when no JWT in headers' do
-    let(:headers) {}
+    let(:access_token) { nil }
 
     it 'returns forbidden response' do
       expect(response).to be_forbidden

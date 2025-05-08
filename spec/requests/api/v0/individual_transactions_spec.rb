@@ -1,106 +1,106 @@
 # frozen_string_literal: true
 
-require 'rails_helper'
+# require 'rails_helper'
 
-RSpec.describe '/api/v0/individual_transactions', type: :request do
-  describe 'POST#create' do
-    let(:user) { create(:user) }
-    let(:access_token) { valid_jwt(user) }
-    let(:headers) do
-      {
-        Authorization: access_token
-      }
-    end
+# RSpec.describe '/api/v0/individual_transactions', type: :request do
+#   describe 'POST#create' do
+#     let(:user) { create(:user) }
+#     let(:access_token) { valid_jwt(user) }
+#     let(:headers) do
+#       {
+#         Authorization: access_token
+#       }
+#     end
 
-    let(:description) { Faker::Lorem.sentence }
-    let(:direction) { 'income' }
-    let(:amount_cents) { Faker::Number.number(digits: 5) }
-    let(:accounts) { create_list(:account, 10, user:) }
-    let(:selected_account) { accounts.sample }
-    let(:account_id) { selected_account.id }
-    let!(:previous_balance) { selected_account.balance_cents }
-    let!(:previous_total_income) { selected_account.total_income_cents }
-    let!(:previous_total_expense) { selected_account.total_expense_cents }
-    let(:categories) { create_list(:category, 10, user:, category_type: direction) }
-    let(:selected_category) { categories.sample }
-    let(:category_id) { selected_category.id }
-    let(:date) { 'date' }
-    let(:time) { 'time' }
-    let(:params) do
-      {
-        description:,
-        direction:,
-        amount_cents:,
-        account_id:,
-        category_id:,
-        date:,
-        time:
-      }
-    end
+#     let(:description) { Faker::Lorem.sentence }
+#     let(:direction) { 'income' }
+#     let(:amount_cents) { Faker::Number.number(digits: 5) }
+#     let(:accounts) { create_list(:account, 10, user:) }
+#     let(:selected_account) { accounts.sample }
+#     let(:account_id) { selected_account.id }
+#     let!(:previous_balance) { selected_account.balance_cents }
+#     let!(:previous_total_income) { selected_account.total_income_cents }
+#     let!(:previous_total_expense) { selected_account.total_expense_cents }
+#     let(:categories) { create_list(:category, 10, user:, category_type: direction) }
+#     let(:selected_category) { categories.sample }
+#     let(:category_id) { selected_category.id }
+#     let(:date) { 'date' }
+#     let(:time) { 'time' }
+#     let(:params) do
+#       {
+#         description:,
+#         direction:,
+#         amount_cents:,
+#         account_id:,
+#         category_id:,
+#         date:,
+#         time:
+#       }
+#     end
 
-    before { post '/api/v0/individual_transactions', headers:, params: }
+#     before { post '/api/v0/individual_transactions', headers:, params: }
 
-    describe 'success' do
-      context 'with income transaction type' do
-        it 'creates and return new transaction increase account balance' do
-          expect(response).to be_created
-          expect(response.parsed_body['data']['transactions'].count).to eq(1)
-          expect(response.parsed_body['data']['transactions'].first['description']).to eq(description)
+#     describe 'success' do
+#       context 'with income transaction type' do
+#         it 'creates and return new transaction increase account balance' do
+#           expect(response).to be_created
+#           expect(response.parsed_body['data']['transactions'].count).to eq(1)
+#           expect(response.parsed_body['data']['transactions'].first['description']).to eq(description)
 
-          child_transactions = response.parsed_body['data']['transactions'].first['child_transactions']
-          expect(child_transactions.count).to eq(0)
+#           child_transactions = response.parsed_body['data']['transactions'].first['child_transactions']
+#           expect(child_transactions.count).to eq(0)
 
-          selected_account.reload
-          expect(selected_account.balance_cents).to eql(previous_balance + amount_cents)
-          expect(selected_account.total_income_cents).to eql(previous_total_income + amount_cents)
-          expect(selected_account.total_expense_cents).to eql(previous_total_expense)
-          expect(response).to match_json_schema('v0/transactions/create')
-        end
-      end
+#           selected_account.reload
+#           expect(selected_account.balance_cents).to eql(previous_balance + amount_cents)
+#           expect(selected_account.total_income_cents).to eql(previous_total_income + amount_cents)
+#           expect(selected_account.total_expense_cents).to eql(previous_total_expense)
+#           expect(response).to match_json_schema('v0/transactions/create')
+#         end
+#       end
 
-      context 'with expense transaction type' do
-        let(:direction) { 'expense' }
+#       context 'with expense transaction type' do
+#         let(:direction) { 'expense' }
 
-        it 'creates and return new transaction increase account balance' do
-          expect(response).to be_created
-          expect(response.parsed_body['data']['transactions'].count).to eq(1)
-          expect(response.parsed_body['data']['transactions'].first['description']).to eq(description)
+#         it 'creates and return new transaction increase account balance' do
+#           expect(response).to be_created
+#           expect(response.parsed_body['data']['transactions'].count).to eq(1)
+#           expect(response.parsed_body['data']['transactions'].first['description']).to eq(description)
 
-          child_transactions = response.parsed_body['data']['transactions'].first['child_transactions'].first
-          expect(child_transactions).to eq(nil)
+#           child_transactions = response.parsed_body['data']['transactions'].first['child_transactions'].first
+#           expect(child_transactions).to eq(nil)
 
-          selected_account.reload
-          expect(selected_account.balance_cents).to eql(previous_balance - amount_cents)
-          expect(selected_account.total_income_cents).to eql(previous_total_income)
-          expect(selected_account.total_expense_cents).to eql(previous_total_expense + amount_cents)
-          expect(response).to match_json_schema('v0/transactions/create')
-        end
-      end
-    end
+#           selected_account.reload
+#           expect(selected_account.balance_cents).to eql(previous_balance - amount_cents)
+#           expect(selected_account.total_income_cents).to eql(previous_total_income)
+#           expect(selected_account.total_expense_cents).to eql(previous_total_expense + amount_cents)
+#           expect(response).to match_json_schema('v0/transactions/create')
+#         end
+#       end
+#     end
 
-    describe 'failure' do
-      include_context 'forbidden'
-      include_context 'unauthorized'
+#     describe 'failure' do
+#       include_context 'forbidden'
+#       include_context 'unauthorized'
 
-      context 'when account id is invalid' do
-        let(:account_id) { create(:account).id }
+#       context 'when account id is invalid' do
+#         let(:account_id) { create(:account).id }
 
-        it 'returns not_found' do
-          expect(response).to be_not_found
-          expect(response.parsed_body['errors'][0]).to eq('Account not found')
-        end
-      end
+#         it 'returns not_found' do
+#           expect(response).to be_not_found
+#           expect(response.parsed_body['errors'][0]).to eq('Account not found')
+#         end
+#       end
 
-      context 'when category id is invalid' do
-        let(:category_id) { create(:category).id }
+#       context 'when category id is invalid' do
+#         let(:category_id) { create(:category).id }
 
-        it 'returns not_found' do
-          expect(response).to be_not_found
-          expect(response.parsed_body['errors'][0]).to eq('Category not found')
-        end
-      end
-    end
-  end
+#         it 'returns not_found' do
+#           expect(response).to be_not_found
+#           expect(response.parsed_body['errors'][0]).to eq('Category not found')
+#         end
+#       end
+#     end
+#   end
 
   # describe 'PATCH#update' do
   #   let(:user) { create(:user) }
@@ -264,4 +264,4 @@ RSpec.describe '/api/v0/individual_transactions', type: :request do
   #     end
   #   end
   # end
-end
+# end

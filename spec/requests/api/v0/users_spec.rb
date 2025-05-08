@@ -3,16 +3,15 @@
 require 'rails_helper'
 
 RSpec.describe '/api/v0/users', type: :request do
+  let(:user) { create(:user) }
+  let(:access_token) { valid_jwt(user) }
+  
   describe 'GET#user_info' do
-    let(:user) { create(:user) }
-    let(:access_token) { valid_jwt(user) }
-    let(:headers) do
-      {
-        Authorization: access_token
-      }
-    end
 
-    before { get '/api/v0/user_info', headers: }
+    before do
+      cookies[:access_token] = access_token
+      get '/api/v0/user_info'
+    end
 
     describe 'success' do
       it 'should returns default number of accounts' do

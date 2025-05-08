@@ -3,14 +3,10 @@
 require 'rails_helper'
 
 RSpec.describe '/api/v0/categories', type: :request do
+  let(:user) { create(:user) }
+  let(:access_token) { valid_jwt(user) }
+  
   describe 'GET#index' do
-    let(:user) { create(:user) }
-    let(:access_token) { valid_jwt(user) }
-    let(:headers) do
-      {
-        Authorization: access_token
-      }
-    end
     let!(:categories) { create_list(:category, 100, user:) }
     let(:page) { nil }
     let(:per_page) { nil }
@@ -25,7 +21,10 @@ RSpec.describe '/api/v0/categories', type: :request do
       }
     end
 
-    before { get '/api/v0/categories', headers:, params: }
+    before do
+      cookies[:access_token] = access_token
+      get '/api/v0/categories', params:
+    end
 
     describe 'success' do
       context 'without any params' do
@@ -54,17 +53,13 @@ RSpec.describe '/api/v0/categories', type: :request do
   end
 
   describe 'GET#show' do
-    let(:user) { create(:user) }
-    let(:access_token) { valid_jwt(user) }
-    let(:headers) do
-      {
-        Authorization: access_token
-      }
-    end
     let(:categories) { create_list(:category, 100, user:) }
     let(:selected_category) { categories.sample }
 
-    before { get "/api/v0/categories/#{selected_category.id}", headers: }
+    before do
+      cookies[:access_token] = access_token
+      get "/api/v0/categories/#{selected_category.id}"
+    end
 
     describe 'success' do
       context 'when category id is valid' do
@@ -92,14 +87,6 @@ RSpec.describe '/api/v0/categories', type: :request do
   end
 
   describe 'POST#create' do
-    let(:user) { create(:user) }
-    let(:access_token) { valid_jwt(user) }
-    let(:headers) do
-      {
-        Authorization: access_token
-      }
-    end
-
     let(:category_name) { 'test_category_no_01' }
     let(:category_type) { %i[income expense].sample.to_s }
     let(:params) do
@@ -109,7 +96,10 @@ RSpec.describe '/api/v0/categories', type: :request do
       }
     end
 
-    before { post '/api/v0/categories', headers:, params: }
+    before do
+      cookies[:access_token] = access_token
+      post '/api/v0/categories', params:
+    end
 
     describe 'success' do
       context 'with default params' do
@@ -146,17 +136,13 @@ RSpec.describe '/api/v0/categories', type: :request do
   end
 
   describe 'DELETE#destroy' do
-    let(:user) { create(:user) }
-    let(:access_token) { valid_jwt(user) }
-    let(:headers) do
-      {
-        Authorization: access_token
-      }
-    end
     let(:categories) { create_list(:category, 100, user:) }
     let(:selected_category) { categories.sample }
 
-    before { delete "/api/v0/categories/#{selected_category.id}", headers: }
+    before do
+      cookies[:access_token] = access_token
+      delete "/api/v0/categories/#{selected_category.id}"
+    end
 
     describe 'success' do
       context 'when category id is valid' do
@@ -183,13 +169,6 @@ RSpec.describe '/api/v0/categories', type: :request do
   end
 
   describe 'PATCH#update' do
-    let(:user) { create(:user) }
-    let(:access_token) { valid_jwt(user) }
-    let(:headers) do
-      {
-        Authorization: access_token
-      }
-    end
     let(:categories) { create_list(:category, 100, user:) }
     let(:selected_category) { categories.sample }
     let(:updated_name) { 'other_account' }
@@ -201,7 +180,10 @@ RSpec.describe '/api/v0/categories', type: :request do
       }
     end
 
-    before { patch "/api/v0/categories/#{selected_category.id}", params:, headers: }
+    before do
+      cookies[:access_token] = access_token
+      patch "/api/v0/categories/#{selected_category.id}", params:
+    end
 
     describe 'success' do
       context 'when category id is valid' do
