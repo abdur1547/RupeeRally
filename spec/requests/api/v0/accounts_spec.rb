@@ -3,14 +3,10 @@
 require 'rails_helper'
 
 RSpec.describe '/api/v0/accounts', type: :request do
+  let(:user) { create(:user) }
+  let(:access_token) { valid_jwt(user) }
+  
   describe 'GET#index' do
-    let(:user) { create(:user) }
-    let(:access_token) { valid_jwt(user) }
-    let(:headers) do
-      {
-        Authorization: access_token
-      }
-    end
     let!(:accounts) { create_list(:account, 100, user:) }
     let(:page) { nil }
     let(:per_page) { nil }
@@ -25,7 +21,10 @@ RSpec.describe '/api/v0/accounts', type: :request do
       }
     end
 
-    before { get '/api/v0/accounts', headers:, params: }
+    before do
+      cookies[:access_token] = access_token
+      get '/api/v0/accounts', params:
+    end
 
     describe 'success' do
       context 'without any params' do
@@ -146,17 +145,13 @@ RSpec.describe '/api/v0/accounts', type: :request do
   end
 
   describe 'GET#show' do
-    let(:user) { create(:user) }
-    let(:access_token) { valid_jwt(user) }
-    let(:headers) do
-      {
-        Authorization: access_token
-      }
-    end
     let(:accounts) { create_list(:account, 100, user:) }
     let(:selected_account) { accounts.sample }
 
-    before { get "/api/v0/accounts/#{selected_account.id}", headers: }
+    before do
+      cookies[:access_token] = access_token 
+      get "/api/v0/accounts/#{selected_account.id}"
+    end
 
     describe 'success' do
       context 'when account id is valid' do
@@ -184,14 +179,6 @@ RSpec.describe '/api/v0/accounts', type: :request do
   end
 
   describe 'POST#create' do
-    let(:user) { create(:user) }
-    let(:access_token) { valid_jwt(user) }
-    let(:headers) do
-      {
-        Authorization: access_token
-      }
-    end
-
     let(:account_name) { 'test_account_no_01' }
     let(:initial_balance_cents) { nil }
     let(:params) do
@@ -201,7 +188,10 @@ RSpec.describe '/api/v0/accounts', type: :request do
       }
     end
 
-    before { post '/api/v0/accounts', headers:, params: }
+    before do
+      cookies[:access_token] = access_token
+      post '/api/v0/accounts', params:
+    end
 
     describe 'success' do
       context 'with default params' do
@@ -264,17 +254,13 @@ RSpec.describe '/api/v0/accounts', type: :request do
   end
 
   describe 'DELETE#destroy' do
-    let(:user) { create(:user) }
-    let(:access_token) { valid_jwt(user) }
-    let(:headers) do
-      {
-        Authorization: access_token
-      }
-    end
     let(:accounts) { create_list(:account, 100, user:) }
     let(:selected_account) { accounts.sample }
 
-    before { delete "/api/v0/accounts/#{selected_account.id}", headers: }
+    before do
+      cookies[:access_token] = access_token 
+      delete "/api/v0/accounts/#{selected_account.id}" 
+    end
 
     describe 'success' do
       context 'when account id is valid' do
@@ -301,13 +287,6 @@ RSpec.describe '/api/v0/accounts', type: :request do
   end
 
   describe 'PATCH#update' do
-    let(:user) { create(:user) }
-    let(:access_token) { valid_jwt(user) }
-    let(:headers) do
-      {
-        Authorization: access_token
-      }
-    end
     let(:i_balance_cents) { 2000 }
     let(:i_initial_balance_cents) { 3000 }
     let!(:account) { create(:account, user:, initial_balance_cents: i_initial_balance_cents, balance_cents: i_balance_cents) }
@@ -320,7 +299,10 @@ RSpec.describe '/api/v0/accounts', type: :request do
       }
     end
 
-    before { patch "/api/v0/accounts/#{account.id}", params:, headers: }
+    before do
+      cookies[:access_token] = access_token  
+      patch "/api/v0/accounts/#{account.id}", params:
+    end
 
     describe 'success' do
       context 'when account id is valid' do
