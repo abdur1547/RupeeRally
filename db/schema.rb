@@ -91,11 +91,11 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_24_113515) do
     t.text "description", default: "", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "from_account_id_id", null: false
-    t.bigint "to_account_id_id", null: false
+    t.bigint "from_account_id", null: false
+    t.bigint "to_account_id", null: false
     t.bigint "user_id", null: false
-    t.index ["from_account_id_id"], name: "index_transfers_on_from_account_id_id"
-    t.index ["to_account_id_id"], name: "index_transfers_on_to_account_id_id"
+    t.index ["from_account_id"], name: "index_transfers_on_from_account_id"
+    t.index ["to_account_id"], name: "index_transfers_on_to_account_id"
     t.index ["user_id"], name: "index_transfers_on_user_id"
   end
 
@@ -134,8 +134,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_24_113515) do
   add_foreign_key "transactions", "categories"
   add_foreign_key "transactions", "transfers"
   add_foreign_key "transactions", "users"
-  add_foreign_key "transfers", "accounts", column: "from_account_id_id"
-  add_foreign_key "transfers", "accounts", column: "to_account_id_id"
+  add_foreign_key "transfers", "accounts", column: "from_account_id"
+  add_foreign_key "transfers", "accounts", column: "to_account_id"
   add_foreign_key "transfers", "users"
   add_foreign_key "user_groups", "groups"
   add_foreign_key "user_groups", "users"
