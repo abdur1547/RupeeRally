@@ -7,8 +7,8 @@ class CreateTransfers < ActiveRecord::Migration[8.0]
       t.timestamps
     end
 
-    add_reference :transfers, :from_account_id, foreign_key: { to_table: :accounts }, null: false
-    add_reference :transfers, :to_account_id, foreign_key: { to_table: :accounts }, null: false
+    add_reference :transfers, :from_account, foreign_key: { to_table: :accounts }, null: false
+    add_reference :transfers, :to_account, foreign_key: { to_table: :accounts }, null: false
     add_reference :transfers, :user, foreign_key: true, null: false
   end
 end
