@@ -4,6 +4,7 @@ class Transfer < ApplicationRecord
   belongs_to :from_account, class_name: 'Account'
   belongs_to :to_account, class_name: 'Account'
   belongs_to :user
+  has_many :transactions, dependent: :destroy
 
   validates :description, presence: true
   validates :amount_cents, numericality: { greater_than: 0 }
