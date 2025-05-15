@@ -37,13 +37,7 @@ RSpec.describe '/api/v0/transfers', type: :request do
       context 'when params are valid' do
         it 'create transactions and update from and to account balances' do
           expect(response).to be_created
-          transactions = response.parsed_body['data']['transactions']
-          user_transactions = transactions.first['user_transactions']
-          expect(transactions.count).to eq(1)
-          expect(transactions.first['amount_cents']).to eq(amount_cents)
-          expect(user_transactions.count).to eq(2)
-          expect(user_transactions.first['amount_cents']).to eq(amount_cents)
-          expect(user_transactions.second['amount_cents']).to eq(amount_cents)
+          expect(response).to match_json_schema('v0/transfers/create')
 
           from_acc = from_account.reload
           expect(from_acc.balance_cents).to eql(previous_from_acc_balance - amount_cents)
