@@ -34,6 +34,7 @@ module RailsStarterTemplate
     # in config/environments, which are processed later.
     #
     # config.time_zone = "Central Time (US & Canada)"
+    config.eager_load_paths = config.eager_load_paths.dup
     config.eager_load_paths << Rails.root.join('lib/constants')
     config.active_job.queue_adapter = :sidekiq
 
