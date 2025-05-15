@@ -67,7 +67,7 @@ module Api::V0::Transfers
     end
 
     def json_serialize(records)
-      Api::V0::TransactionsSerializer.render_as_hash([records], root: :transactions)
+      Api::V0::TransfersSerializer.render_as_hash([records])
     end
   end
 end
