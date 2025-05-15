@@ -1,111 +1,63 @@
 {
   "type": "object",
-  "required": [
-    "success",
-    "data"
-  ],
+  "required": ["success", "data"],
   "properties": {
-    "success": {
-      "type": "boolean"
-    },
+    "success": { "type": "boolean" },
     "data": {
-      "type": "object",
-      "required": [
-        "transactions"
-      ],
-      "properties": {
-        "transactions": {
-          "type": "array",
-          "items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "amount_cents", "created_at", "description", "from_account", "to_account", "transactions", "updated_at"],
+        "properties": {
+          "id": { "type": "integer" },
+          "amount_cents": { "type": "integer" },
+          "created_at": { "type": "string" },
+          "description": { "type": "string" },
+          "from_account": {
             "type": "object",
-            "required": [
-              "id",
-              "amount_cents",
-              "created_at",
-              "description",
-              "divided_by",
-              "selected_date",
-              "selected_time",
-              "user_transactions"
-            ],
+            "required": ["id", "balance_cents", "initial_balance_cents", "name", "total_expense_cents", "total_income_cents"],
             "properties": {
-              "id": {
-                "type": "integer"
-              },
-              "amount_cents": {
-                "type": "integer"
-              },
-              "created_at": {
-                "type": "string"
-              },
-              "description": {
-                "type": "string"
-              },
-              "divided_by": {
-                "type": "string"
-              },
-              "selected_date": {
-                "type": "string"
-              },
-              "selected_time": {
-                "type": "string"
-              },
-              "user_transactions": {
-                "type": "array",
-                "items": {
-                  "type": "object",
-                  "required": [
-                    "id",
-                    "account_id",
-                    "amount_cents",
-                    "category_id",
-                    "description",
-                    "paid_by_id",
-                    "status",
-                    "transaction_id",
-                    "transaction_type",
-                    "user_id",
-                    "user_share"
-                  ],
-                  "properties": {
-                    "id": {
-                      "type": "integer"
-                    },
-                    "account_id": {
-                      "type": "integer"
-                    },
-                    "amount_cents": {
-                      "type": "integer"
-                    },
-                    "category_id": {
-                      "type": "integer"
-                    },
-                    "description": {
-                      "type": "string"
-                    },
-                    "paid_by_id": {
-                      "type": "integer"
-                    },
-                    "status": {
-                      "type": "string"
-                    },
-                    "transaction_id": {
-                      "type": "integer"
-                    },
-                    "transaction_type": {
-                      "type": "string"
-                    },
-                    "user_id": {
-                      "type": "integer"
-                    },
-                    "user_share": {
-                      "type": "integer"
-                    }
-                  }
-                }
+              "id": { "type": "integer" },
+              "balance_cents": { "type": "integer" },
+              "initial_balance_cents": { "type": "integer" },
+              "name": { "type": "string" },
+              "total_expense_cents": { "type": "integer" },
+              "total_income_cents": { "type": "integer" }
+            }
+          },
+          "to_account": {
+            "type": "object",
+            "required": ["id", "balance_cents", "initial_balance_cents", "name", "total_expense_cents", "total_income_cents"],
+            "properties": {
+              "id": { "type": "integer" },
+              "balance_cents": { "type": "integer" },
+              "initial_balance_cents": { "type": "integer" },
+              "name": { "type": "string" },
+              "total_expense_cents": { "type": "integer" },
+              "total_income_cents": { "type": "integer" }
+            }
+          },
+          "transactions": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["id", "account_id", "amount_cents", "category_id", "created_at", "description", "direction", "selected_date", "selected_time", "status", "user_id"],
+              "properties": {
+                "id": { "type": "integer" },
+                "account_id": { "type": "integer" },
+                "amount_cents": { "type": "integer" },
+                "category_id": { "type": ["integer", "null"] },
+                "created_at": { "type": "string" },
+                "description": { "type": "string" },
+                "direction": { "type": "string", "enum": ["income", "expense"] },
+                "selected_date": { "type": "string" },
+                "selected_time": { "type": ["string", "null"] },
+                "status": { "type": "string" },
+                "user_id": { "type": "integer" }
               }
             }
-          }
+          },
+          "updated_at": { "type": "string" }
         }
       }
     }

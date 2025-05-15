@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Api::V0::TransferTransactions
+module Api::V0::Transfers
   class Create
     include ApplicationService
 
@@ -20,8 +20,8 @@ module Api::V0::TransferTransactions
       yield validate_not_same_account
       yield validate_from_account_id
       yield validate_to_account_id
-      transaction = yield create_transfer
-      Success(json_serialize(transaction))
+      transfer = yield create_transfer
+      Success(json_serialize(transfer))
     end
 
     private
@@ -49,10 +49,11 @@ module Api::V0::TransferTransactions
     end
 
     def create_transfer
-      transaction = ::TransferTransactions::CreateService.call(create_params)
-      Success(transaction)
-    rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotSaved, ActiveRecord::StatementInvalid => e
-      Failure(e.message)
+      result = ::TransferService::Create.call(create_params)
+      return Failure(result[:errors]) unless result[:success]
+
+      transfer = result[:transfer]
+      Success(transfer)
     end
 
     def create_params
@@ -66,7 +67,7 @@ module Api::V0::TransferTransactions
     end
 
     def json_serialize(records)
-      Api::V0::TransactionsSerializer.render_as_hash([records], root: :transactions)
+      Api::V0::TransfersSerializer.render_as_hash([records])
     end
   end
 end

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-module TransferTransactions
-  class UpdateService < ::BaseService
+module TransferService
+  class Update < ::BaseService
     include Helpers::TransactionHelpers
 
     def call(params)

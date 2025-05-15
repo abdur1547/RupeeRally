@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-module TransferTransactions
-  class DeleteService < ::BaseService
+module TransferService
+  class Delete < ::BaseService
     include Helpers::TransactionHelpers
 
     def call(parent_transaction)

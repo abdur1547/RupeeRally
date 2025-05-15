@@ -11,7 +11,7 @@ module Api::V0::SharedTransactions
         required(:account_id).filled(:integer)
         required(:category_id).filled(:integer)
         required(:paid_by).filled(:integer)
-        required(:divided_by).filled(:string, included_in?: Transaction.divided_bies.keys)
+        # required(:divided_by).filled(:string, included_in?: Transaction.divided_bies.keys)
         required(:user_shares).array(:hash) do
           required(:user_id).filled(:integer)
           required(:user_share).filled(:integer)
