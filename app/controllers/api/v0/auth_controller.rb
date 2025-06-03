@@ -15,9 +15,9 @@ module Api::V0
     def signin
       Api::V0::Auth::SigninService.call(params.to_unsafe_h) do |result|
         result.success do |data|
-          set_auth_cookies(data[:access_token], data[:refresh_token])
-          response.set_header('Authorization', data[:access_token])
-          success_response
+          # set_auth_cookies(data[:access_token], data[:refresh_token])
+          # response.set_header('Authorization', data[:access_token])
+          success_response(data)
         end
         result.failure(:unauthorized) { unauthorized_response }
         result.failure { |errors| unprocessable_entity(errors) }
@@ -27,9 +27,9 @@ module Api::V0
     def refresh
       Api::V0::Auth::RefreshService.call(params.to_unsafe_h) do |result|
         result.success do |data|
-          set_auth_cookies(data[:access_token], data[:refresh_token])
-          response.set_header('Authorization', data[:access_token])
-          success_response
+          # set_auth_cookies(data[:access_token], data[:refresh_token])
+          # response.set_header('Authorization', data[:access_token])
+          success_response(data)
         end
         result.failure(:unauthorized) { unauthorized_response }
         result.failure { |errors| unprocessable_entity(errors) }
