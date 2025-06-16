@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Api::V0::TransferTransactions
+module Api::V0::Transfers
   class Update
     include ApplicationService
 
