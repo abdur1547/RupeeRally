@@ -31,8 +31,10 @@ jobs:
           ruby-version: '3.4.1'
           bundler-cache: true
       - name: Set up database schema
+        working-directory: api
         run: bin/rails db:schema:load
       - name: Run tests
+        working-directory: api
         run: bundle exec rspec spec
 
   lint:
@@ -46,4 +48,5 @@ jobs:
           ruby-version: '3.4.1'
           bundler-cache: true
       - name: Lint Ruby files
+        working-directory: api
         run: bundle exec rubocop --parallel
