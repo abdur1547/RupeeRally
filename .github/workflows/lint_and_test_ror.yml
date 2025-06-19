@@ -1,14 +1,12 @@
 name: "Ruby on Rails CI"
 
 on:
+  push:
+    paths:
+      - 'api/**'
   pull_request:
     paths:
       - 'api/**'
-
-defaults:
-  run:
-    shell: bash
-    working-directory: api
 
 jobs:
   test:
@@ -37,10 +35,14 @@ jobs:
           bundler-cache: true
       
       - name: Set up database schema
-        run: bin/rails db:schema:load
+        run: |
+          cd ./api
+          bin/rails db:schema:load
       
       - name: Run tests
-        run: bundle exec rspec spec
+        run: |
+          cd ./api
+          bundle exec rspec spec
 
   lint:
     runs-on: ubuntu-latest
@@ -53,4 +55,6 @@ jobs:
           ruby-version: '3.4.1'
           bundler-cache: true
       - name: Run RuboCop
-        run: bundle exec rubocop
+        run: |
+          cd ./api
+          bundle exec rubocop
