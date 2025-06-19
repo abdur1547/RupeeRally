@@ -5,12 +5,14 @@ on:
     paths:
       - 'api/**'
 
+defaults:
+  run:
+    shell: bash
+    working-directory: ./api
+
 jobs:
   test:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: api
     services:
       postgres:
         image: postgres:latest
@@ -42,9 +44,6 @@ jobs:
 
   lint:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: api
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
