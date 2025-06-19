@@ -8,6 +8,11 @@ on:
     paths:
       - 'api/**'
 
+defaults:
+  run:
+    shell: bash
+    working-directory: ./api
+
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -36,17 +41,14 @@ jobs:
       
       - name: Install Gems
         run: |
-          cd ./api
           bundle install
       
       - name: Set up database schema
         run: |
-          cd ./api
           bin/rails db:schema:load
       
       - name: Run tests
         run: |
-          cd ./api
           bundle exec rspec spec
 
   lint:
@@ -62,10 +64,8 @@ jobs:
       
       - name: Install Gems
         run: |
-          cd ./api
           bundle install
       
       - name: Run RuboCop
         run: |
-          cd ./api
           bundle exec rubocop
