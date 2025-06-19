@@ -1,0 +1,90 @@
+<div class="flex items-center justify-center min-h-screen bg-white px-4">
+  <div class="w-full max-w-sm">
+    <h2 class="text-center text-xl font-medium mb-2">RupeeRally</h2>
+
+    <h1 class="text-center text-2xl font-semibold mb-6">
+      Sign Up to <span>RupeeRally</span>
+    </h1>
+
+    <div class="flex justify-between gap-2 mb-4">
+      <button class="btn w-1/2 border border-gray-300 bg-white text-black">
+        <img src="icons/google-logo.svg" alt="Google" class="w-5 h-5 mr-2" />
+        Google
+      </button>
+      <button class="btn w-1/2 border border-gray-300 bg-white text-black">
+        <img src="icons/apple-logo.svg" alt="Apple" class="w-6 h-6 mr-2" />
+        Apple
+      </button>
+    </div>
+
+    <div class="flex items-center my-4">
+      <hr class="flex-grow border-gray-300" />
+      <span class="px-2 text-gray-500 text-sm">OR</span>
+      <hr class="flex-grow border-gray-300" />
+    </div>
+
+    <div class="flex justify-center mb-4">
+      <label class="cursor-pointer">
+        <div class="w-20 h-20 rounded-full border-2 border-dashed border-gray-400 flex items-center justify-center">
+          <img src="icons/camera-icon.svg" class="w-8 h-8 opacity-70" alt="Upload" />
+        </div>
+        <input type="file" class="hidden" />
+      </label>
+    </div>
+
+    <form [formGroup]="signupForm" (ngSubmit)="signup()" class="space-y-4">
+      <label class="input w-full rounded-full">
+        <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M8.14172 6.5C8.14172 8.981 10.1607 11 12.6417 11C15.1227 11 17.1417 8.981 17.1417 6.5C17.1417 4.019 15.1227 2 12.6417 2C10.1607 2 8.14172 4.019 8.14172 6.5ZM20.6417 21H21.6417V20C21.6417 16.141 18.5007 13 14.6417 13H10.6417C6.78172 13 3.64172 16.141 3.64172 20V21H20.6417Z"
+            fill="#8B8B8B" />
+        </svg>
+        <input type="text" class="grow" placeholder="Full Name" formControlName="name" />
+      </label>
+
+      <label class="input w-full rounded-full">
+        <svg width="22" height="22" viewBox="0 0 23 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M0.204224 0.96875L0.985474 0.1875H21.298L22.0792 0.96875V15.0312L21.298 15.8125H0.985474L0.204224 15.0312V0.96875ZM1.76672 2.58594V14.25H20.5167V2.5875L11.6261 9.40625H10.673L1.76672 2.58594ZM19.0011 1.75H3.28235L11.1417 7.79531L19.0011 1.75Z"
+            fill="#8B8B8B" />
+        </svg>
+        <input type="email" class="grow" placeholder="Email Address" formControlName="email" />
+      </label>
+
+      <label class="input w-full rounded-full">
+        <svg width="22" height="22" viewBox="0 0 15 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M14.975 10C14.975 8.98892 14.1528 8.16667 13.1417 8.16667H12.225V5.41667C12.225 2.88942 10.1689 0.83334 7.64168 0.83334C5.11443 0.83334 3.05835 2.88942 3.05835 5.41667V8.16667H2.14168C1.1306 8.16667 0.30835 8.98892 0.30835 10V17.3333C0.30835 18.3444 1.1306 19.1667 2.14168 19.1667H13.1417C14.1528 19.1667 14.975 18.3444 14.975 17.3333V10ZM4.89168 5.41667C4.89168 3.90051 6.12552 2.66667 7.64168 2.66667C9.15785 2.66667 10.3917 3.90051 10.3917 5.41667V8.16667H4.89168V5.41667Z"
+            fill="#8B8B8B" />
+        </svg>
+        <input type="password" class="grow" placeholder="Password" formControlName="password" />
+      </label>
+
+      <label class="input w-full rounded-full">
+        <svg width="22" height="22" viewBox="0 0 15 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M14.975 10C14.975 8.98892 14.1528 8.16667 13.1417 8.16667H12.225V5.41667C12.225 2.88942 10.1689 0.83334 7.64168 0.83334C5.11443 0.83334 3.05835 2.88942 3.05835 5.41667V8.16667H2.14168C1.1306 8.16667 0.30835 8.98892 0.30835 10V17.3333C0.30835 18.3444 1.1306 19.1667 2.14168 19.1667H13.1417C14.1528 19.1667 14.975 18.3444 14.975 17.3333V10ZM4.89168 5.41667C4.89168 3.90051 6.12552 2.66667 7.64168 2.66667C9.15785 2.66667 10.3917 3.90051 10.3917 5.41667V8.16667H4.89168V5.41667Z"
+            fill="#8B8B8B" />
+        </svg>
+        <input type="password" class="grow" placeholder="Password" formControlName="password" />
+      </label>
+
+      <div class="flex gap-1">
+        <select class="select w-1/6 rounded-full">
+          <option disabled selected>C</option>
+        </select>
+        <input type="tel" placeholder="Phone Number" formControlName="name"
+          class="input input-bordered w-full rounded-full" />
+      </div>
+
+      <button type="submit" class="btn btn-primary w-full text-black rounded-full text-lg">
+        Sign up
+      </button>
+    </form>
+
+    <p class="text-center text-sm text-gray-600 mt-4">
+      Already have an account?
+      <a routerLink="/login" class="font-semibold ">Login</a>
+    </p>
+  </div>
+</div>
