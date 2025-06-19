@@ -18,7 +18,7 @@
         "ghcr.io/devcontainers/features/node:1": {
             "version": 20
         },
-        "ghcr.io/devcontainers/features/common-utils:1": {
+        "ghcr.io/devcontainers/features/common-utils:2": {
             "username": "vscode",
             "uid": 1000,
             "gid": 1000,
