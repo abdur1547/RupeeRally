@@ -1,5 +1,17 @@
 name: "Ruby on Rails CI"
-on: pull_request
+
+on:
+  push:
+    paths:
+      - 'api/**'
+  pull_request:
+    paths:
+      - 'api/**'
+
+defaults:
+  run:
+    shell: bash
+    working-directory: ./api
 
 jobs:
   test:
@@ -20,16 +32,24 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-      # Add or replace dependency steps here
-      - name: Install Ruby and gems
+      
+      - name: Install Ruby
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: '3.4.1'
           bundler-cache: true
+      
+      - name: Install Gems
+        run: |
+          bundle install
+      
       - name: Set up database schema
-        run: bin/rails db:schema:load
+        run: |
+          bin/rails db:schema:load
+      
       - name: Run tests
-        run: bundle exec rspec spec
+        run: |
+          bundle exec rspec spec
 
   lint:
     runs-on: ubuntu-latest
@@ -41,5 +61,11 @@ jobs:
         with:
           ruby-version: '3.4.1'
           bundler-cache: true
-      - name: Lint Ruby files
-        run: bundle exec rubocop --parallel
+      
+      - name: Install Gems
+        run: |
+          bundle install
+      
+      - name: Run RuboCop
+        run: |
+          bundle exec rubocop
